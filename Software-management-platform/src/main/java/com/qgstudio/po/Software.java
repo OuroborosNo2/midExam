@@ -7,14 +7,26 @@ public class Software {
     private int software_id;//软件id
     private String desc;//软件描述
     private int group_id;//软件集群id（所属设计，开发等代表id）
+    private String software_name;
 
-    public Software(int software_id, String desc, int group_id) {
+
+
+    public Software() {
+    }
+
+    public Software(int software_id, String desc, int group_id, String software_name) {
         this.software_id = software_id;
         this.desc = desc;
         this.group_id = group_id;
+        this.software_name = software_name;
     }
 
-    public Software() {
+    public String getSoftware_name() {
+        return software_name;
+    }
+
+    public void setSoftware_name(String software_name) {
+        this.software_name = software_name;
     }
 
     public int getSoftware_id() {

@@ -41,10 +41,6 @@ public enum ResultEnum {
     USER_UPDATE_OK(60111,"修改用户成功"),
     USER_DELETE_OK(60121,"删除用户成功"),
     USER_GET_OK(60131,"查询用户成功"),
-    /*USER_GET_BY_PHONE_NUMBER_OK(60061,"查询用户成功"),
-    USER_GET_BY_EMAIL_OK(60071,"查询用户成功"),
-    USER_GET_BY_ID_OK(60081,"查询用户成功"),
-    USER_GET_ALL_OK(60091,"查询用户成功"),*/
 
     //601Y0 用户-注册-情况-失败
     USER_SAVE_NAME_ERR(60130,"用户名已经重复"),
@@ -52,11 +48,13 @@ public enum ResultEnum {
     USER_SAVE_EMAIL_ERR(60150,"邮箱已经被注册"),
     USER_UPDATE_ERR(60140,"修改用户失败"),
     USER_DELETE_ERR(60150,"删除用户失败"),
-    USER_GET_ERR(60160,"查询用户失败")
-    /*USER_GET_BY_PHONE_NUMBER_ERR(60060,"查询用户失败"),
-    USER_GET_BY_EMAIL_ERR(60070,"查询用户失败"),
-    USER_GET_BY_ID_ERR(60080,"查询用户失败"),
-    USER_GET_ALL_ERR(60090,"查询用户失败"),*/
+    USER_GET_ERR(60160,"查询用户失败"),
+
+    //602Y0 用户-通知-情况-成功
+    USER_NOTICE_NONE(60211,"当前无通知"),
+    USER_NOTICE_OK(60221,"获取通知成功");
+
+
 
 
     //产品模块 70XXY,
