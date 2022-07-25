@@ -1,11 +1,9 @@
 package com.qgstudio.po;
 
-/**
- * @program: Software-management-platform
- * @description:
- * @author: stop.yc
- * @create: 2022-07-25 13:11
- **/
+
+import org.springframework.stereotype.Component;
+
+@Component
 public class User {
     private int user_id;//用户id
     private String username;//用户名
