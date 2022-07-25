@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public Result register(@RequestBody User user) {
+    public Result register(@RequestBody User user) throws NoSuchAlgorithmException {
         return userService.register(user);
     }
 

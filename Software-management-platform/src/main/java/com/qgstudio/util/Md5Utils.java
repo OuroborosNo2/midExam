@@ -28,8 +28,8 @@ public class Md5Utils {
         MessageDigest md = MessageDigest.getInstance("MD5");
         //加密
         md.update(str.getBytes());
-        //转换为16位哈希值
-        md5String = new BigInteger(1, md.digest()).toString(16);
+        //转换为32位哈希值
+        md5String = new BigInteger(1, md.digest()).toString(32);
 
         return md5String;
     }
