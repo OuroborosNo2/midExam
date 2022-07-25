@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
+
 public interface SoftwareDao {
     @Insert("INSERT INTO T_SOFTWARE VALUES(null,#{desc},#{group_id})")
     public void save(Software software);

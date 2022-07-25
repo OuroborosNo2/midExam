@@ -11,7 +11,7 @@ import java.util.List;
 public interface UserDao {
     @Insert("INSERT INTO T_USER VALUES(null,#{username},#{password},#{phone_number},#{email},#{permission})")
     public int save(User user);
-    @Update("UPDATE T_USER SET username=#{username},password=#{password},phone_number=#{phone_number},email=#{email},permission=#{permission}")
+    @Update("UPDATE T_USER SET username=#{username},password=#{password},phone_number=#{phone_number},email=#{email},permission=#{permission} WHERE user_id=#{user_id}")
     public int update(User user);
     @Delete("DELETE FROM T_USER WHERE user_id = #{user_id}")
     public int delete(int user_id);
