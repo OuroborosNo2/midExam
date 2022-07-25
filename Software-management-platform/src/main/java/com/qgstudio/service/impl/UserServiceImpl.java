@@ -60,47 +60,47 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result update(User user) {
-        ResultEnum result = userDao.update(user)==1 ? ResultEnum.USER_SAVE_OK : ResultEnum.USER_SAVE_ERR;
+        ResultEnum result = userDao.update(user)==1 ? ResultEnum.USER_UPDATE_OK : ResultEnum.USER_UPDATE_ERR;
         return new Result(result.getCode(),result.getMsg());
     }
 
     @Override
     public Result delete(Integer id) {
-        ResultEnum result = userDao.delete(id)==1 ? ResultEnum.USER_SAVE_OK : ResultEnum.USER_SAVE_ERR;
+        ResultEnum result = userDao.delete(id)==1 ? ResultEnum.USER_DELETE_OK : ResultEnum.USER_DELETE_ERR;
         return new Result(result.getCode(),result.getMsg());
     }
 
     @Override
     public Result getById(Integer id) {
         User user = userDao.getById(id);
-        ResultEnum result = user!=null ? ResultEnum.USER_SAVE_OK : ResultEnum.USER_SAVE_ERR;
+        ResultEnum result = user!=null ? ResultEnum.USER_GET_OK : ResultEnum.USER_GET_ERR;
         return new Result(result.getCode(),result.getMsg(),user);
     }
     @Override
     public Result getByUsername(String username) {
         User user = userDao.getByUsername(username);
-        ResultEnum result = user!=null ? ResultEnum.USER_SAVE_OK : ResultEnum.USER_SAVE_ERR;
+        ResultEnum result = user!=null ? ResultEnum.USER_GET_OK : ResultEnum.USER_GET_ERR;
         return new Result(result.getCode(),result.getMsg(),user);
     }
 
     @Override
     public Result getByPhone_number(String phone_number) {
         User user = userDao.getByPhone_number(phone_number);
-        ResultEnum result = user!=null ? ResultEnum.USER_SAVE_OK : ResultEnum.USER_SAVE_ERR;
+        ResultEnum result = user!=null ? ResultEnum.USER_GET_OK : ResultEnum.USER_GET_ERR;
         return new Result(result.getCode(),result.getMsg(),user);
     }
 
     @Override
     public Result getByEmail(String email) {
         User user = userDao.getByEmail(email);
-        ResultEnum result = user!=null ? ResultEnum.USER_SAVE_OK : ResultEnum.USER_SAVE_ERR;
+        ResultEnum result = user!=null ? ResultEnum.USER_GET_OK : ResultEnum.USER_GET_ERR;
         return new Result(result.getCode(),result.getMsg(),user);
     }
 
     @Override
     public Result getAll() {
         List<User> userList = userDao.getAll();
-        ResultEnum result = !userList.isEmpty() ? ResultEnum.USER_SAVE_OK : ResultEnum.USER_SAVE_ERR;
+        ResultEnum result = !userList.isEmpty() ? ResultEnum.USER_GET_OK : ResultEnum.USER_GET_ERR;
         return new Result(result.getCode(),result.getMsg(),userList);
     }
 
