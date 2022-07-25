@@ -19,4 +19,20 @@ public interface UserService {
      * @return :返回用户结果集
      */
     Result<User> login(User user) throws NoSuchAlgorithmException;
+
+    Result getByUsername(String username);
+
+    Result getByPhone_number(String phone_number);
+
+    Result getByEmail(String email);
+
+    Result getAll();
+
+    Result getById(Integer id);
+
+    Result delete(Integer id);
+
+    Result update(User user);
+
+    Result register(User user);
 }

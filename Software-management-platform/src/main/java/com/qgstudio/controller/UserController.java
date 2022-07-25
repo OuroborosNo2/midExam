@@ -2,8 +2,12 @@ package com.qgstudio.controller;
 
 
 
+import com.qgstudio.po.User;
+import com.qgstudio.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.NoSuchAlgorithmException;
 
 /**
  * @program: Software-management-platform
@@ -29,10 +33,10 @@ public class UserController {
         return userService.login(user);
     }
 
-    /*@PostMapping
+    @PostMapping("/register")
     public Result register(@RequestBody User user) {
-        return userService.save(user);
-    }*/
+        return userService.register(user);
+    }
 
     @PutMapping
     public Result update(@RequestBody User user) {
@@ -46,7 +50,8 @@ public class UserController {
 
     @GetMapping("/{id}")
     public Result getById(@PathVariable Integer id) {
-        return suserService.getById(id);
+        return userService.getById(id);
+    }
 
     @GetMapping("/username")
     public Result getByUsername(String username) {

@@ -1,6 +1,7 @@
 com\qgstudio\aop\MyAdvice.class
 com\qgstudio\controller\interceptor\ProjectInterceptor.class
 com\qgstudio\controller\ResultEnum.class
+com\qgstudio\util\Md5Utils.class
 com\qgstudio\config\SpringMvcSupport.class
 com\qgstudio\config\SpringMvcConfig.class
 com\qgstudio\controller\UserController.class
