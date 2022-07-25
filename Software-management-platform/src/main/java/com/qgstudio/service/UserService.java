@@ -34,5 +34,5 @@ public interface UserService {
 
     Result update(User user);
 
-    Result register(User user);
+    Result register(User user) throws NoSuchAlgorithmException;
 }
