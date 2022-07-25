@@ -2,12 +2,8 @@ package com.qgstudio.controller;
 
 
 
-import com.qgstudio.po.User;
-import com.qgstudio.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.NoSuchAlgorithmException;
 
 /**
  * @program: Software-management-platform
@@ -24,6 +20,7 @@ import java.security.NoSuchAlgorithmException;
 public class UserController {
 
 
+
     @Autowired
     private UserService userService;
 
@@ -31,4 +28,45 @@ public class UserController {
     public Result<User> login(@RequestBody User user) throws NoSuchAlgorithmException {
         return userService.login(user);
     }
+
+    /*@PostMapping
+    public Result register(@RequestBody User user) {
+        return userService.save(user);
+    }*/
+
+    @PutMapping
+    public Result update(@RequestBody User user) {
+        return userService.update(user);
+    }
+
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Integer id) {
+        return userService.delete(id);
+    }
+
+    @GetMapping("/{id}")
+    public Result getById(@PathVariable Integer id) {
+        return suserService.getById(id);
+
+    @GetMapping("/username")
+    public Result getByUsername(String username) {
+        return userService.getByUsername(username);
+    }
+
+    @GetMapping("/phone_number")
+    public Result getByPhone_number(String phone_number) {
+        return userService.getByPhone_number(phone_number);
+    }
+
+    @GetMapping("/email")
+    public Result getByEmail(String email) {
+        return userService.getByEmail(email);
+    }
+
+    @GetMapping
+    public Result getAll() {
+        return userService.getAll();
+    }
+
+
 }
