@@ -22,11 +22,13 @@ public class ProjectExceptionAdvice {
         //记录日志
         //发送消息给运维
         //发送邮件给开发人员,ex对象发送给开发人员
+        System.out.println(ex.getMessage());
         return new Result(ex.getCode(),ex.getMessage(),null);
     }
 
     @ExceptionHandler(BusinessException.class)
     public Result doBusinessException(BusinessException ex){
+        System.out.println(ex.getMessage());
         return new Result(ex.getCode(),ex.getMessage(),null);
     }
 
@@ -36,6 +38,7 @@ public class ProjectExceptionAdvice {
         //记录日志
         //发送消息给运维
         //发送邮件给开发人员,ex对象发送给开发人员
+        System.out.println(ex.getMessage());
         return new Result(ResultEnum.UNKNOWN_ERROR.getCode(),ResultEnum.UNKNOWN_ERROR.getMsg(),null);
     }
 }
