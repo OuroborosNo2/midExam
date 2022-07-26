@@ -12,6 +12,7 @@ D:\Code\软件管理平台\Software-management-platform\src\main\java\com\qgstud
 D:\Code\软件管理平台\Software-management-platform\src\main\java\com\qgstudio\controller\SoftwareController.java
 D:\Code\软件管理平台\Software-management-platform\src\main\java\com\qgstudio\controller\interceptor\ProjectInterceptor2.java
 D:\Code\软件管理平台\Software-management-platform\src\main\java\com\qgstudio\controller\Result.java
+D:\Code\软件管理平台\Software-management-platform\src\main\java\com\qgstudio\constant\regex.java
 D:\Code\软件管理平台\Software-management-platform\src\main\java\com\qgstudio\service\VersionService.java
 D:\Code\软件管理平台\Software-management-platform\src\main\java\com\qgstudio\service\UserService.java
 D:\Code\软件管理平台\Software-management-platform\src\main\java\com\qgstudio\controller\ProjectExceptionAdvice.java

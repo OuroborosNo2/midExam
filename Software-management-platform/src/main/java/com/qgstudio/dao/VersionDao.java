@@ -12,7 +12,7 @@ import java.util.List;
 public interface VersionDao {
     @Insert("INSERT INTO T_VERSION VALUES(null,#{software_id},#{versionInf},#{desc},#{url})")
     public int save(Version version);
-    @Update("UPDATE T_VERSION SET software_id=#{software_id},versionInf=#{versionInf},`desc`=#{desc},url=#{url} WHERE version_id=#{version_id}")
+    @Update("UPDATE T_VERSION SET versionInf=#{versionInf},`desc`=#{desc},url=#{url} WHERE version_id=#{version_id}")
     public int update(Version version);
     @Delete("DELETE FROM T_VERSION WHERE version_id = #{version_id}")
     public int delete(int version_id);

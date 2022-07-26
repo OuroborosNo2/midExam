@@ -42,6 +42,7 @@ public enum ResultEnum {
     USER_UPDATE_OK(60201,"修改用户成功"),
     USER_DELETE_OK(60301,"删除用户成功"),
     USER_GET_OK(60401,"查询用户成功"),
+    USER_CHANGE_PERMISSION_OK(60501,"设置权限成功"),
 
     //601Y0 用户-注册-情况-失败
     USER_SAVE_NAME_ERR(60100,"用户名已经重复"),
@@ -51,6 +52,7 @@ public enum ResultEnum {
     USER_UPDATE_ERR(60200,"修改用户失败"),
     USER_DELETE_ERR(60300,"删除用户失败"),
     USER_GET_ERR(60400,"查询用户失败"),
+    USER_CHANGE_PERMISSION_ERR(60500,"设置权限失败"),
 
     //软件模块 70XYZ,
     SOFTWARE_SAVE_OK(70101,"添加软件成功"),
