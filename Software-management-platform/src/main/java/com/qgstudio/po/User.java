@@ -1,7 +1,12 @@
 package com.qgstudio.po;
 
 
+import com.qgstudio.constant.regex;
+import com.qgstudio.controller.ResultEnum;
+import com.qgstudio.exception.BusinessException;
 import org.springframework.stereotype.Component;
+
+import java.util.regex.Pattern;
 
 import java.util.Objects;
 
@@ -40,6 +45,11 @@ public class User {
     }
 
     public void setUsername(String username) {
+        if (!Pattern.matches(regex.REGEX_NAME, username)) {
+            System.out.println(username);
+            System.out.println("不匹配" + !Pattern.matches(regex.REGEX_NAME, username));
+            throw new BusinessException(ResultEnum.EX_NAME.getCode(),ResultEnum.EX_NAME.getMsg());
+        }
         this.username = username;
     }
 
@@ -56,10 +66,20 @@ public class User {
     }
 
     public void setEmail(String email) {
+        if (!Pattern.matches(regex.REGEX_EMAIL, email)) {
+            throw new BusinessException(ResultEnum.EX_EMAIL.getCode(),ResultEnum.EX_EMAIL.getMsg());
+        }
         this.email = email;
     }
 
+    public String getPhone_number() {
+        return phone_number;
+    }
+
     public void setPhone_number(String phone_number) {
+        if (!Pattern.matches(regex.REGEX_PHONE, phone_number)) {
+            throw new BusinessException(ResultEnum.EX_PHONE.getCode(),ResultEnum.EX_PHONE.getMsg());
+        }
         this.phone_number = phone_number;
     }
 

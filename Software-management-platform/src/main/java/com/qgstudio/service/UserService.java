@@ -4,7 +4,6 @@ import com.qgstudio.controller.Result;
 import com.qgstudio.po.User;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 /**
  * @program: Software-management-platform
@@ -20,16 +19,20 @@ public interface UserService {
      * @return :返回用户结果集
      */
     Result<User> login(User user) throws NoSuchAlgorithmException;
-    Result register(User user);
-    Result update(User user);
+
+    Result getByUsername(String username);
+
+    Result getByPhone_number(String phone_number);
+
+    Result getByEmail(String email);
+
+    Result getAll();
+
+    Result getById(Integer id);
+
     Result delete(Integer id);
-    Result<User> getById(Integer id);
-    Result<User> getByUsername(String username);
-    Result<User> getByPhone_number(String phone_number);
-    Result<User> getByEmail(String email);
-    Result<List> getAll();
 
+    Result update(User user);
 
-
-
+    Result register(User user) throws NoSuchAlgorithmException;
 }
