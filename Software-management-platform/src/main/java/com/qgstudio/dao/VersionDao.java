@@ -11,14 +11,18 @@ import java.util.List;
 
 public interface VersionDao {
     @Insert("INSERT INTO T_VERSION VALUES(null,#{software_id},#{versionInf},#{desc},#{url})")
-    public void save(Version version);
-    @Update("UPDATE T_VERSION SET software=#{software_id},versionInf=#{versionInf},desc=#{desc},url=#{url}")
-    public void update(Version version);
+    public int save(Version version);
+    @Update("UPDATE T_VERSION SET software_id=#{software_id},versionInf=#{versionInf},`desc`=#{desc},url=#{url} WHERE version_id=#{version_id}")
+    public int update(Version version);
     @Delete("DELETE FROM T_VERSION WHERE version_id = #{version_id}")
     public int delete(int version_id);
 
     @Select("SELECT * FROM T_VERSION WHERE version_id = #{version_id}")
     public Version getById(int version_id);
+
+    //获得某个软件的最新版本
+    @Select("select * from t_version as a where not exists (select 1 from t_version as b where b.software_id=a.software_id and b.version_id>a.version_id) AND a.software_id=#{software_id}")
+    public Version getLatest(int software_id);
 
     //获得某个软件的所有版本
     @Select("SELECT * FROM T_VERSION WHERE software_id=#{software_id}")

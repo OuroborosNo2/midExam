@@ -1,4 +1,7 @@
+com\qgstudio\service\impl\SoftwareServiceImpl.class
+com\qgstudio\service\SoftwareService.class
 com\qgstudio\aop\MyAdvice.class
+com\qgstudio\service\VersionService.class
 com\qgstudio\controller\interceptor\ProjectInterceptor.class
 com\qgstudio\controller\ResultEnum.class
 com\qgstudio\util\Md5Utils.class
@@ -7,6 +10,7 @@ com\qgstudio\config\SpringMvcConfig.class
 com\qgstudio\controller\UserController.class
 com\qgstudio\config\MybatisConfig.class
 com\qgstudio\config\SpringContainersInitConfig.class
+com\qgstudio\service\impl\VersionServiceImpl.class
 com\qgstudio\controller\interceptor\ProjectInterceptor2.class
 com\qgstudio\config\SpringConfig.class
 com\qgstudio\controller\ProjectExceptionAdvice.class

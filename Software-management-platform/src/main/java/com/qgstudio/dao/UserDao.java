@@ -27,4 +27,6 @@ public interface UserDao {
 
     @Select("SELECT * FROM T_USER")
     public List<User> getAll();
+
+
 }

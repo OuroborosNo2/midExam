@@ -71,34 +71,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result getById(Integer id) {
+    public Result<User> getById(Integer id) {
         User user = userDao.getById(id);
         ResultEnum result = user!=null ? ResultEnum.USER_GET_OK : ResultEnum.USER_GET_ERR;
         return new Result(result.getCode(),result.getMsg(),user);
     }
     @Override
-    public Result getByUsername(String username) {
+    public Result<User> getByUsername(String username) {
         User user = userDao.getByUsername(username);
         ResultEnum result = user!=null ? ResultEnum.USER_GET_OK : ResultEnum.USER_GET_ERR;
         return new Result(result.getCode(),result.getMsg(),user);
     }
 
     @Override
-    public Result getByPhone_number(String phone_number) {
+    public Result<User> getByPhone_number(String phone_number) {
         User user = userDao.getByPhone_number(phone_number);
         ResultEnum result = user!=null ? ResultEnum.USER_GET_OK : ResultEnum.USER_GET_ERR;
         return new Result(result.getCode(),result.getMsg(),user);
     }
 
     @Override
-    public Result getByEmail(String email) {
+    public Result<User> getByEmail(String email) {
         User user = userDao.getByEmail(email);
         ResultEnum result = user!=null ? ResultEnum.USER_GET_OK : ResultEnum.USER_GET_ERR;
         return new Result(result.getCode(),result.getMsg(),user);
     }
 
     @Override
-    public Result getAll() {
+    public Result<List> getAll() {
         List<User> userList = userDao.getAll();
         ResultEnum result = !userList.isEmpty() ? ResultEnum.USER_GET_OK : ResultEnum.USER_GET_ERR;
         return new Result(result.getCode(),result.getMsg(),userList);

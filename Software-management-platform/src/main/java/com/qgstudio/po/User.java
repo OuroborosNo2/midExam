@@ -3,6 +3,8 @@ package com.qgstudio.po;
 
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 @Component
 public class User {
     private int user_id;//用户id
@@ -67,5 +69,34 @@ public class User {
 
     public void setPermission(int permission) {
         this.permission = permission;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return user_id == user.user_id && permission == user.permission && username.equals(user.username) && password.equals(user.password) && Objects.equals(phone_number, user.phone_number) && Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user_id, username, password, phone_number, email, permission);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "user_id=" + user_id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", phone_number='" + phone_number + '\'' +
+                ", email='" + email + '\'' +
+                ", permission=" + permission +
+                '}';
     }
 }

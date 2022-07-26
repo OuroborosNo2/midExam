@@ -28,22 +28,36 @@ public enum ResultEnum {
     USER_UPDATE_OK(60041,"修改用户成功"),
     USER_DELETE_OK(60051,"删除用户成功"),
     USER_GET_OK(60061,"查询用户成功"),
-    /*USER_GET_BY_PHONE_NUMBER_OK(60061,"查询用户成功"),
-    USER_GET_BY_EMAIL_OK(60071,"查询用户成功"),
-    USER_GET_BY_ID_OK(60081,"查询用户成功"),
-    USER_GET_ALL_OK(60091,"查询用户成功"),*/
+
 
     USER_SAVE_ERR(60030,"注册用户失败"),
     USER_UPDATE_ERR(60040,"修改用户失败"),
     USER_DELETE_ERR(60050,"删除用户失败"),
-    USER_GET_ERR(60060,"查询用户失败")
-    /*USER_GET_BY_PHONE_NUMBER_ERR(60060,"查询用户失败"),
-    USER_GET_BY_EMAIL_ERR(60070,"查询用户失败"),
-    USER_GET_BY_ID_ERR(60080,"查询用户失败"),
-    USER_GET_ALL_ERR(60090,"查询用户失败"),*/
+    USER_GET_ERR(60060,"查询用户失败"),
+
+    //软件模块 70XXY
+    SOFTWARE_SAVE_OK(70031,"添加软件成功"),
+    SOFTWARE_UPDATE_OK(70041,"修改软件成功"),
+    SOFTWARE_DELETE_OK(70051,"删除软件成功"),
+    SOFTWARE_GET_OK(70061,"查询软件成功"),
+
+    SOFTWARE_SAVE_ERR(70030,"添加软件失败"),
+    SOFTWARE_UPDATE_ERR(70040,"修改软件失败"),
+    SOFTWARE_DELETE_ERR(70050,"删除软件失败"),
+    SOFTWARE_GET_ERR(70060,"查询软件失败"),
+
+    //版本模块
+    VERSION_SAVE_OK(80031,"添加版本成功"),
+    VERSION_UPDATE_OK(80041,"修改版本成功"),
+    VERSION_DELETE_OK(80051,"删除版本成功"),
+    VERSION_GET_OK(80061,"查询版本成功"),
+
+    VERSION_SAVE_ERR(80030,"添加版本失败"),
+    VERSION_UPDATE_ERR(80040,"修改版本失败"),
+    VERSION_DELETE_ERR(80050,"删除版本失败"),
+    VERSION_GET_ERR(80060,"查询版本失败")
 
 
-    //产品模块 70XXY,
     ;
     /**
      * 编号
