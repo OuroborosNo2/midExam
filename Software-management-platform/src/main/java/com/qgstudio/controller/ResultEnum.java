@@ -38,39 +38,41 @@ public enum ResultEnum {
 
     //601Y1 用户-注册-情况-成功
     USER_SAVE_OK(60101,"注册用户成功"),
-    USER_UPDATE_OK(60111,"修改用户成功"),
-    USER_DELETE_OK(60121,"删除用户成功"),
-    USER_GET_OK(60131,"查询用户成功"),
+
+    USER_UPDATE_OK(60201,"修改用户成功"),
+    USER_DELETE_OK(60301,"删除用户成功"),
+    USER_GET_OK(60401,"查询用户成功"),
 
     //601Y0 用户-注册-情况-失败
-    USER_SAVE_NAME_ERR(60130,"用户名已经重复"),
-    USER_SAVE_PHONE_ERR(60140,"手机号已经被注册"),
-    USER_SAVE_EMAIL_ERR(60150,"邮箱已经被注册"),
-    USER_UPDATE_ERR(60140,"修改用户失败"),
-    USER_DELETE_ERR(60150,"删除用户失败"),
-    USER_GET_ERR(60160,"查询用户失败"),
+    USER_SAVE_NAME_ERR(60100,"用户名已经重复"),
+    USER_SAVE_PHONE_ERR(60110,"手机号已经被注册"),
+    USER_SAVE_EMAIL_ERR(60120,"邮箱已经被注册"),
+
+    USER_UPDATE_ERR(60200,"修改用户失败"),
+    USER_DELETE_ERR(60300,"删除用户失败"),
+    USER_GET_ERR(60400,"查询用户失败"),
 
     //软件模块 70XYZ,
-    SOFTWARE_SAVE_OK(70031,"添加软件成功"),
-    SOFTWARE_UPDATE_OK(70041,"修改软件成功"),
-    SOFTWARE_DELETE_OK(70051,"删除软件成功"),
-    SOFTWARE_GET_OK(70061,"查询软件成功"),
+    SOFTWARE_SAVE_OK(70101,"添加软件成功"),
+    SOFTWARE_UPDATE_OK(70201,"修改软件成功"),
+    SOFTWARE_DELETE_OK(70301,"删除软件成功"),
+    SOFTWARE_GET_OK(70401,"查询软件成功"),
 
-    SOFTWARE_SAVE_ERR(70030,"添加软件失败"),
-    SOFTWARE_UPDATE_ERR(70040,"修改软件失败"),
-    SOFTWARE_DELETE_ERR(70050,"删除软件失败"),
-    SOFTWARE_GET_ERR(70060,"查询软件失败"),
+    SOFTWARE_SAVE_ERR(70100,"添加软件失败"),
+    SOFTWARE_UPDATE_ERR(70200,"修改软件失败"),
+    SOFTWARE_DELETE_ERR(70300,"删除软件失败"),
+    SOFTWARE_GET_ERR(70400,"查询软件失败"),
 
     //版本模块
-    VERSION_SAVE_OK(80031,"添加版本成功"),
-    VERSION_UPDATE_OK(80041,"修改版本成功"),
-    VERSION_DELETE_OK(80051,"删除版本成功"),
-    VERSION_GET_OK(80061,"查询版本成功"),
+    VERSION_SAVE_OK(80101,"添加版本成功"),
+    VERSION_UPDATE_OK(80201,"修改版本成功"),
+    VERSION_DELETE_OK(80301,"删除版本成功"),
+    VERSION_GET_OK(80401,"查询版本成功"),
 
-    VERSION_SAVE_ERR(80030,"添加版本失败"),
-    VERSION_UPDATE_ERR(80040,"修改版本失败"),
-    VERSION_DELETE_ERR(80050,"删除版本失败"),
-    VERSION_GET_ERR(80060,"查询版本失败")
+    VERSION_SAVE_ERR(80100,"添加版本失败"),
+    VERSION_UPDATE_ERR(80200,"修改版本失败"),
+    VERSION_DELETE_ERR(80300,"删除版本失败"),
+    VERSION_GET_ERR(80400,"查询版本失败")
 
     ;
     /**
