@@ -19,8 +19,8 @@ public interface SoftwareDao {
     @Select("SELECT * FROM T_SOFTWARE WHERE software_id = #{software_id}")
     public Software getById(int software_id);
 
-    @Select("SELECT * FROM T_SOFTWARE WHERE software_name = #{software_name}")
-    public Software getBySoftware_name(String software_name);
+    @Select("SELECT * FROM T_SOFTWARE WHERE software_name LIKE #{software_name}")
+    public List<Software> getBySoftware_name(String software_name);
 
     @Select("SELECT * FROM T_SOFTWARE WHERE group_id = #{group_id}")
     public List<Software> getByGroup(int group_id);

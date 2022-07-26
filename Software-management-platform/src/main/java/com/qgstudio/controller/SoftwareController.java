@@ -47,6 +47,12 @@ public class SoftwareController {
         return softwareService.getById(id);
     }
 
+    //根据软件名模糊查找软件
+    @GetMapping("/search")
+    public Result getBySoftware_name(String name){
+        return softwareService.getBySoftware_name(name);
+    }
+
     @GetMapping("/group_{id}")
     public Result getByGroup(@PathVariable Integer id) {
         return softwareService.getByGroup(id);

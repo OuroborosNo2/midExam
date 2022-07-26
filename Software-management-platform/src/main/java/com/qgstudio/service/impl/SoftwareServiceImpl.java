@@ -53,9 +53,11 @@ public class SoftwareServiceImpl implements SoftwareService {
 
     @Override
     public Result<Software> getBySoftware_name(String software_name) {
-        Software software = softwareDao.getBySoftware_name(software_name);
-        ResultEnum result = software!=null ? ResultEnum.SOFTWARE_GET_OK : ResultEnum.SOFTWARE_GET_ERR;
-        return new Result(result.getCode(),result.getMsg(),software);
+        //处理字符串,两侧加上%以进行模糊查询
+        software_name = "%" + software_name +"%";
+        List<Software> softwareList = softwareDao.getBySoftware_name(software_name);
+        ResultEnum result = !softwareList.isEmpty() ? ResultEnum.SOFTWARE_GET_OK : ResultEnum.SOFTWARE_GET_ERR;
+        return new Result(result.getCode(),result.getMsg(),softwareList);
     }
 
     @Override
