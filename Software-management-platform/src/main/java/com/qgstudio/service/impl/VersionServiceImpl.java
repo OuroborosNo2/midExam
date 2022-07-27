@@ -23,7 +23,7 @@ public class VersionServiceImpl implements VersionService {
     private NoticeService noticeService;
 
     @Override
-    public Result add(Version version) {
+    public Result add(Version version) throws IOException {
         version.setRelease_date(new Date());
         ResultEnum result = versionDao.save(version)==1 ? ResultEnum.VERSION_SAVE_OK : ResultEnum.VERSION_SAVE_ERR;
         //发布软件后,进行消息通知

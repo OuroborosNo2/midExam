@@ -2,10 +2,7 @@ package com.qgstudio.dao;
 
 import com.qgstudio.po.Software;
 import com.qgstudio.po.Version;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 

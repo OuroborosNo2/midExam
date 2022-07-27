@@ -53,13 +53,6 @@ public enum ResultEnum {
     USER_PHONE_ERR(60120,"手机号已经被注册"),
     USER_EMAIL_ERR(60130,"邮箱已经被注册"),
 
-    //602Y0 用户-通知-情况-成
-    USER_DEL_NOTICE_OK(60201,"删除通知成功"),
-    USER_NOTICE_OK(60211,"获取通知成功"),
-
-    USER_DEL_NOTICE_ERR(60200,"删除通知失败"),
-    USER_NOTICE_NONE(60210,"当前没有通知"),
-
     USER_UPDATE_ERR(60200,"修改用户失败"),
     USER_UPDATE_PASSWORD_ERR(60210,"修改密码失败"),
     USER_DELETE_ERR(60300,"删除用户失败"),
