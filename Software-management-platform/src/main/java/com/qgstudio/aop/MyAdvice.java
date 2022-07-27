@@ -105,7 +105,7 @@ public class MyAdvice {
         //实际上精确查询最多只有一个元素
         List<Software> softwareList = softwareDao.getBySoftware_name(software.getSoftware_name());
         //软件名是否重复
-        if (softwareList.isEmpty()) {
+        if (!softwareList.isEmpty()) {
             return new Result<>(ResultEnum.SOFTWARE_NAME_ERR.getCode(),ResultEnum.SOFTWARE_NAME_ERR.getMsg(),null);
         }
 

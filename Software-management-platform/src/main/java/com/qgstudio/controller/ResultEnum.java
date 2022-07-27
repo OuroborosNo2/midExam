@@ -55,6 +55,12 @@ public enum ResultEnum {
     USER_GET_ERR(60400,"查询用户失败"),
     USER_CHANGE_PERMISSION_ERR(60500,"设置权限失败"),
 
+    //602Y0 用户-通知-情况
+    USER_DEL_NOTICE_OK(60601,"删除通知成功"),
+    USER_NOTICE_OK(60611,"获取通知成功"),
+
+    USER_DEL_NOTICE_ERR(60600,"删除通知失败"),
+    USER_NOTICE_NONE(60610,"当前没有通知"),
     //软件模块 70XYZ,
 
     SOFTWARE_SAVE_OK(70101,"添加软件成功"),

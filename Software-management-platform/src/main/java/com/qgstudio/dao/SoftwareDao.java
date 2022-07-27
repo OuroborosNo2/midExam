@@ -8,7 +8,7 @@ import java.util.List;
 
 
 public interface SoftwareDao {
-    @Insert("INSERT INTO T_SOFTWARE VALUES(null,#{software_name},#{desc},#{group_id})")
+    @Insert("INSERT INTO T_SOFTWARE(software_name,`desc`,group_id) VALUES(#{software_name},#{desc},#{group_id})")
     @Options(useGeneratedKeys = true,keyProperty = "software_id",keyColumn = "software_id")
     public int save(Software software);
     @Update("UPDATE T_SOFTWARE SET software_name=#{software_name},`desc`=#{desc},group_id=#{group_id} WHERE software_id=#{software_id}")
