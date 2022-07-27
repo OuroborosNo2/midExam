@@ -45,9 +45,10 @@ public enum ResultEnum {
     USER_CHANGE_PERMISSION_OK(60501,"设置权限成功"),
 
     //601Y0 用户-注册-情况-失败
-    USER_SAVE_NAME_ERR(60100,"用户名已经重复"),
-    USER_SAVE_PHONE_ERR(60110,"手机号已经被注册"),
-    USER_SAVE_EMAIL_ERR(60120,"邮箱已经被注册"),
+    USER_SAVE_ERR(60100,"注册用户失败"),
+    USER_NAME_ERR(60110,"用户名已经重复"),
+    USER_PHONE_ERR(60120,"手机号已经被注册"),
+    USER_EMAIL_ERR(60130,"邮箱已经被注册"),
 
     USER_UPDATE_ERR(60200,"修改用户失败"),
     USER_DELETE_ERR(60300,"删除用户失败"),
@@ -55,12 +56,15 @@ public enum ResultEnum {
     USER_CHANGE_PERMISSION_ERR(60500,"设置权限失败"),
 
     //软件模块 70XYZ,
+
     SOFTWARE_SAVE_OK(70101,"添加软件成功"),
     SOFTWARE_UPDATE_OK(70201,"修改软件成功"),
     SOFTWARE_DELETE_OK(70301,"删除软件成功"),
     SOFTWARE_GET_OK(70401,"查询软件成功"),
 
     SOFTWARE_SAVE_ERR(70100,"添加软件失败"),
+    SOFTWARE_NAME_ERR(70110,"软件名重复"),
+
     SOFTWARE_UPDATE_ERR(70200,"修改软件失败"),
     SOFTWARE_DELETE_ERR(70300,"删除软件失败"),
     SOFTWARE_GET_ERR(70400,"查询软件失败"),
@@ -72,6 +76,8 @@ public enum ResultEnum {
     VERSION_GET_OK(80401,"查询版本成功"),
 
     VERSION_SAVE_ERR(80100,"添加版本失败"),
+    VERSION_INF_ERR(80110,"版本号重复"),
+
     VERSION_UPDATE_ERR(80200,"修改版本失败"),
     VERSION_DELETE_ERR(80300,"删除版本失败"),
     VERSION_GET_ERR(80400,"查询版本失败")

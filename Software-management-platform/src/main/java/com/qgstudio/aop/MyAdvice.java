@@ -1,11 +1,25 @@
 package com.qgstudio.aop;
 
+import com.qgstudio.constant.regex;
+import com.qgstudio.controller.Result;
+import com.qgstudio.controller.ResultEnum;
+import com.qgstudio.dao.SoftwareDao;
+import com.qgstudio.dao.UserDao;
+import com.qgstudio.dao.VersionDao;
+import com.qgstudio.exception.BusinessException;
+import com.qgstudio.po.Software;
+import com.qgstudio.po.User;
+import com.qgstudio.po.Version;
+import com.qgstudio.util.Md5Utils;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * @program: Software-management-platform
@@ -17,35 +31,118 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class MyAdvice {
 
-    @Pointcut("execution(* com.qgstudio.service.*Service.*(..))")
-    private  void pt(){
+    @Autowired
+    UserDao userDao;
+    @Autowired
+    SoftwareDao softwareDao;
+    @Autowired
+    VersionDao versionDao;
 
-    }
-//    @Before("pt()")
-//    public void method(){
-//        System.out.println(System.currentTimeMillis());
-//    }
+    //遗憾的是没法把业务层全合在一起
 
+    /**
+     * 匹配用户业务层的注册和更新方法
+     * */
+    @Pointcut("execution(* com.qgstudio.service.UserService.register(*)) || execution(* com.qgstudio.service.UserService.update(*))")
+    private  void userServicePt(){}
 
-    @Around("pt()")
-    public Object calEffect (ProceedingJoinPoint pjp) throws Throwable {
+    /**
+     * 检查注册和更新输入的数据是否与已有数据冲突/重复
+     * @param pjp 切入点方法的参数集
+     * @return
+     * @throws Throwable
+     */
+    @Around("userServicePt()")
+    public Result checkUserRepeat(ProceedingJoinPoint pjp) throws Throwable{
+        //获取切入点方法的参数
+        User user = (User) pjp.getArgs()[0];
 
-        Signature signature = pjp.getSignature();
-        String declaringTypeName = signature.getDeclaringTypeName();
-        String name = signature.getName();
+        //1.注册用户,用户会输入用户名,密码,手机号,邮箱,首先先判断用户名,手机,邮箱是否重复,
+        User userByName = userDao.getByUsername(user.getUsername());
+        User userByPhone = userDao.getByPhone_number(user.getPhone_number());
+        User userByEmail = userDao.getByEmail(user.getEmail());
 
-
-        long begin = System.currentTimeMillis();
-
-        Object ret = null;
-        for (int i = 0; i < 1; i++) {
-             ret = pjp.proceed();
+        //1.1用户名重复
+        if (userByName != null) {
+            return new Result<>(ResultEnum.USER_NAME_ERR.getCode(),ResultEnum.USER_NAME_ERR.getMsg(),null);
+        }
+        //1.2 手机号已经被注册
+        if (userByPhone != null) {
+            return new Result<>(ResultEnum.USER_PHONE_ERR.getCode(),ResultEnum.USER_PHONE_ERR.getMsg(),null);
+        }
+        //1.3 邮箱已经被注册
+        if (userByEmail != null) {
+            return new Result<>(ResultEnum.USER_EMAIL_ERR.getCode(),ResultEnum.USER_EMAIL_ERR.getMsg(),null);
         }
 
-        long end = System.currentTimeMillis() - begin;
+        //2.首先先判断密码是否合法
+        if (!Pattern.matches(regex.REGEX_PWD, user.getPassword())) {
+            throw new BusinessException(ResultEnum.EX_PWD.getCode(),ResultEnum.EX_PWD.getMsg());
+        }
 
-//        System.out.println(declaringTypeName + name + "     "+end);
+        //3.到这里表示可以注册,记住密码需要加密
+        user.setPassword(Md5Utils.getMD5(user.getPassword()));
 
-        return ret;
+        return (Result) pjp.proceed();
     }
+
+    /**
+     * 匹配软件业务层的添加和更新方法
+     * */
+    @Pointcut("execution(* com.qgstudio.service.SoftwareService.add(*,*)) || execution(* com.qgstudio.service.SoftwareService.update(*))")
+    private  void softwareServicePt(){}
+    /**
+     * 检查数据是否与已有数据冲突/重复
+     * @param pjp 切入点方法的参数集
+     * @return
+     * @throws Throwable
+     */
+    @Around("softwareServicePt()")
+    public Result checkSoftwareRepeat(ProceedingJoinPoint pjp) throws Throwable{
+        //获取切入点方法的参数
+        Software software = (Software) pjp.getArgs()[0];
+
+        //实际上精确查询最多只有一个元素
+        List<Software> softwareList = softwareDao.getBySoftware_name(software.getSoftware_name());
+        //软件名是否重复
+        if (softwareList.isEmpty()) {
+            return new Result<>(ResultEnum.SOFTWARE_NAME_ERR.getCode(),ResultEnum.SOFTWARE_NAME_ERR.getMsg(),null);
+        }
+
+        return (Result) pjp.proceed();
+    }
+
+    /**
+     * 匹配版本业务层的添加和更新方法
+     * */
+    @Pointcut("execution(* com.qgstudio.service.VersionService.add(*)) || execution(* com.qgstudio.service.VersionService.update(*))")
+    private  void versionServicePt(){}
+    /**
+     * 检查数据是否与已有数据冲突/重复
+     * @param pjp 切入点方法的参数集
+     * @return
+     * @throws Throwable
+     */
+
+    @Around("versionServicePt()")
+    public Result checkVersionRepeat(ProceedingJoinPoint pjp) throws Throwable{
+        //获取切入点方法的参数
+        Version version = (Version) pjp.getArgs()[0];
+        //添加时没有version_id,更新时没有software_id
+        if(pjp.getSignature().toString().equals("Result com.qgstudio.service.VersionService.update(Version)")){
+            version.setSoftware_id(versionDao.getById(version.getVersion_id()).getSoftware_id());
+        }
+        Version versionByName = versionDao.getByVersionInf(version.getSoftware_id(),version.getVersionInf());
+
+        //版本号重复
+        if (versionByName != null) {
+            return new Result(ResultEnum.VERSION_INF_ERR.getCode(),ResultEnum.VERSION_INF_ERR.getMsg(),null);
+        }
+
+        return (Result) pjp.proceed();
+    }
+
+
+
+
 }

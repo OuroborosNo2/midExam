@@ -43,6 +43,13 @@ public class VersionServiceImpl implements VersionService {
     }
 
     @Override
+    public Result<Version> getByVersionInf(Integer software_id, String versionInf) {
+        Version version = versionDao.getByVersionInf(software_id,versionInf);
+        ResultEnum result = version!=null ? ResultEnum.VERSION_GET_OK : ResultEnum.VERSION_GET_ERR;
+        return new Result(result.getCode(),result.getMsg(),version);
+    }
+
+    @Override
     public Result<Version> getLatestBySoftware_id(Integer software_id) {
         Version version = versionDao.getLatest(software_id);
         ResultEnum result = version!=null ? ResultEnum.VERSION_GET_OK : ResultEnum.VERSION_GET_ERR;

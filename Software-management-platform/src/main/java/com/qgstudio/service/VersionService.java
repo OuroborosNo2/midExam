@@ -10,6 +10,7 @@ public interface VersionService {
     Result update(Version version);
     Result delete(Integer id);
     Result<Version> getById(Integer id);
+    Result<Version> getByVersionInf(Integer software_id,String versionInf);
     Result<Version> getLatestBySoftware_id(Integer software_id);
     Result<List> getAllBySoftware_id(Integer software_id);
     Result<List> getAll();

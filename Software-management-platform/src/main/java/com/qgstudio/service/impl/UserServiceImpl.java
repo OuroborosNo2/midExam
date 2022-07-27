@@ -60,39 +60,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result<User> register(User user) throws BusinessException,NoSuchAlgorithmException {
-        //1.注册用户,用户会输入用户名,密码,手机号,邮箱,首先先判断用户名,手机,邮箱是否重复,
-        User userByName = userDao.getByUsername(user.getUsername());
-        User userByPhone = userDao.getByPhone_number(user.getPhone_number());
-        User userByEmail = userDao.getByEmail(user.getEmail());
-
-        //1.1用户名重复
-        if (userByName != null) {
-            return new Result<>(ResultEnum.USER_SAVE_NAME_ERR.getCode(),ResultEnum.USER_SAVE_NAME_ERR.getMsg(),null);
-        }
-        //1.2 手机号已经被注册
-        if (userByPhone != null) {
-            return new Result<>(ResultEnum.USER_SAVE_PHONE_ERR.getCode(),ResultEnum.USER_SAVE_PHONE_ERR.getMsg(),null);
-        }
-        //1.3 邮箱已经被注册
-        if (userByEmail != null) {
-            return new Result<>(ResultEnum.USER_SAVE_EMAIL_ERR.getCode(),ResultEnum.USER_SAVE_EMAIL_ERR.getMsg(),null);
-        }
-
-        //2.首先先判断密码是否合法
-        if (!Pattern.matches(regex.REGEX_PWD, user.getPassword())) {
-            throw new BusinessException(ResultEnum.EX_PWD.getCode(),ResultEnum.EX_PWD.getMsg());
-        }
-
-        //3.到这里表示可以注册,记住密码需要加密
-        user.setPassword(Md5Utils.getMD5(user.getPassword()));
-
+        //由aop进行数据是否重复/合法的校验
         ResultEnum result = userDao.save(user) == 1 ? ResultEnum.USER_SAVE_OK : ResultEnum.SERVER_INTERNAL_ERROR;
-
         return new Result<>(result.getCode(),result.getMsg());
     }
 
     @Override
-    public Result update(User user) {
+    public Result update(User user) throws BusinessException,NoSuchAlgorithmException {
+        //由aop进行数据是否重复/合法的校验
         ResultEnum result = userDao.update(user)==1 ? ResultEnum.USER_UPDATE_OK : ResultEnum.USER_UPDATE_ERR;
         return new Result(result.getCode(),result.getMsg());
     }

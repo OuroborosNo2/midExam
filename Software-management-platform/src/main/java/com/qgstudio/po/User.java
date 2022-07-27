@@ -12,12 +12,18 @@ import java.util.Objects;
 
 @Component
 public class User {
-    private int user_id;//用户id
-    private String username;//用户名
-    private String password;//密码
-    private String phone_number;//手机号码
-    private String email;//邮箱
-    private int permission;//权限，0为普通用户，1为管理员
+    //用户id
+    private int user_id;
+    //用户名
+    private String username;
+    //密码
+    private String password;
+    //手机号码
+    private String phone_number;
+    //邮箱
+    private String email;
+    //权限，0为普通用户，1为管理员
+    private int permission;
 
 
     public User(int user_id, String username, String password, String phone_number, String email, int permission) {

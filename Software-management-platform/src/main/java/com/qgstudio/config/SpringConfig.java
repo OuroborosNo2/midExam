@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @create: 2022-07-24 19:10
  **/
 @Configuration
-@ComponentScan({"com.qgstudio.service"})
+@ComponentScan({"com.qgstudio.service","com.qgstudio.aop"})
 @PropertySource("classpath:jdbc.properties")
 @Import({JdbcConfig.class,MybatisConfig.class})
 @EnableAspectJAutoProxy

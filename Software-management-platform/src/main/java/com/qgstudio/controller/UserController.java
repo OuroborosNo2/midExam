@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @PutMapping
-    public Result update(@RequestBody User user) {
+    public Result update(@RequestBody User user) throws BusinessException,NoSuchAlgorithmException{
         return userService.update(user);
     }
 
