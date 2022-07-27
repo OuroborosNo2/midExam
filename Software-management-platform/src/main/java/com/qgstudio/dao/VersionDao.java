@@ -7,17 +7,17 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 public interface VersionDao {
-    @Insert("INSERT INTO T_VERSION(software_id,versionInf,`desc`,url,release_date) VALUES(#{software_id},#{versionInf},#{desc},#{url},#{release_date})")
+    @Insert("INSERT INTO t_version(software_id,versionInf,`desc`,url,release_date) VALUES(#{software_id},#{versionInf},#{desc},#{url},#{release_date})")
     public int save(Version version);
-    @Update("UPDATE T_VERSION SET versionInf=#{versionInf},`desc`=#{desc},url=#{url} WHERE version_id=#{version_id}")
+    @Update("UPDATE t_version SET versionInf=#{versionInf},`desc`=#{desc},url=#{url} WHERE version_id=#{version_id}")
     public int update(Version version);
-    @Delete("DELETE FROM T_VERSION WHERE version_id = #{version_id}")
+    @Delete("DELETE FROM t_version WHERE version_id = #{version_id}")
     public int delete(int version_id);
 
-    @Select("SELECT * FROM T_VERSION WHERE version_id = #{version_id}")
+    @Select("SELECT * FROM t_version WHERE version_id = #{version_id}")
     public Version getById(int version_id);
 
-    @Select("SELECT * FROM T_VERSION WHERE software_id = #{software_id} AND versionInf = #{versionInf}")
+    @Select("SELECT * FROM t_version WHERE software_id = #{software_id} AND versionInf = #{versionInf}")
     public Version getByVersionInf(@Param("software_id") int software_id,@Param("versionInf") String versionInf);
 
     //获得某个软件的最新版本
@@ -25,10 +25,10 @@ public interface VersionDao {
     public Version getLatest(int software_id);
 
     //获得某个软件的所有版本
-    @Select("SELECT * FROM T_VERSION WHERE software_id=#{software_id}")
+    @Select("SELECT * FROM t_version WHERE software_id=#{software_id}")
     public List<Version> getAllBySoftware_id(int software_id);
 
-    @Select("SELECT * FROM T_VERSION")
+    @Select("SELECT * FROM t_version")
     public List<Version> getAll();
 
 }

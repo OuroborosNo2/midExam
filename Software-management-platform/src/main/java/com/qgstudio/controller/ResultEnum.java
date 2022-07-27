@@ -79,7 +79,7 @@ public enum ResultEnum {
     SOFTWARE_DELETE_ERR(70300,"删除软件失败"),
     SOFTWARE_GET_ERR(70400,"查询软件失败"),
 
-    //版本模块
+    //版本模块 80XYZ
     VERSION_SAVE_OK(80101,"添加版本成功"),
     VERSION_UPDATE_OK(80201,"修改版本成功"),
     VERSION_DELETE_OK(80301,"删除版本成功"),
@@ -90,8 +90,13 @@ public enum ResultEnum {
 
     VERSION_UPDATE_ERR(80200,"修改版本失败"),
     VERSION_DELETE_ERR(80300,"删除版本失败"),
-    VERSION_GET_ERR(80400,"查询版本失败")
+    VERSION_GET_ERR(80400,"查询版本失败"),
 
+    //文件模块 90XYZ
+    FILE_UPLOAD_OK(90101,"上传成功"),
+    FILE_UPLOAD_ERR(90100,"上传失败"),
+    FILE_DOWNLOAD_OK(90201,"下载成功"),
+    FILE_DOWNLOAD_ERR(90200,"下载失败")
     ;
     /**
      * 编号
