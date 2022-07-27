@@ -26,4 +26,5 @@ public interface SoftwareDao {
     public List<Software> getByGroup(int group_id);
     @Select("SELECT * FROM T_SOFTWARE")
     public List<Software> getAll();
+
 }

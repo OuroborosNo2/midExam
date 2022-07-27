@@ -30,4 +30,5 @@ public interface VersionDao {
 
     @Select("SELECT * FROM T_VERSION")
     public List<Version> getAll();
+
 }

@@ -6,7 +6,6 @@ import java.util.Objects;
 
 @Component
 public class Software {
-
     //软件id
     private int software_id;
     //软件名
@@ -21,9 +20,7 @@ public class Software {
         this.software_name = software_name;
         this.desc = desc;
         this.group_id = group_id;
-    }
 
-    public Software() {
     }
 
     public String getSoftware_name() {
