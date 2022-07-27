@@ -32,7 +32,7 @@ public interface UserService {
 
     Result delete(Integer id);
 
-    Result update(User user);
+    Result update(User user) throws NoSuchAlgorithmException;
 
     Result changePermission(Integer id,Integer permission);
 

@@ -60,10 +60,13 @@ public class SoftwareServiceImpl implements SoftwareService {
         return new Result(result.getCode(),result.getMsg(),software);
     }
 
+
     @Override
-    public Result<Software> getBySoftware_name(String software_name) {
-        //处理字符串,两侧加上%以进行模糊查询
-        software_name = "%" + software_name +"%";
+    public Result<Software> getBySoftware_name(String software_name, boolean isVague) {
+        if(isVague){
+            //处理字符串,两侧加上%以进行模糊查询
+            software_name = "%" + software_name +"%";
+        }
         List<Software> softwareList = softwareDao.getBySoftware_name(software_name);
         ResultEnum result = !softwareList.isEmpty() ? ResultEnum.SOFTWARE_GET_OK : ResultEnum.SOFTWARE_GET_ERR;
         return new Result(result.getCode(),result.getMsg(),softwareList);

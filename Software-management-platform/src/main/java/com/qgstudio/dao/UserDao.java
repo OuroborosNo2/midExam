@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 public interface UserDao {
-    @Insert("INSERT INTO T_USER VALUES(null,#{username},#{password},#{phone_number},#{email},0)")
+    @Insert("INSERT INTO T_USER(username,password,phone_number,email,permission) VALUES(#{username},#{password},#{phone_number},#{email},0)")
     public int save(User user);
     @Update("UPDATE T_USER SET username=#{username},password=#{password},phone_number=#{phone_number},email=#{email} WHERE user_id=#{user_id}")
     public int update(User user);

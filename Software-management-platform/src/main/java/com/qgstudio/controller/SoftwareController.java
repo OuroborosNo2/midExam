@@ -50,8 +50,8 @@ public class SoftwareController {
 
     //根据软件名模糊查找软件
     @GetMapping("/search")
-    public Result getBySoftware_name(String name){
-        return softwareService.getBySoftware_name(name);
+    public Result getBySoftware_name(String name,Boolean isVague){
+        return softwareService.getBySoftware_name(name,isVague);
     }
 
     @GetMapping("/group_{id}")

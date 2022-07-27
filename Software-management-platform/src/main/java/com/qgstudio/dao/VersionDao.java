@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Update;
 import java.util.List;
 
 public interface VersionDao {
-    @Insert("INSERT INTO T_VERSION (software_id, versionInf, `desc`, url) VALUES(#{software_id},#{versionInf},#{desc},#{url})")
+    @Insert("INSERT INTO T_VERSION VALUES(null,#{software_id},#{versionInf},#{desc},#{url})")
     public int save(Version version);
     @Update("UPDATE T_VERSION SET versionInf=#{versionInf},`desc`=#{desc},url=#{url} WHERE version_id=#{version_id}")
     public int update(Version version);
@@ -19,6 +19,9 @@ public interface VersionDao {
 
     @Select("SELECT * FROM T_VERSION WHERE version_id = #{version_id}")
     public Version getById(int version_id);
+
+    @Select("SELECT * FROM T_VERSION WHERE software_id = #{software_id} AND versionInf = #{versionInf}")
+    public Version getByVersionInf(@Param("software_id") int software_id,@Param("versionInf") String versionInf);
 
     //获得某个软件的最新版本
     @Select("select * from t_version as a where not exists (select 1 from t_version as b where b.software_id=a.software_id and b.version_id>a.version_id) AND a.software_id=#{software_id}")

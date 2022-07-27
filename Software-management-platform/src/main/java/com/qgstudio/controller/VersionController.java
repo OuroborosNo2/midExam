@@ -39,6 +39,11 @@ public class VersionController {
         return versionService.getById(id);
     }
 
+    @GetMapping("/versionInf")
+    public Result getByVersionInf(Integer id,String versionInf) {
+        return versionService.getByVersionInf(id,versionInf);
+    }
+
     @GetMapping("/latest_{id}")
     public Result getLatestBySoftware_id(@PathVariable Integer id) {
         return versionService.getLatestBySoftware_id(id);

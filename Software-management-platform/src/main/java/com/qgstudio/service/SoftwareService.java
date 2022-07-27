@@ -15,7 +15,9 @@ public interface SoftwareService {
     Result update(Software software);
     Result delete(Integer id);
     Result<Software> getById(Integer id);
-    Result<Software> getBySoftware_name(String software_name);
+
+    Result<Software> getBySoftware_name(String software_name, boolean isVague);
+
     Result<List> getByGroup(Integer group_id);
     Result<List> getAll();
 
