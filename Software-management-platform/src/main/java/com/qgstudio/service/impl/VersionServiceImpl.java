@@ -5,10 +5,12 @@ import com.qgstudio.controller.ResultEnum;
 import com.qgstudio.dao.SoftwareDao;
 import com.qgstudio.dao.VersionDao;
 import com.qgstudio.po.Version;
+import com.qgstudio.service.NoticeService;
 import com.qgstudio.service.VersionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -16,16 +18,21 @@ public class VersionServiceImpl implements VersionService {
 
     @Autowired
     private VersionDao versionDao;
+    @Autowired
+    private NoticeService noticeService;
 
     @Override
-    public Result add(Version version) {
+    public Result add(Version version) throws IOException {
         ResultEnum result = versionDao.save(version)==1 ? ResultEnum.VERSION_SAVE_OK : ResultEnum.VERSION_SAVE_ERR;
+        //发布软件后,进行消息通知
+        noticeService.addNotice(version, "更新");
         return new Result(result.getCode(),result.getMsg());
     }
 
     @Override
-    public Result update(Version version) {
+    public Result update(Version version) throws IOException {
         ResultEnum result = versionDao.update(version)==1 ? ResultEnum.VERSION_UPDATE_OK : ResultEnum.VERSION_UPDATE_ERR;
+
         return new Result(result.getCode(),result.getMsg());
     }
 

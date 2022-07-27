@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Update;
 import java.util.List;
 
 public interface VersionDao {
-    @Insert("INSERT INTO T_VERSION VALUES(null,#{software_id},#{versionInf},#{desc},#{url})")
+    @Insert("INSERT INTO T_VERSION (software_id, versionInf, `desc`, url) VALUES(#{software_id},#{versionInf},#{desc},#{url})")
     public int save(Version version);
     @Update("UPDATE T_VERSION SET versionInf=#{versionInf},`desc`=#{desc},url=#{url} WHERE version_id=#{version_id}")
     public int update(Version version);

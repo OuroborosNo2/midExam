@@ -40,7 +40,8 @@ public class ProjectExceptionAdvice {
         //记录日志
         //发送消息给运维
         //发送邮件给开发人员,ex对象发送给开发人员
-        System.out.println("未知异常了"+ex.getMessage());
+
+        ex.printStackTrace();
         if (ex instanceof HttpMessageNotReadableException) {
             HttpMessageNotReadableException e = (HttpMessageNotReadableException)ex;
             return new Result<>(ResultEnum.PARAMETER_NOT_VALID.getCode(), Objects.requireNonNull(e.getMessage()).substring(e.getMessage().indexOf(":") + 1, e.getMessage().indexOf(";")),null);

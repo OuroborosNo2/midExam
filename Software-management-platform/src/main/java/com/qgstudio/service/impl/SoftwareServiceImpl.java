@@ -4,12 +4,15 @@ import com.qgstudio.controller.Result;
 import com.qgstudio.controller.ResultEnum;
 import com.qgstudio.dao.SoftwareDao;
 import com.qgstudio.dao.VersionDao;
+import com.qgstudio.po.Notice;
 import com.qgstudio.po.Software;
 import com.qgstudio.po.Version;
+import com.qgstudio.service.NoticeService;
 import com.qgstudio.service.SoftwareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -21,13 +24,19 @@ public class SoftwareServiceImpl implements SoftwareService {
     @Autowired
     private VersionDao versionDao;
 
+    @Autowired
+    private NoticeService noticeService;
+
     //发布软件时同时发布第一个版本
     @Override
-    public Result add(Software software, Version version) {
+    public Result add(Software software, Version version) throws IOException {
         //插入后自动赋值software_id
         ResultEnum result1 = softwareDao.save(software)==1 ? ResultEnum.SOFTWARE_SAVE_OK : ResultEnum.SOFTWARE_SAVE_ERR;
         version.setSoftware_id(software.getSoftware_id());
         ResultEnum result2 = versionDao.save(version)==1 ? ResultEnum.SOFTWARE_SAVE_OK : ResultEnum.SOFTWARE_SAVE_ERR;
+
+        //发布软件后,进行消息通知
+        noticeService.addNotice(version, "发布");
 
         return new Result(result1.getCode(),result1.getMsg()+"&"+result2.getMsg());
     }

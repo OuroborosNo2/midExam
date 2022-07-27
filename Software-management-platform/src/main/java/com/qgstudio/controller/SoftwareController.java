@@ -10,6 +10,7 @@ import com.qgstudio.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -25,7 +26,7 @@ public class SoftwareController {
     private SoftwareService softwareService;
 
     @PostMapping
-    public Result add(@RequestBody String json) {
+    public Result add(@RequestBody String json) throws IOException {
         JSONObject jsonObject= JSON.parseObject(json);
         Software software = jsonObject.getObject("software",Software.class);
         Version version =jsonObject.getObject("version",Version.class);

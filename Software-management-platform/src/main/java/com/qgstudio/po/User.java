@@ -46,8 +46,6 @@ public class User {
 
     public void setUsername(String username) {
         if (!Pattern.matches(regex.REGEX_NAME, username)) {
-            System.out.println(username);
-            System.out.println("不匹配" + !Pattern.matches(regex.REGEX_NAME, username));
             throw new BusinessException(ResultEnum.EX_NAME.getCode(),ResultEnum.EX_NAME.getMsg());
         }
         this.username = username;

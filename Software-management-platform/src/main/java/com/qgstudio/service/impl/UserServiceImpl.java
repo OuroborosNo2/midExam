@@ -38,10 +38,7 @@ public class UserServiceImpl implements UserService {
     public Result<User> login(User user) throws NoSuchAlgorithmException {
 
         //1.调用userDao获取用户对象
-        System.out.println(user);
         User userByUsername = userDao.getByUsername(user.getUsername());
-        System.out.println(user.getUsername());
-        System.out.println(userByUsername);
 
         //2.数据查询,是否查得到
         if (userByUsername == null) {
