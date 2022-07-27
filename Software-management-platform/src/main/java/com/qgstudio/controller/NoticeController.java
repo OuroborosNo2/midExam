@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,7 +35,7 @@ public class NoticeController {
 
     @PostMapping
     Result<Notice> addNotice() throws IOException {
-        Version version = new Version(1, 1, "1.0.0.1", "发布了全新版本", "asdffd");
+        Version version = new Version(1, 1, "1.0.0.1", "发布了全新版本", "asdffd",new Date());
         return noticeService.addNotice(version,"发布");
     }
 }

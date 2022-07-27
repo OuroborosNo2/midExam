@@ -34,16 +34,19 @@ public enum ResultEnum {
     USER_PWD_ERROR(60020, "密码错误"),
 
     //600Y1 用户-登录-情况-成功
-    USER_LOGIN_OK(60000,"登录成功"),
+    USER_LOGIN_OK(60001,"登录成功"),
+    USER_LOGOUT_OK(60030,"登出成功"),
 
     //601Y1 用户-注册-情况-成功
     USER_SAVE_OK(60101,"注册用户成功"),
 
     USER_UPDATE_OK(60201,"修改用户成功"),
+    USER_UPDATE_PASSWORD_OK(60211,"修改密码成功"),
     USER_DELETE_OK(60301,"删除用户成功"),
     USER_GET_OK(60401,"查询用户成功"),
     USER_CHANGE_PERMISSION_OK(60501,"设置权限成功"),
 
+    USER_LOGOUT_ERR(60030,"登出失败"),
     //601Y0 用户-注册-情况-失败
     USER_SAVE_ERR(60100,"注册用户失败"),
     USER_NAME_ERR(60110,"用户名已经重复"),
@@ -51,6 +54,7 @@ public enum ResultEnum {
     USER_EMAIL_ERR(60130,"邮箱已经被注册"),
 
     USER_UPDATE_ERR(60200,"修改用户失败"),
+    USER_UPDATE_PASSWORD_ERR(60210,"修改密码失败"),
     USER_DELETE_ERR(60300,"删除用户失败"),
     USER_GET_ERR(60400,"查询用户失败"),
     USER_CHANGE_PERMISSION_ERR(60500,"设置权限失败"),

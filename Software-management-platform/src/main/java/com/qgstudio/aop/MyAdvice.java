@@ -75,13 +75,15 @@ public class MyAdvice {
             return new Result<>(ResultEnum.USER_EMAIL_ERR.getCode(),ResultEnum.USER_EMAIL_ERR.getMsg(),null);
         }
 
-        //2.首先先判断密码是否合法
-        if (!Pattern.matches(regex.REGEX_PWD, user.getPassword())) {
-            throw new BusinessException(ResultEnum.EX_PWD.getCode(),ResultEnum.EX_PWD.getMsg());
+        //注册特有
+        if(pjp.getSignature().toString().equals("Result com.qgstudio.service.UserService.register(User)")){
+            //2.判断密码是否合法
+            if (!Pattern.matches(regex.REGEX_PWD, user.getPassword())) {
+                throw new BusinessException(ResultEnum.EX_PWD.getCode(),ResultEnum.EX_PWD.getMsg());
+            }
+            //3.到这里表示可以注册,记住密码需要加密
+            user.setPassword(Md5Utils.getMD5(user.getPassword()));
         }
-
-        //3.到这里表示可以注册,记住密码需要加密
-        user.setPassword(Md5Utils.getMD5(user.getPassword()));
 
         return (Result) pjp.proceed();
     }
