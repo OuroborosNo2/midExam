@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,6 +26,7 @@ public class VersionServiceImpl implements VersionService {
 
     @Override
     public Result add(Version version) throws IOException {
+        version.setRelease_date(new Date());
         ResultEnum result = versionDao.save(version)==1 ? ResultEnum.VERSION_SAVE_OK : ResultEnum.VERSION_SAVE_ERR;
         //发布软件后,进行消息通知
         noticeService.addNotice(version, "更新");
@@ -32,9 +34,8 @@ public class VersionServiceImpl implements VersionService {
     }
 
     @Override
-    public Result update(Version version) throws IOException {
+    public Result update(Version version) {
         ResultEnum result = versionDao.update(version)==1 ? ResultEnum.VERSION_UPDATE_OK : ResultEnum.VERSION_UPDATE_ERR;
-
         return new Result(result.getCode(),result.getMsg());
     }
 

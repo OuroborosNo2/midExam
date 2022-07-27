@@ -34,7 +34,7 @@ public interface UserService {
     Result delete(Integer id);
 
     Result update(User user) throws NoSuchAlgorithmException;
-
+    Result updatePassword(Integer id,String oldPwd,String newPwd) throws NoSuchAlgorithmException;
     Result changePermission(Integer id,Integer permission);
 
     Result register(User user) throws NoSuchAlgorithmException;

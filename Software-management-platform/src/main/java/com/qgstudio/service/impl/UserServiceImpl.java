@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -26,7 +27,8 @@ import java.util.regex.Pattern;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-
+    @Autowired
+    HttpServletRequest request;
     //自动装配
     /**
      * 用户dao实现类
@@ -47,9 +49,12 @@ public class UserServiceImpl implements UserService {
         }else {
             //2.2不为空,检查密码
             if (userByUsername.getPassword().equals(Md5Utils.getMD5(user.getPassword()))) {
+                //把user对象绑定到会话
+                request.getSession().setAttribute("user",userByUsername);
                 userByUsername.setPassword("");
                 return new Result<>(ResultEnum.USER_LOGIN_OK.getCode(),ResultEnum.USER_LOGIN_OK.getMsg(),userByUsername);
             } else {
+
                 return new Result<>(ResultEnum.USER_PWD_ERROR.getCode(),ResultEnum.USER_PWD_ERROR.getMsg(),null);
             }
         }
@@ -67,6 +72,28 @@ public class UserServiceImpl implements UserService {
         //由aop进行数据是否重复/合法的校验
         ResultEnum result = userDao.update(user)==1 ? ResultEnum.USER_UPDATE_OK : ResultEnum.USER_UPDATE_ERR;
         return new Result(result.getCode(),result.getMsg());
+    }
+
+    @Override
+    public Result updatePassword(Integer id, String oldPwd, String newPwd) throws NoSuchAlgorithmException {
+        Result result = getById(id);
+        User user = (User) result.getData();
+        //查不到id就结束
+        if(user == null){
+            return result;
+        }
+        //判断输入的旧密码是否正确
+        if(!Md5Utils.getMD5(oldPwd).equals(user.getPassword())){
+            return new Result(ResultEnum.USER_PWD_ERROR.getCode(),ResultEnum.USER_PWD_ERROR.getMsg());
+        }
+        //判断密码是否合法
+        if (!Pattern.matches(regex.REGEX_PWD, newPwd)) {
+            throw new BusinessException(ResultEnum.EX_PWD.getCode(),ResultEnum.EX_PWD.getMsg());
+        }
+        //密码需要加密
+        user.setPassword(Md5Utils.getMD5(newPwd));
+        ResultEnum resultEnum = userDao.updatePassword(user.getUser_id(),user.getPassword())==1 ? ResultEnum.USER_UPDATE_PASSWORD_OK : ResultEnum.USER_UPDATE_PASSWORD_ERR;
+        return new Result(resultEnum.getCode(),resultEnum.getMsg());
     }
 
     @Override

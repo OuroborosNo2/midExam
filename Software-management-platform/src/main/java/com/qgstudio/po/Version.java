@@ -2,6 +2,7 @@ package com.qgstudio.po;
 
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Component
@@ -16,13 +17,16 @@ public class Version {
     private String desc;
     //下载地址
     private String url;
+    //发布时间,手动设置为系统当前时间
+    private Date release_date;
 
-    public Version(int version_id, int software_id, String versionInf, String desc, String url) {
+    public Version(int version_id, int software_id, String versionInf, String desc, String url, Date date) {
         this.version_id = version_id;
         this.software_id = software_id;
         this.versionInf = versionInf;
         this.desc = desc;
         this.url = url;
+        this.release_date = date;
     }
 
     public Version() {
@@ -66,6 +70,14 @@ public class Version {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Date getRelease_date() {
+        return release_date;
+    }
+
+    public void setRelease_date(Date release_date) {
+        this.release_date = release_date;
     }
 
     @Override
