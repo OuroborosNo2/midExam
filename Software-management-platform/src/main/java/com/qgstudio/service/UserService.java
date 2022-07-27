@@ -4,6 +4,7 @@ import com.qgstudio.controller.Result;
 import com.qgstudio.po.User;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 
 /**
  * @program: Software-management-platform
@@ -37,4 +38,5 @@ public interface UserService {
     Result changePermission(Integer id,Integer permission);
 
     Result register(User user) throws NoSuchAlgorithmException;
+
 }

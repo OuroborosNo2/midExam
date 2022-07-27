@@ -53,15 +53,40 @@ public enum ResultEnum {
     USER_PHONE_ERR(60120,"手机号已经被注册"),
     USER_EMAIL_ERR(60130,"邮箱已经被注册"),
 
+    //602Y1 用户-通知-情况-成
+    USER_DEL_NOTICE_OK(60201,"删除通知成功"),
+    USER_NOTICE_OK(60211,"获取通知成功"),
+
+    USER_DEL_NOTICE_ERR(60200,"删除通知失败"),
+    USER_NOTICE_NONE(60210,"当前没有通知"),
+
     USER_UPDATE_ERR(60200,"修改用户失败"),
     USER_UPDATE_PASSWORD_ERR(60210,"修改密码失败"),
     USER_DELETE_ERR(60300,"删除用户失败"),
     USER_GET_ERR(60400,"查询用户失败"),
     USER_CHANGE_PERMISSION_ERR(60500,"设置权限失败"),
 
-    //602Y0 用户-通知-情况
-    USER_DEL_NOTICE_OK(60601,"删除通知成功"),
-    USER_NOTICE_OK(60611,"获取通知成功"),
+
+    //606Y1 用户-授权-情况-成功
+    USER_LICENSE_SAVE_OK(60061,"授权许可成功"),
+
+
+    //606Y0 用户-授权-情况-失败
+    USER_LICENSE_SAVE_ERR(60060,"授权许可失败"),
+
+
+
+    //603Y0 用户-硬件信息-情况-成功
+
+    USER_HARD_SAVE_OK(60301,"硬件指纹添加成功"),
+
+
+    //603Y0 用户-硬件信息-情况-失败
+    USER_HARD_SAVE_COUNT_ERR(60300,"硬件指纹数不能超过5个"),
+    USER_HARD_SAVE_MAC_ERR(60310,"硬件指纹MAC格式错误"),
+    USER_HARD_SAVE_CPU_ERR(60320,"硬件指纹CPU格式错误"),
+    USER_HARD_SAVE_HARD_ERR(60330,"硬件指纹硬盘序列号格式错误"),
+
 
     USER_DEL_NOTICE_ERR(60600,"删除通知失败"),
     USER_NOTICE_NONE(60610,"当前没有通知"),

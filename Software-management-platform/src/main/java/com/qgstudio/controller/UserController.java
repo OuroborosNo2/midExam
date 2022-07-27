@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;

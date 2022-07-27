@@ -33,4 +33,5 @@ public interface UserDao {
 
     @Select("SELECT `user_id` FROM t_user")
     public List<Integer> getAllId();
+
 }

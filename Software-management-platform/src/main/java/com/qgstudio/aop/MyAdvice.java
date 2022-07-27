@@ -46,6 +46,7 @@ public class MyAdvice {
     @Pointcut("execution(* com.qgstudio.service.UserService.register(*)) || execution(* com.qgstudio.service.UserService.update(*))")
     private  void userServicePt(){}
 
+
     /**
      * 检查注册和更新输入的数据是否与已有数据冲突/重复
      * @param pjp 切入点方法的参数集
