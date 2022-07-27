@@ -2,16 +2,18 @@ package com.qgstudio.service.impl;
 
 import com.qgstudio.controller.Result;
 import com.qgstudio.controller.ResultEnum;
-import com.qgstudio.dao.NoticeDao;
-import com.qgstudio.dao.SoftwareDao;
-import com.qgstudio.dao.VersionDao;
+import com.qgstudio.dao.*;
 import com.qgstudio.po.Notice;
 import com.qgstudio.po.Software;
 import com.qgstudio.po.Version;
 import com.qgstudio.service.NoticeService;
+import com.qgstudio.util.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,37 +35,59 @@ public class NoticeServiceImpl implements NoticeService {
     @Autowired
     private VersionDao versionDao;
 
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private NoticeAndUserDao noticeAndUserDao;
+
     @Override
-    public Result<List<Notice>> getAllNotice() {
-        List<Notice> notices = noticeDao.getAll();
+    public Result<List<Notice>> getAllNotice(int user_id) {
+        List<Notice> notices = noticeDao.getAll(user_id);
         ResultEnum result = notices == null ? ResultEnum.USER_NOTICE_NONE : ResultEnum.USER_NOTICE_OK;
         return new Result<>(result.getCode(),result.getMsg(),notices);
     }
 
     @Override
-    public Result<Notice> addNotice(Notice notice, Software software) {
+    public Result<Notice> addNotice(Version version,String updateOrReleaseStr) throws IOException {
 
-        //1.一个通知的内容,需要包含,软件名,软件信息,软件版本信息,通知时间,还有点击后跳转到某个页面的地址.
-        String content = "";
+        //1.一个通知的内容,需要包含,软件名,软件信息,软件版本信息,通知时间
+        StringBuilder content = new StringBuilder("");
 
-        //2.软件名称
-        String softwareName = software.getSoftware_name();
+        //2.通过版本信息获取软件信息
+        Software software = softwareDao.getById(version.getSoftware_id());
 
-        //3.若是发行新版本,需要软件描述,若是更新,则需要两者都要.
-        String softwareDesc = software.getDesc();
+        //3.需要软件描述,和版本信息
+        String desc = software.getDesc();
+        String software_name = software.getSoftware_name();
+        String versionDesc = version.getDesc();
+        String versionInf = version.getVersionInf();
 
-        //获取软件对应版本的信息.
-//        versionDao
+        //4.获取网络时间
+        Date websiteDatetime = TimeUtils.getWebsiteDatetime();
 
-        //4.拼接字符串,形成通知内容.
+        //5.拼接字符串,形成通知内容.
+        content.append(software_name).append(updateOrReleaseStr).append(versionInf).append(",").append(versionDesc).append("点击跳转~");
 
+        System.out.println(content);
+        System.out.println(websiteDatetime);
 
-        //
+        //6.调用dao,新增notice,
+        Notice notice1 = new Notice(content.toString(), websiteDatetime, software.getSoftware_id());
+        int save = noticeDao.save(notice1);
 
+        ResultEnum result = save != 0 ? ResultEnum.SUCCESS : ResultEnum.SERVER_INTERNAL_ERROR;
+        Notice notice = noticeDao.getNoticeById(notice1.getNotice_id());
 
+        //7.新增了一条notice后,需要给全部人都发一条消息一个是离线消息,一个在线消息.
 
+        //7.1离线消息.
+        //首先获取全部的用户id
+        List<Integer> allId = userDao.getAllId();
+        int i = noticeAndUserDao.addUserAndNotice(notice1.getNotice_id(), allId);
 
-        return null;
+        result = i != 0 ? ResultEnum.SUCCESS : ResultEnum.SERVER_INTERNAL_ERROR;
+        return new Result<>(result.getCode(),result.getMsg(),notice);
     }
 
 

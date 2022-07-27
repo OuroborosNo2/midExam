@@ -1,12 +1,15 @@
 package com.qgstudio.controller;
 
 import com.qgstudio.po.Notice;
+import com.qgstudio.po.Version;
 import com.qgstudio.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -24,8 +27,14 @@ public class NoticeController {
 
     @GetMapping
     Result<List<Notice>> getAll() {
-        return noticeService.getAllNotice();
+        int user_id = 1;
+        return noticeService.getAllNotice(user_id);
     }
 
 
+    @PostMapping
+    Result<Notice> addNotice() throws IOException {
+        Version version = new Version(1, 1, "1.0.0.1", "发布了全新版本", "asdffd");
+        return noticeService.addNotice(version,"发布");
+    }
 }

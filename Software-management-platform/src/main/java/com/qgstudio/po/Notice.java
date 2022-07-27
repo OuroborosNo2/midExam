@@ -1,6 +1,7 @@
 package com.qgstudio.po;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @program: Software-management-platform
@@ -25,7 +26,8 @@ public class Notice {
     /**
      * 通知时间
      */
-    private LocalDateTime time;
+    private Date time;
+
 
 
     /**
@@ -33,10 +35,7 @@ public class Notice {
      */
     private int software_id;
 
-    /**
-     * 网站详情地址
-     */
-    private String url;
+
 
     @Override
     public String toString() {
@@ -45,7 +44,6 @@ public class Notice {
                 ", content='" + content + '\'' +
                 ", time=" + time +
                 ", software_id=" + software_id +
-                ", url='" + url + '\'' +
                 '}';
     }
 
@@ -64,11 +62,11 @@ public class Notice {
         this.content = content;
     }
 
-    public LocalDateTime getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(LocalDateTime time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 
@@ -80,22 +78,20 @@ public class Notice {
         this.software_id = software_id;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
     public Notice() {
     }
 
-    public Notice(int notice_id, String content, LocalDateTime time, int software_id, String url) {
+    public Notice(int notice_id, String content, Date time, int software_id) {
         this.notice_id = notice_id;
         this.content = content;
         this.time = time;
         this.software_id = software_id;
-        this.url = url;
+    }
+
+    public Notice(String content, Date time, int software_id) {
+        this.content = content;
+        this.time = time;
+        this.software_id = software_id;
     }
 }

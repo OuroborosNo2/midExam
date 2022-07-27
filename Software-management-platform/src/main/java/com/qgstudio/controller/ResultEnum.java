@@ -50,9 +50,13 @@ public enum ResultEnum {
     USER_DELETE_ERR(60150,"删除用户失败"),
     USER_GET_ERR(60160,"查询用户失败"),
 
-    //602Y0 用户-通知-情况-成功
+    //602Y1 用户-通知-情况-成功
     USER_NOTICE_NONE(60211,"当前无通知"),
-    USER_NOTICE_OK(60221,"获取通知成功");
+    USER_NOTICE_OK(60221,"获取通知成功"),
+    USER_DEL_NOTICE_OK(60231,"删除通知成功"),
+
+    //602Y0 用户-通知-情况-失败
+    USER_DEL_NOTICE_ERR(60230,"删除通知失败"),
 
 
 
