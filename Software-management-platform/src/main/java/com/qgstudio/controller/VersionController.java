@@ -5,6 +5,8 @@ import com.qgstudio.service.VersionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 /**
  * @program: Version-management-platform
  * @description:
@@ -18,12 +20,12 @@ public class VersionController {
     private VersionService versionService;
 
     @PostMapping
-    public Result add(@RequestBody Version version) {
+    public Result add(@RequestBody Version version) throws IOException {
         return versionService.add(version);
     }
 
     @PutMapping
-    public Result update(@RequestBody Version version) {
+    public Result update(@RequestBody Version version) throws IOException {
         return versionService.update(version);
     }
 
