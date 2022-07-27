@@ -39,6 +39,13 @@ public class TimeUtils {
 ////        ZoneId zone = ZoneId.systemDefault();
 //        return LocalDateTime.ofInstant(instant, zone);
         return date;
+    }
 
+    public static Date localDateTimeToDate(LocalDateTime localDateTime) {
+        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    public static LocalDateTime dateToLocalDateTime(Date date) {
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(date.getTime()), ZoneId.systemDefault());
     }
 }

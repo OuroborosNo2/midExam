@@ -8,6 +8,7 @@ import com.qgstudio.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
 
 /**
@@ -30,6 +31,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
+//    HttpSession session
     public Result<User> login(@RequestBody User user) throws BusinessException,NoSuchAlgorithmException{
         return userService.login(user);
     }

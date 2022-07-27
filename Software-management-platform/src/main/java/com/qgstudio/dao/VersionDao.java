@@ -2,10 +2,7 @@ package com.qgstudio.dao;
 
 import com.qgstudio.po.Software;
 import com.qgstudio.po.Version;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -21,7 +18,7 @@ public interface VersionDao {
     public Version getById(int version_id);
 
     @Select("SELECT * FROM T_VERSION WHERE software_id = #{software_id} AND versionInf = #{versionInf}")
-    public Version getByVersionInf(@Param("software_id") int software_id,@Param("versionInf") String versionInf);
+    public Version getByVersionInf(@Param("software_id") int software_id, @Param("versionInf") String versionInf);
 
     //获得某个软件的最新版本
     @Select("select * from t_version as a where not exists (select 1 from t_version as b where b.software_id=a.software_id and b.version_id>a.version_id) AND a.software_id=#{software_id}")
