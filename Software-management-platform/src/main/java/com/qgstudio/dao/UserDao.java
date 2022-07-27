@@ -1,20 +1,21 @@
 package com.qgstudio.dao;
 
 import com.qgstudio.po.User;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 public interface UserDao {
-    @Insert("INSERT INTO T_USER VALUES(null,#{username},#{password},#{phone_number},#{email},#{permission})")
+    @Insert("INSERT INTO T_USER VALUES(null,#{username},#{password},#{phone_number},#{email},0)")
     public int save(User user);
-    @Update("UPDATE T_USER SET username=#{username},password=#{password},phone_number=#{phone_number},email=#{email},permission=#{permission} WHERE user_id=#{user_id}")
+    @Update("UPDATE T_USER SET username=#{username},password=#{password},phone_number=#{phone_number},email=#{email} WHERE user_id=#{user_id}")
     public int update(User user);
     @Delete("DELETE FROM T_USER WHERE user_id = #{user_id}")
     public int delete(int user_id);
+
+    //设置权限
+    @Update("UPDATE T_USER SET permission=#{permission} WHERE user_id=#{user_id}")
+    public int changePermission(@Param("user_id") int user_id, @Param("permission")int permission);
 
     @Select("SELECT * FROM T_USER WHERE user_id = #{user_id}")
     public User getById(int user_id);

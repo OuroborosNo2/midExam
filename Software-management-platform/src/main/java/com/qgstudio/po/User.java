@@ -8,16 +8,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.regex.Pattern;
 
+import java.util.Objects;
+
 @Component
 public class User {
     private int user_id;//用户id
     private String username;//用户名
     private String password;//密码
-
-    public String getPhone_number() {
-        return phone_number;
-    }
-
     private String phone_number;//手机号码
     private String email;//邮箱
     private int permission;//权限，0为普通用户，1为管理员
@@ -40,7 +37,6 @@ public class User {
     }
 
     public void setUser_id(int user_id) {
-
         this.user_id = user_id;
     }
 
@@ -62,7 +58,6 @@ public class User {
     }
 
     public void setPassword(String password) {
-
         this.password = password;
     }
 
@@ -75,6 +70,10 @@ public class User {
             throw new BusinessException(ResultEnum.EX_EMAIL.getCode(),ResultEnum.EX_EMAIL.getMsg());
         }
         this.email = email;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
     }
 
     public void setPhone_number(String phone_number) {
@@ -90,5 +89,34 @@ public class User {
 
     public void setPermission(int permission) {
         this.permission = permission;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return user_id == user.user_id && permission == user.permission && username.equals(user.username) && password.equals(user.password) && Objects.equals(phone_number, user.phone_number) && Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user_id, username, password, phone_number, email, permission);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "user_id=" + user_id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", phone_number='" + phone_number + '\'' +
+                ", email='" + email + '\'' +
+                ", permission=" + permission +
+                '}';
     }
 }

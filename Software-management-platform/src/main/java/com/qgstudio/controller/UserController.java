@@ -2,6 +2,7 @@ package com.qgstudio.controller;
 
 
 
+import com.qgstudio.exception.BusinessException;
 import com.qgstudio.po.User;
 import com.qgstudio.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,12 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public Result<User> login(@RequestBody User user) throws NoSuchAlgorithmException {
+    public Result<User> login(@RequestBody User user) throws BusinessException,NoSuchAlgorithmException{
         return userService.login(user);
     }
 
     @PostMapping("/register")
-    public Result register(@RequestBody User user) throws NoSuchAlgorithmException {
+    public Result register(@RequestBody User user) throws BusinessException,NoSuchAlgorithmException{
         return userService.register(user);
     }
 
@@ -73,5 +74,9 @@ public class UserController {
         return userService.getAll();
     }
 
+    @PutMapping("/change")
+    public Result changePermission(Integer id,Integer permission){
+        return userService.changePermission(id,permission);
+    }
 
 }

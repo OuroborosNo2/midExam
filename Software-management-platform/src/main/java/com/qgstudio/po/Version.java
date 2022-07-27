@@ -2,13 +2,20 @@ package com.qgstudio.po;
 
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 @Component
 public class Version {
-    private int version_id;//版本id
-    private int software_id;//对应的软件id
-    private String versionInf;//版本信息（1.0.0.1）
-    private String desc;//版本更新描述
-    private String url;//下载地址
+    //版本id
+    private int version_id;
+    //对应的软件id
+    private int software_id;
+    //版本信息（1.0.0.1）
+    private String versionInf;
+    //版本更新描述
+    private String desc;
+    //下载地址
+    private String url;
 
     public Version(int version_id, int software_id, String versionInf, String desc, String url) {
         this.version_id = version_id;
@@ -59,5 +66,33 @@ public class Version {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Version version = (Version) o;
+        return version_id == version.version_id && software_id == version.software_id && versionInf.equals(version.versionInf) && Objects.equals(desc, version.desc) && url.equals(version.url);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(version_id, software_id, versionInf, desc, url);
+    }
+
+    @Override
+    public String toString() {
+        return "Version{" +
+                "version_id=" + version_id +
+                ", software_id=" + software_id +
+                ", versionInf='" + versionInf + '\'' +
+                ", desc='" + desc + '\'' +
+                ", url='" + url + '\'' +
+                '}';
     }
 }

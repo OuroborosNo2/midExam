@@ -34,5 +34,7 @@ public interface UserService {
 
     Result update(User user);
 
+    Result changePermission(Integer id,Integer permission);
+
     Result register(User user) throws NoSuchAlgorithmException;
 }
