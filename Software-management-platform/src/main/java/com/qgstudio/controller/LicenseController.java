@@ -23,7 +23,6 @@ public class LicenseController {
     private LicenseService licenseService;
 
 
-
     @PostMapping
     Result<License> save(@RequestBody License license) throws Exception {
         return licenseService.save(license);

@@ -1,6 +1,7 @@
 package com.qgstudio.dao;
 
 import com.qgstudio.po.Code;
+import com.qgstudio.po.HardInfo;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -49,4 +50,8 @@ public interface CodeDao {
 //     */
 //    @Select("select count(*) from t_code where user_id = #{user_id} and license_id = #{license_id} ")
 //    int getCount(@Param("user_id") int user_id,@Param("license_id") int license_id);
+
+
+    @Select("select * from t_code where user_id=#{user_id} and info_id=#{info_id}")
+    List<Code> getByUserIdAndInfoId(HardInfo hardInfo);
 }

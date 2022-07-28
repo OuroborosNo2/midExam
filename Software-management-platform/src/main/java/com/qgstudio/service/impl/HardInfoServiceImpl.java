@@ -1,11 +1,15 @@
 package com.qgstudio.service.impl;
 
 import com.qgstudio.controller.Result;
+import com.qgstudio.controller.ResultEnum;
 import com.qgstudio.dao.HardInfoDao;
 import com.qgstudio.po.HardInfo;
 import com.qgstudio.service.HardInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @program: Software-management-platform
@@ -15,6 +19,7 @@ import org.springframework.stereotype.Service;
  **/
 
 @Service
+@Transactional
 public class HardInfoServiceImpl implements HardInfoService {
 
     @Autowired
@@ -23,12 +28,22 @@ public class HardInfoServiceImpl implements HardInfoService {
     @Override
     public Result<HardInfo> saveHardInfo(HardInfo hardInfo) {
         //新增业务,
+        //需要判断用户手下有没有重复的硬件信息,aop
 
-        return null;
+        //成功的话,则直接添加
+        ResultEnum resultEnum = hardInfoDao.save(hardInfo) != 0 ? ResultEnum.USER_HARD_SAVE_OK : ResultEnum.SERVER_INTERNAL_ERROR;
+        return new Result<>(resultEnum.getCode(),resultEnum.getMsg());
     }
 
     @Override
     public Result<HardInfo> update(HardInfo hardInfo) {
-        return null;
+        ResultEnum resultEnum = hardInfoDao.update(hardInfo) != 0 ? ResultEnum.HARD_UPDATE_USED_OK : ResultEnum.SERVER_INTERNAL_ERROR;
+        return new Result<>(resultEnum.getCode(),resultEnum.getMsg());
+    }
+
+    @Override
+    public Result<List<HardInfo>> getAll(int user_id) {
+        List<HardInfo> all = hardInfoDao.getAll(user_id);
+        return new Result<>(ResultEnum.HARD_SELECT_OK.getCode(),ResultEnum.HARD_SELECT_OK.getMsg(),all);
     }
 }

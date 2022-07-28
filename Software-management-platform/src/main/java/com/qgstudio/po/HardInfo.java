@@ -13,9 +13,7 @@ public class HardInfo {
 
     private String owner_name;
 
-    private String mac;
-
-    private String hard;
+    private String cpu;
 
     @Override
     public String toString() {
@@ -23,10 +21,32 @@ public class HardInfo {
                 "info_id=" + info_id +
                 ", user_id=" + user_id +
                 ", owner_name='" + owner_name + '\'' +
+                ", cpu='" + cpu + '\'' +
                 ", mac='" + mac + '\'' +
                 ", hard='" + hard + '\'' +
                 '}';
     }
+
+    public String getCpu() {
+        return cpu;
+    }
+
+    public void setCpu(String cpu) {
+        this.cpu = cpu;
+    }
+
+    public HardInfo(int info_id, int user_id, String owner_name, String cpu, String mac, String hard) {
+        this.info_id = info_id;
+        this.user_id = user_id;
+        this.owner_name = owner_name;
+        this.cpu = cpu;
+        this.mac = mac;
+        this.hard = hard;
+    }
+
+    private String mac;
+
+    private String hard;
 
     public int getInfo_id() {
         return info_id;
