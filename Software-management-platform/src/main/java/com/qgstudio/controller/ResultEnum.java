@@ -66,24 +66,6 @@ public enum ResultEnum {
     USER_GET_ERR(60400,"查询用户失败"),
     USER_CHANGE_PERMISSION_ERR(60500,"设置权限失败"),
 
-
-    //606Y1 用户-授权-情况-成功
-    USER_LICENSE_SAVE_OK(60061,"授权许可成功"),
-
-
-    //606Y0 用户-授权-情况-失败
-    USER_LICENSE_SAVE_ERR(60060,"授权许可失败"),
-
-    //603Y0 用户-硬件信息-情况-成功
-
-    USER_HARD_SAVE_OK(60301,"硬件指纹添加成功"),
-
-    //603Y0 用户-硬件信息-情况-失败
-    USER_HARD_SAVE_COUNT_ERR(60300,"硬件指纹数不能超过5个"),
-    USER_HARD_SAVE_MAC_ERR(60310,"硬件指纹MAC格式错误"),
-    USER_HARD_SAVE_CPU_ERR(60320,"硬件指纹CPU格式错误"),
-    USER_HARD_SAVE_HARD_ERR(60330,"硬件指纹硬盘序列号格式错误"),
-
     //软件模块 70XYZ,
 
     SOFTWARE_SAVE_OK(70101,"添加软件成功"),
@@ -115,11 +97,60 @@ public enum ResultEnum {
     FILE_UPLOAD_OK(90101,"上传成功"),
     FILE_UPLOAD_ERR(90100,"上传失败"),
     FILE_DOWNLOAD_OK(90201,"下载成功"),
-    FILE_DOWNLOAD_ERR(90200,"下载失败")
+    FILE_DOWNLOAD_ERR(90200,"下载失败"),
+
+
+    //许可证模块 91XYZ
+    LICENSE_SAVE_OK(91001,"授权许可成功"),
+    LICENSE_SAVE_ERR(91000,"授权许可失败"),
+    LICENSE_SAVE_REPEAT_ERR(91010,"已存在软件授权,是否升级授权"),
+
+    LICENSE_SELECT_NONE(91100,"当前用户无许可证"),
+    LICENSE_SELECT_OK(91101,"查询用户许可证成功"),
+
+    LICENSE_UPGRADE_OK(91201,"升级用户许可证成功"),
+    LICENSE_UPGRADE_ERR(91200,"升级用户许可证失败"),
+
+
+
+    //硬件信息模块
+    //920Y0 硬件信息-新增-失败
+    HARD_SAVE_MAC_ERR(92010,"硬件指纹MAC格式错误"),
+    HARD_SAVE_CPU_ERR(92020,"硬件指纹CPU格式错误"),
+    HARD_SAVE_HARD_ERR(92030,"硬件指纹硬盘序列号格式错误"),
+
+    HARD_SAVE_MAC_REPEAT_ERR(92040,"硬件指纹MAC重复"),
+    HARD_SAVE_CPU_REPEAT_ERR(92050,"硬件指纹CPU重复"),
+    HARD_SAVE_HARD_REPEAT_ERR(92060,"硬件指纹硬盘序列号重复"),
+    HARD_SAVE_NAME_REPEAT_ERR(92070,"硬件指纹机主名称重复"),
+
+    USER_HARD_SAVE_OK(92001,"硬件指纹添加成功"),
+
+
+    //921Y0 硬件信息-更新-失败,
+    HARD_UPDATE_USED_ERR(92100,"硬件指纹已经被授权,无法修改"),
+
+    //921Y1 硬件信息-更新-成功,
+    HARD_UPDATE_USED_OK(92101,"硬件指纹修改成功"),
+
+    //922Y1 硬件信息-查询-成功,
+    HARD_SELECT_OK(92201,"硬件指纹查询成功"),
+
+    //923Y1 硬件信息-删除-成功,
+    HARD_DELETE_OK(92301,"硬件指纹删除成功"),
+
+
+
+
+
     ;
-    /**编号*/
+    /**
+     * 编号
+     */
     private Integer code;
-    /**信息*/
+    /**
+     * 信息
+     */
     private String msg;
 
     ResultEnum(Integer code, String msg) {

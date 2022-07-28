@@ -9,26 +9,40 @@ import java.util.Date;
  * @create: 2022-07-27 11:37
  **/
 public class License {
-    private int code_id;
+    private int license_id;
     private int user_id;
     private int software_id;
     private int function_type;
     private int version_id;
-    private String owner_name;
-    private String mac;
-    private String cpu;
-    private String hard;
     private Date begin_date;
     private Date end_date;
     private int validity_time;
-    private String code;
+    private int license_num;
 
-    public int getCode_id() {
-        return code_id;
+    public License() {
     }
 
-    public void setCode_id(int code_id) {
-        this.code_id = code_id;
+    @Override
+    public String toString() {
+        return "License{" +
+                "license_id=" + license_id +
+                ", user_id=" + user_id +
+                ", software_id=" + software_id +
+                ", function_type=" + function_type +
+                ", version_id=" + version_id +
+                ", begin_date=" + begin_date +
+                ", end_date=" + end_date +
+                ", validity_time=" + validity_time +
+                ", license_num=" + license_num +
+                '}';
+    }
+
+    public int getLicense_id() {
+        return license_id;
+    }
+
+    public void setLicense_id(int license_id) {
+        this.license_id = license_id;
     }
 
     public int getUser_id() {
@@ -63,38 +77,6 @@ public class License {
         this.version_id = version_id;
     }
 
-    public String getOwner_name() {
-        return owner_name;
-    }
-
-    public void setOwner_name(String owner_name) {
-        this.owner_name = owner_name;
-    }
-
-    public String getMac() {
-        return mac;
-    }
-
-    public void setMac(String mac) {
-        this.mac = mac;
-    }
-
-    public String getCpu() {
-        return cpu;
-    }
-
-    public void setCpu(String cpu) {
-        this.cpu = cpu;
-    }
-
-    public String getHard() {
-        return hard;
-    }
-
-    public void setHard(String hard) {
-        this.hard = hard;
-    }
-
     public Date getBegin_date() {
         return begin_date;
     }
@@ -119,49 +101,23 @@ public class License {
         this.validity_time = validity_time;
     }
 
-    public String getCode() {
-        return code;
+    public int getLicense_num() {
+        return license_num;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setLicense_num(int license_num) {
+        this.license_num = license_num;
     }
 
-    public License() {
-    }
-
-    @Override
-    public String toString() {
-        return "License{" +
-                "code_id=" + code_id +
-                ", user_id=" + user_id +
-                ", software_id=" + software_id +
-                ", function_type=" + function_type +
-                ", version_id=" + version_id +
-                ", owner_name='" + owner_name + '\'' +
-                ", mac='" + mac + '\'' +
-                ", cpu='" + cpu + '\'' +
-                ", hard='" + hard + '\'' +
-                ", begin_date=" + begin_date +
-                ", end_date=" + end_date +
-                ", validity_time=" + validity_time +
-                ", code='" + code + '\'' +
-                '}';
-    }
-
-    public License(int code_id, int user_id, int software_id, int function_type, int version_id, String owner_name, String mac, String cpu, String hard, Date begin_date, Date end_date, int validity_time, String code) {
-        this.code_id = code_id;
+    public License(int license_id, int user_id, int software_id, int function_type, int version_id, Date begin_date, Date end_date, int validity_time, int license_num) {
+        this.license_id = license_id;
         this.user_id = user_id;
         this.software_id = software_id;
         this.function_type = function_type;
         this.version_id = version_id;
-        this.owner_name = owner_name;
-        this.mac = mac;
-        this.cpu = cpu;
-        this.hard = hard;
         this.begin_date = begin_date;
         this.end_date = end_date;
         this.validity_time = validity_time;
-        this.code = code;
+        this.license_num = license_num;
     }
 }

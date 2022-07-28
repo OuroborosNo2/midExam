@@ -37,7 +37,7 @@ public class SoftwareServiceImpl implements SoftwareService {
         ResultEnum result2 = versionDao.save(version)==1 ? ResultEnum.SOFTWARE_SAVE_OK : ResultEnum.SOFTWARE_SAVE_ERR;
 
         //发布软件后,进行消息通知
-        noticeService.addNotice(version, "发布");
+        noticeService.                                     addNotice(version, "发布");
 
         return new Result(result1.getCode(),result1.getMsg()+"&"+result2.getMsg());
     }
