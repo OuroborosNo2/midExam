@@ -7,6 +7,7 @@ import com.qgstudio.dao.SoftwareDao;
 import com.qgstudio.dao.UserDao;
 import com.qgstudio.dao.VersionDao;
 import com.qgstudio.exception.BusinessException;
+import com.qgstudio.po.HardInfo;
 import com.qgstudio.po.Software;
 import com.qgstudio.po.User;
 import com.qgstudio.po.Version;
@@ -146,6 +147,48 @@ public class MyAdvice {
     }
 
 
+    /**
+     * 硬件信息层
+     */
+    @Pointcut("execution(* com.qgstudio.service.HardInfoService.saveHardInfo(*)) || execution(* com.qgstudio.service.HardInfoService.update(*))")
+    private  void hardInfoServicePt(){}
+
+
+    @Around("hardInfoServicePt()")
+    public Result checkHardInfoRepeat(ProceedingJoinPoint pjp) throws Throwable{
+        //获取切入点方法的参数
+        HardInfo user = (HardInfo) pjp.getArgs()[0];
+//
+//        //1.注册用户,用户会输入用户名,密码,手机号,邮箱,首先先判断用户名,手机,邮箱是否重复,
+//        User userByName = userDao.getByUsername(user.getUsername());
+//        User userByPhone = userDao.getByPhone_number(user.getPhone_number());
+//        User userByEmail = userDao.getByEmail(user.getEmail());
+//
+//        //1.1用户名重复
+//        if (userByName != null) {
+//            return new Result<>(ResultEnum.USER_NAME_ERR.getCode(),ResultEnum.USER_NAME_ERR.getMsg(),null);
+//        }
+//        //1.2 手机号已经被注册
+//        if (userByPhone != null) {
+//            return new Result<>(ResultEnum.USER_PHONE_ERR.getCode(),ResultEnum.USER_PHONE_ERR.getMsg(),null);
+//        }
+//        //1.3 邮箱已经被注册
+//        if (userByEmail != null) {
+//            return new Result<>(ResultEnum.USER_EMAIL_ERR.getCode(),ResultEnum.USER_EMAIL_ERR.getMsg(),null);
+//        }
+//
+//        //注册特有
+//        if(pjp.getSignature().toString().equals("Result com.qgstudio.service.UserService.register(User)")){
+//            //2.判断密码是否合法
+//            if (!Pattern.matches(regex.REGEX_PWD, user.getPassword())) {
+//                throw new BusinessException(ResultEnum.EX_PWD.getCode(),ResultEnum.EX_PWD.getMsg());
+//            }
+//            //3.到这里表示可以注册,记住密码需要加密
+//            user.setPassword(Md5Utils.getMD5(user.getPassword()));
+//        }
+
+        return (Result) pjp.proceed();
+    }
 
 
 }
