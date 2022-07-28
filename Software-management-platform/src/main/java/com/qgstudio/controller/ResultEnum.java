@@ -74,12 +74,9 @@ public enum ResultEnum {
     //606Y0 用户-授权-情况-失败
     USER_LICENSE_SAVE_ERR(60060,"授权许可失败"),
 
-
-
     //603Y0 用户-硬件信息-情况-成功
 
     USER_HARD_SAVE_OK(60301,"硬件指纹添加成功"),
-
 
     //603Y0 用户-硬件信息-情况-失败
     USER_HARD_SAVE_COUNT_ERR(60300,"硬件指纹数不能超过5个"),
@@ -87,9 +84,6 @@ public enum ResultEnum {
     USER_HARD_SAVE_CPU_ERR(60320,"硬件指纹CPU格式错误"),
     USER_HARD_SAVE_HARD_ERR(60330,"硬件指纹硬盘序列号格式错误"),
 
-
-    USER_DEL_NOTICE_ERR(60600,"删除通知失败"),
-    USER_NOTICE_NONE(60610,"当前没有通知"),
     //软件模块 70XYZ,
 
     SOFTWARE_SAVE_OK(70101,"添加软件成功"),
@@ -123,13 +117,9 @@ public enum ResultEnum {
     FILE_DOWNLOAD_OK(90201,"下载成功"),
     FILE_DOWNLOAD_ERR(90200,"下载失败")
     ;
-    /**
-     * 编号
-     */
+    /**编号*/
     private Integer code;
-    /**
-     * 信息
-     */
+    /**信息*/
     private String msg;
 
     ResultEnum(Integer code, String msg) {

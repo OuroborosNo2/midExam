@@ -8,6 +8,12 @@ import com.qgstudio.po.Version;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * @program: Software-management-platform
+ * @description:
+ * @author: stop.yc
+ * @create: 2022-07-27 09:35
+ **/
 public interface NoticeService {
 
 

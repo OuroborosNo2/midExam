@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @program: Software-management-platform
- * @description:
+ * @description: 许可证及授权码模块表现层
  * @author: stop.yc
  * @create: 2022-07-27 21:57
  **/

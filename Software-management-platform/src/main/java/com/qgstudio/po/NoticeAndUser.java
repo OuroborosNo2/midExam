@@ -8,21 +8,13 @@ package com.qgstudio.po;
  **/
 public class NoticeAndUser {
 
-    /**
-     * 用户&通知id
-     */
+    /**用户&通知id*/
     private int user_notice_id;
 
-
-    /**
-     * 通知id
-     */
+    /**通知id*/
     private int notice_id;
 
-
-    /**
-     * 用户id
-     */
+    /**用户id*/
     private int user_id;
 
     public int getUser_notice_id() {

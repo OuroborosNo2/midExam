@@ -16,8 +16,6 @@ import javax.sql.DataSource;
  * @create: 2022-07-24 19:10
  **/
 public class JdbcConfig {
-    //添加简单数据类型,如何配置请看上面介绍
-
     @Value("${jdbc.driver}")
     private String driver;
     @Value("${jdbc.url}")
@@ -27,11 +25,10 @@ public class JdbcConfig {
     @Value("${jdbc.password}")
     private String password;
 
-
-    //1.定义一个方法获得要管理的对象
-    //2.添加@Bean,表示当前方法的返回值是一个bean
-
-    //3.添加引用类型,只要引用类型是被加载到容器当中,直接加入形参即可
+    /**
+     * 使用德鲁伊Druid创建一个Datasource bean，自动注入到mybatis中
+     * @return DataSource
+     * */
     @Bean
     public DataSource dataSource () {
         DruidDataSource ds = new DruidDataSource();
@@ -42,7 +39,9 @@ public class JdbcConfig {
         return ds;
     }
 
-    //配置事务管理器，mybatis使用的是jdbc事务
+    /**配置事务管理器，mybatis使用的是jdbc事务
+     * @return PlatformTransactionManager
+     * */
     @Bean
     public PlatformTransactionManager transactionManager(DataSource dataSource){
         DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();

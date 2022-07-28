@@ -18,17 +18,13 @@ import java.util.Map;
 
 /**
  * @program: Software-management-platform
- * @description:
+ * @description: 用户模块表现层
  * @author: stop.yc
  * @create: 2022-07-24 19:10
  **/
-//2.定义controller
-//2.1 使用@Controller定义bean
-
 @RestController
 @RequestMapping(value = "/users",produces = "application/json;charset=UTF-8")
 
-//业务层没有校验HttpSession等身份,方便管理员查询任何信息,校验做在表现层
 public class UserController {
 
     @Autowired

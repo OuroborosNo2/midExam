@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @program: Software-management-platform
- * @description:
+ * @description:spring的配置类,加载非表现层的对应的bean
  * @author: stop.yc
  * @create: 2022-07-24 19:10
  **/

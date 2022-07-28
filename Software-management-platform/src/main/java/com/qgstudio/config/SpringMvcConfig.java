@@ -7,11 +7,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
  * @program: Software-management-platform
- * @description:
+ * @description:springmvc的配置类,加载controller对应的bean
  * @author: stop.yc
  * @create: 2022-07-24 19:10
  **/
-//3. 创建springmvc的配置文件,加载controller对应的bean
 @Configuration
 @ComponentScan({"com.qgstudio.controller","com.qgstudio.config"})
 @PropertySource("classpath:file.properties")

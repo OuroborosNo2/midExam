@@ -14,6 +14,10 @@ import javax.sql.DataSource;
  **/
 public class MybatisConfig {
 
+    /**定义bean，返回SqlSessionFactoryBean对象
+     * @param dataSource 自动注入的数据源
+     * @return SqlSessionFactoryBean
+     * */
     @Bean
     public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource){
 
@@ -32,7 +36,9 @@ public class MybatisConfig {
     }
 
 
-    //定义bean，返回MapperScannerConfigurer对象
+    /**定义bean，返回MapperScannerConfigurer对象，用于扫描dao层映射器
+     * @return MapperScannerConfigurer
+     * */
     @Bean
     public MapperScannerConfigurer mapperScannerConfigurer(){
         MapperScannerConfigurer msc = new MapperScannerConfigurer();

@@ -15,7 +15,7 @@ import java.util.Map;
 
 /**
  * @program: Software-management-platform
- * @description:
+ * @description: 软件模块表现层
  * @author: ouroborosno2
  * @create: 2022-07-25 22:11
  **/
@@ -48,12 +48,13 @@ public class SoftwareController {
         return softwareService.getById(id);
     }
 
-    //根据软件名模糊查找软件
+    /**根据软件名模糊查找软件*/
     @GetMapping("/search")
     public Result getBySoftware_name(String name,Boolean isVague){
         return softwareService.getBySoftware_name(name,isVague);
     }
 
+    /**查询同分类的所有软件*/
     @GetMapping("/group_{id}")
     public Result getByGroup(@PathVariable Integer id) {
         return softwareService.getByGroup(id);

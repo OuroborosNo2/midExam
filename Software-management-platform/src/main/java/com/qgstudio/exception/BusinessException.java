@@ -2,12 +2,10 @@ package com.qgstudio.exception;
 
 /**
  * @program: Software-management-platform
- * @description:
+ * @description: 自定义异常，用于封装异常信息，对异常进行分类
  * @author: stop.yc
  * @create: 2022-07-24 19:10
  **/
-
-//自定义异常处理器，用于封装异常信息，对异常进行分类
 public class BusinessException  extends RuntimeException{
     private Integer code;
 
