@@ -136,6 +136,9 @@ public enum ResultEnum {
     //922Y1 硬件信息-查询-成功,
     HARD_SELECT_OK(92201,"硬件指纹查询成功"),
 
+    //923Y1 硬件信息-删除-成功,
+    HARD_DELETE_OK(92301,"硬件指纹删除成功"),
+
 
 
 

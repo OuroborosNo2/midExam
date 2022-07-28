@@ -32,4 +32,12 @@ public interface HardInfoService {
      * @return :返回硬件信息结果集
      */
     Result<List<HardInfo>> getAll(int user_id);
+
+    /**
+     * 删除指定的硬件信息
+     * @param hardInfo :硬件信息
+     * @return :返回结果集
+     */
+    Result<Object> delete(HardInfo hardInfo);
+
 }

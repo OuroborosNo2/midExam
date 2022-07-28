@@ -52,6 +52,11 @@ public interface CodeDao {
 //    int getCount(@Param("user_id") int user_id,@Param("license_id") int license_id);
 
 
+    /**
+     * 检查硬件信息是否已经授权
+     * @param hardInfo :硬件信息
+     * @return :返回code对象
+     */
     @Select("select * from t_code where user_id=#{user_id} and info_id=#{info_id}")
     List<Code> getByUserIdAndInfoId(HardInfo hardInfo);
 }
