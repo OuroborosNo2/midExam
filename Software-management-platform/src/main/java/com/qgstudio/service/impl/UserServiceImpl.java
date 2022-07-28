@@ -29,10 +29,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     HttpServletRequest request;
-    //自动装配
-    /**
-     * 用户dao实现类
-     */
     @Autowired
     private UserDao userDao;
 

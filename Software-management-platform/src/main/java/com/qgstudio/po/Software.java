@@ -6,13 +6,13 @@ import java.util.Objects;
 
 @Component
 public class Software {
-    //软件id
+    /**软件id*/
     private int software_id;
-    //软件名
+    /**软件名*/
     private String software_name;
-    //软件描述
+    /**软件描述*/
     private String desc;
-    //软件集群id（所属设计，开发等代表id）
+    /**软件集群id（所属设计，开发等代表id）*/
     private int group_id;
 
     public Software(int software_id, String software_name, String desc, int group_id) {

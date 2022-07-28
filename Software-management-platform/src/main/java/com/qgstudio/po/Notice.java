@@ -11,31 +11,14 @@ import java.util.Date;
  **/
 public class Notice {
 
-    /**
-     * 通知id
-     */
+    /**通知id*/
     private int notice_id;
-
-
-    /**
-     * 内容
-     */
+    /**内容*/
     private String content;
-
-
-    /**
-     * 通知时间
-     */
+    /**通知时间*/
     private Date time;
-
-
-
-    /**
-     * 软件id
-     */
+    /**软件id*/
     private int software_id;
-
-
 
     @Override
     public String toString() {

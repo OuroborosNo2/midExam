@@ -7,17 +7,17 @@ import java.util.Objects;
 
 @Component
 public class Version {
-    //版本id
+    /**版本id*/
     private int version_id;
-    //对应的软件id
+    /**对应的软件id*/
     private int software_id;
-    //版本信息（1.0.0.1）
+    /**版本信息（1.0.0.1）*/
     private String versionInf;
-    //版本更新描述
+    /**版本更新描述*/
     private String desc;
-    //下载地址
+    /**下载地址*/
     private String url;
-    //发布时间,手动设置为系统当前时间
+    /**发布时间,手动设置为系统当前时间*/
     private Date release_date;
 
     public Version(int version_id, int software_id, String versionInf, String desc, String url, Date date) {

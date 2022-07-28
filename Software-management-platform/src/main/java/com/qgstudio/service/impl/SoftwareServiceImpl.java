@@ -22,14 +22,13 @@ public class SoftwareServiceImpl implements SoftwareService {
 
     @Autowired
     private SoftwareDao softwareDao;
-    //仅使用一次，发布软件时同时发布第一个版本
     @Autowired
     private VersionDao versionDao;
 
     @Autowired
     private NoticeService noticeService;
 
-    //发布软件时同时发布第一个版本
+    /**发布软件时同时发布第一个版本*/
     @Override
     public Result add(Software software, Version version) throws IOException {
         //插入后自动赋值software_id

@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
  * @program: qg-engineering-management-system
  * @description: 系统配置常量
  * @author: stop.yc
- * @create: 2022-04-28 13:14
+ * @create: 2022-07-27 13:14
  **/
 public class SystemConstant {
 

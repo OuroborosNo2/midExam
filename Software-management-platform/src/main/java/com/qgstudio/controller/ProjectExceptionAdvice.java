@@ -11,14 +11,13 @@ import java.util.concurrent.Executors;
 
 /**
  * @program: Software-management-platform
- * @description:
+ * @description: 异常处理器
  * @author: stop.yc
  * @create: 2022-07-24 19:10
  **/
-//@RestControllerAdvice用于标识当前类为REST风格对应的异常处理器
 @RestControllerAdvice
 public class ProjectExceptionAdvice {
-    //@ExceptionHandler用于设置当前处理器类对应的异常类型
+    /**处理自定义异常SystemException*/
     @ExceptionHandler(SystemException.class)
     public Result<Object> doSystemException(SystemException ex){
         //记录日志
@@ -27,14 +26,14 @@ public class ProjectExceptionAdvice {
         System.out.println("系统异常了"+ex.getMessage());
         return new Result<>(ex.getCode(),ex.getMessage(),null);
     }
-
+    /**处理自定义异常BusinessException*/
     @ExceptionHandler(BusinessException.class)
     public Result<Object> doBusinessException(BusinessException ex){
         System.out.println("业务异常了"+ex.getMessage());
         return new Result<>(ex.getCode(),ex.getMessage(),null);
     }
 
-    //除了自定义的异常处理器，保留对Exception类型的异常处理，用于处理非预期的异常
+    /**除了自定义的异常处理器，保留对Exception类型的异常处理，用于处理非预期的异常*/
     @ExceptionHandler(Exception.class)
     public Result<Object> doOtherException(Exception ex){
         //记录日志

@@ -15,6 +15,12 @@ import java.nio.file.Files;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * @program: Software-management-platform
+ * @description: 文件模块表现层，为了便于移植，同时也处理业务逻辑
+ * @author: OuroborosNo2
+ * @create: 2022-07-27 21:57
+ **/
 @RestController
 @RequestMapping("files")
 public class FileController {
@@ -26,7 +32,7 @@ public class FileController {
      * @param f1 上传的图片
      * @param type 类型，user还是software
      * @param id
-     * @return 提示信息
+     * @return 结果集
      * */
     @PostMapping("/uploadImg")
     public Result uploadImg(@RequestParam("file1") MultipartFile f1,@RequestParam("type")String type,@RequestParam("id")int id){
@@ -47,8 +53,10 @@ public class FileController {
                 destFilePath = "image" + pSep + "software" + pSep + id + pSep + "software_icon" + suffix;
             }
             File destFile = new File(resourcesPath + destFilePath);
-            //先删除目录下的图片，防止因后缀名不同而保存下多个文件
-            destFile.getParentFile().listFiles()[0].delete();
+            if(destFile.exists()) {
+                //先删除目录下的图片，防止因后缀名不同而保存下多个文件
+                destFile.getParentFile().listFiles()[0].delete();
+            }
             //调用transferTo将上传的文件保存到指定的地址
             f1.transferTo(destFile);
         }catch (IOException e){
@@ -57,11 +65,11 @@ public class FileController {
         return new Result(ResultEnum.FILE_UPLOAD_OK.getCode(),ResultEnum.FILE_UPLOAD_OK.getMsg(),destFilePath);
 
     }
-    /**上传图片
+    /**上传安装包
      * @param f1 上传的文件
      * @param software_id
      * @param version_id
-     * @return 提示信息
+     * @return 结果集
      * */
     @PostMapping("/uploadFile")
     public Result uploadFile(@RequestParam("file1") MultipartFile f1,@RequestParam("software_id")int software_id,@RequestParam("version_id")int version_id){
@@ -73,8 +81,10 @@ public class FileController {
             String pSep = File.separator;
             destFilePath = "setupPack" + pSep + software_id + pSep + version_id + pSep + originalFilename;
             File destFile = new File(resourcesPath + destFilePath);
-            //先删除目录下的图片，防止因后缀名不同而保存下多个文件
-            destFile.getParentFile().listFiles()[0].delete();
+            if(destFile.exists()) {
+                //先删除目录下的图片，防止因后缀名不同而保存下多个文件
+                destFile.getParentFile().listFiles()[0].delete();
+            }
             //调用transferTo将上传的文件保存到指定的地址
             f1.transferTo(destFile);
         }catch (IOException e){
@@ -84,8 +94,13 @@ public class FileController {
 
     }
 
+    /**下载图片或安装包
+     * @param map json转成的map，可能包含调用方传的user_id,software_id,version_id
+     * @param response HttpResponse，用于获取outputInstream
+     * @return 结果集
+     * */
     @GetMapping("/download")
-    public Result downloadFile(@RequestBody Map<String,Integer> map, HttpServletResponse request, HttpServletResponse response) {
+    public Result downloadFile(@RequestBody Map<String,Integer> map, HttpServletResponse response) {
         String destFilePath;
         String pSep = File.separator;
         Set set = map.keySet();

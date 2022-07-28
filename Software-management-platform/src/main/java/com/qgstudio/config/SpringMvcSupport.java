@@ -16,15 +16,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
  **/
 @Configuration
 public class SpringMvcSupport extends WebMvcConfigurationSupport {
+    /*
     @Autowired
     private ProjectInterceptor projectInterceptor;
-
-
     @Autowired
     private ProjectInterceptor2 projectInterceptor2;
 
-
-    /*@Override
+    @Override
+    protected void addInterceptors(InterceptorRegistry registry) {
+        //配置拦截器
+        registry.addInterceptor(projectInterceptor).addPathPatterns("/users","/users/*" );
+        registry.addInterceptor(projectInterceptor2).addPathPatterns("/users","/users/*" );
+    }
+    */
+    /*
+    @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/pages/**").addResourceLocations("/pages/");
         registry.addResourceHandler("/js/**").addResourceLocations("/js/");
@@ -33,11 +39,5 @@ public class SpringMvcSupport extends WebMvcConfigurationSupport {
         registry.addResourceHandler("/webapp/**").addResourceLocations("/webapp/");
         registry.addResourceHandler("/ws/**").addResourceLocations("/ws/");
     }
-
-    @Override
-    protected void addInterceptors(InterceptorRegistry registry) {
-        //配置拦截器
-        registry.addInterceptor(projectInterceptor).addPathPatterns("/users","/users/*" );
-        registry.addInterceptor(projectInterceptor2).addPathPatterns("/users","/users/*" );
-    }*/
+    */
 }

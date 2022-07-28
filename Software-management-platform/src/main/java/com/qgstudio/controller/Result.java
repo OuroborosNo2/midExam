@@ -7,18 +7,12 @@ package com.qgstudio.controller;
  * @create: 2022-07-24 19:10
  **/
 public class Result<T> {
-    /**
-     * 编号
-     */
+    /**编号*/
     private Integer code;
-    /**
-     * 信息
-     */
+    /**信息*/
     private String msg;
 
-    /**
-     * 数据
-     */
+    /**数据*/
     private T data;
 
 
