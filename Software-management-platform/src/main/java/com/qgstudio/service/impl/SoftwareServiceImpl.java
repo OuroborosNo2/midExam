@@ -28,7 +28,7 @@ public class SoftwareServiceImpl implements SoftwareService {
     @Autowired
     private NoticeService noticeService;
 
-    /**发布软件时同时发布第一个版本*/
+    /**发布软件时同时发布第一个版本。需要事务管理，其中一个插入不成功就回滚*/
     @Override
     public Result add(Software software, Version version) throws IOException {
         //插入后自动赋值software_id

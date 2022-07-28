@@ -5,6 +5,7 @@ import com.qgstudio.po.Software;
 import com.qgstudio.po.User;
 import com.qgstudio.po.Version;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -24,6 +25,7 @@ public interface SoftwareService {
      * @return 结果集
      * @throws IOException
      */
+    @Transactional(rollbackFor = Exception.class)
     Result add(Software software, Version version) throws IOException;
 
     /**

@@ -28,13 +28,12 @@ import java.util.regex.Pattern;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    HttpServletRequest request;
+    private HttpServletRequest request;
     @Autowired
     private UserDao userDao;
 
     @Override
     public Result<User> login(User user) throws NoSuchAlgorithmException {
-
         //1.调用userDao获取用户对象
         User userByUsername = userDao.getByUsername(user.getUsername());
 
