@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@Transactional
 public class SoftwareServiceImpl implements SoftwareService {
 
     @Autowired
@@ -65,6 +66,7 @@ public class SoftwareServiceImpl implements SoftwareService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class,propagation = Propagation.REQUIRED)
     public Result delete(Integer id) {
         //删除软件的同时还要删除其所有版本,还要删除其所有通知
         //先获取其所有版本
@@ -72,6 +74,9 @@ public class SoftwareServiceImpl implements SoftwareService {
 
         ResultEnum result1 = softwareDao.delete(id)!=0 ? ResultEnum.SOFTWARE_DELETE_OK : ResultEnum.SOFTWARE_DELETE_ERR;
         //删除计数
+        ResultEnum result2;
+        //初始化为失败,如果成功会改的
+        ResultEnum result3 = ResultEnum.NOTICE_DELETE_ERR;
         int count = 0;
         for (Version version : allBySoftware_id) {
             //删除版本
@@ -80,12 +85,17 @@ public class SoftwareServiceImpl implements SoftwareService {
             //删除版本对应的通知
             Notice notice = noticeDao.getNoticeByVersionId(vId);
             //通知是有可能已经被删除的,所以判断
-            if(notice != null) {
-                noticeDao.delete(notice.getNotice_id());
+            try {
+                if(notice != null) {
+                    noticeDao.delete(notice.getNotice_id());
+                }
+                result3 = ResultEnum.NOTICE_DELETE_OK;
+            }catch (Exception e){
+                e.printStackTrace();
             }
         }
-        ResultEnum result2 = count !=0 ? ResultEnum.VERSION_DELETE_OK : ResultEnum.VERSION_DELETE_ERR;
-        return new Result(result1.getCode(),result1.getMsg()+"&"+result2.getMsg());
+        result2 = count !=0 ? ResultEnum.VERSION_DELETE_OK : ResultEnum.VERSION_DELETE_ERR;
+        return new Result(result1.getCode(),result1.getMsg()+"&"+result2.getMsg()+"&"+result3.getMsg());
     }
 
     @Override

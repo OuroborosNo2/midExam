@@ -41,6 +41,9 @@ public class NoticeAndUser {
         this.user_id = user_id;
     }
 
+    public NoticeAndUser() {
+    }
+
     public NoticeAndUser(int user_notice_id, int notice_id, int user_id) {
         this.user_notice_id = user_notice_id;
         this.notice_id = notice_id;
