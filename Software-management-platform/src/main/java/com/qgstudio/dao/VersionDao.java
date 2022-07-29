@@ -13,17 +13,18 @@ import java.util.List;
  **/
 public interface VersionDao {
     /**
-     * 插入版本数据
+     * 插入版本数据,@Options注释使数据插入成功后将自增的id主键赋值给该软件对象
      * @param version 版本对象
-     * @return 0代表失败,1代表成功
+     * @return 返回影响的行数
      */
     @Insert("INSERT INTO t_version(software_id,versionInf,`desc`,url,release_date) VALUES(#{software_id},#{versionInf},#{desc},#{url},#{release_date})")
+    @Options(useGeneratedKeys = true,keyProperty = "version_id",keyColumn = "version_id")
     public int save(Version version);
 
     /**
      * 修改版本数据
      * @param version 版本对象
-     * @return 0代表失败,1代表成功
+     * @return 返回影响的行数
      */
     @Update("UPDATE t_version SET versionInf=#{versionInf},`desc`=#{desc},url=#{url} WHERE version_id=#{version_id}")
     public int update(Version version);
@@ -31,7 +32,7 @@ public interface VersionDao {
     /**
      * 通过id删除版本
      * @param version_id 版本id
-     * @return  0代表失败,1代表成功
+     * @return  返回影响的行数
      */
     @Delete("DELETE FROM t_version WHERE version_id = #{version_id}")
     public int delete(int version_id);

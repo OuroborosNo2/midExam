@@ -5,6 +5,7 @@ import com.qgstudio.po.Software;
 import com.qgstudio.po.User;
 import com.qgstudio.po.Version;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -34,7 +35,7 @@ public interface SoftwareService {
     Result update(Software software);
 
     /**
-     * 根据软件id删除软件数据
+     * 根据软件id删除软件数据，还要删除其所有版本
      * @param id 软件id
      * @return 结果集
      */

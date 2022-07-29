@@ -2,6 +2,7 @@ package com.qgstudio.service.impl;
 
 import com.qgstudio.controller.Result;
 import com.qgstudio.controller.ResultEnum;
+import com.qgstudio.dao.NoticeDao;
 import com.qgstudio.dao.SoftwareDao;
 import com.qgstudio.dao.VersionDao;
 import com.qgstudio.po.Notice;
@@ -11,47 +12,80 @@ import com.qgstudio.service.NoticeService;
 import com.qgstudio.service.SoftwareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @Service
-@Transactional
 public class SoftwareServiceImpl implements SoftwareService {
 
     @Autowired
     private SoftwareDao softwareDao;
     @Autowired
     private VersionDao versionDao;
+    @Autowired
+    private NoticeDao noticeDao;
 
     @Autowired
     private NoticeService noticeService;
 
-    /**发布软件时同时发布第一个版本*/
+    /**发布软件时同时发布第一个版本。需要事务管理，其中一个插入不成功就回滚*/
     @Override
+    @Transactional(rollbackFor = Exception.class,propagation = Propagation.REQUIRED)
     public Result add(Software software, Version version) throws IOException {
+        //设置为当前时间
+        version.setRelease_date(new Date());
+        //加入事务
+        ResultEnum result1 = softwareDao.save(software)!=0 ? ResultEnum.SOFTWARE_SAVE_OK : ResultEnum.SOFTWARE_SAVE_ERR;
         //插入后自动赋值software_id
-        ResultEnum result1 = softwareDao.save(software)==1 ? ResultEnum.SOFTWARE_SAVE_OK : ResultEnum.SOFTWARE_SAVE_ERR;
         version.setSoftware_id(software.getSoftware_id());
-        ResultEnum result2 = versionDao.save(version)==1 ? ResultEnum.SOFTWARE_SAVE_OK : ResultEnum.SOFTWARE_SAVE_ERR;
-
+        //加入事务
+        ResultEnum result2 = versionDao.save(version)!=0 ? ResultEnum.VERSION_SAVE_OK : ResultEnum.VERSION_SAVE_ERR;
         //发布软件后,进行消息通知
-        noticeService.                                     addNotice(version, "发布");
+        ResultEnum result3;
+        //不加入事务,独自新建事务,依赖外层而不影响外层，事务传播行为propagation设为嵌套NESTED
+        try{
+            //没执行成功只会回滚内部事务,不会回滚外部事务~~~
+            noticeService.addNotice(version, "发布");
+            result3 = ResultEnum.NOTICE_SAVE_OK;
+        }catch (Exception e){
+            result3 = ResultEnum.NOTICE_SAVE_ERR;
+        }
 
-        return new Result(result1.getCode(),result1.getMsg()+"&"+result2.getMsg());
+        return new Result(result1.getCode(),result1.getMsg()+"&"+result2.getMsg()+"&"+result3.getMsg());
     }
 
     @Override
     public Result update(Software software) {
-        ResultEnum result = softwareDao.update(software)==1 ? ResultEnum.SOFTWARE_UPDATE_OK : ResultEnum.SOFTWARE_UPDATE_ERR;
+        ResultEnum result = softwareDao.update(software)!=0 ? ResultEnum.SOFTWARE_UPDATE_OK : ResultEnum.SOFTWARE_UPDATE_ERR;
         return new Result(result.getCode(),result.getMsg());
     }
 
     @Override
     public Result delete(Integer id) {
-        ResultEnum result = softwareDao.delete(id)==1 ? ResultEnum.SOFTWARE_DELETE_OK : ResultEnum.SOFTWARE_DELETE_ERR;
-        return new Result(result.getCode(),result.getMsg());
+        //删除软件的同时还要删除其所有版本,还要删除其所有通知
+        //先获取其所有版本
+        List<Version> allBySoftware_id = versionDao.getAllBySoftware_id(id);
+
+        ResultEnum result1 = softwareDao.delete(id)!=0 ? ResultEnum.SOFTWARE_DELETE_OK : ResultEnum.SOFTWARE_DELETE_ERR;
+        //删除计数
+        int count = 0;
+        for (Version version : allBySoftware_id) {
+            //删除版本
+            int vId = version.getVersion_id();
+            count += versionDao.delete(vId);
+            //删除版本对应的通知
+            Notice notice = noticeDao.getNoticeByVersionId(vId);
+            //通知是有可能已经被删除的,所以判断
+            if(notice != null) {
+                noticeDao.delete(notice.getNotice_id());
+            }
+        }
+        ResultEnum result2 = count !=0 ? ResultEnum.VERSION_DELETE_OK : ResultEnum.VERSION_DELETE_ERR;
+        return new Result(result1.getCode(),result1.getMsg()+"&"+result2.getMsg());
     }
 
     @Override

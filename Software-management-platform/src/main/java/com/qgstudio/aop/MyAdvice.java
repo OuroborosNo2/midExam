@@ -46,13 +46,9 @@ public class MyAdvice {
      * 匹配用户业务层的注册和更新方法
      */
     @Pointcut("execution(* com.qgstudio.service.UserService.register(*)) || execution(* com.qgstudio.service.UserService.update(*))")
-    private void userServicePt() {
-    }
-
-
+    private  void userServicePt(){}
     /**
      * 检查注册和更新输入的数据是否与已有数据冲突/重复
-     *
      * @param pjp 切入点方法的参数集
      * @return
      * @throws Throwable
@@ -97,12 +93,9 @@ public class MyAdvice {
      * 匹配软件业务层的添加和更新方法
      */
     @Pointcut("execution(* com.qgstudio.service.SoftwareService.add(*,*)) || execution(* com.qgstudio.service.SoftwareService.update(*))")
-    private void softwareServicePt() {
-    }
-
+    private  void softwareServicePt(){}
     /**
      * 检查数据是否与已有数据冲突/重复
-     *
      * @param pjp 切入点方法的参数集
      * @return
      * @throws Throwable
@@ -131,12 +124,10 @@ public class MyAdvice {
 
     /**
      * 检查数据是否与已有数据冲突/重复
-     *
      * @param pjp 切入点方法的参数集
      * @return
      * @throws Throwable
      */
-
     @Around("versionServicePt()")
     public Result checkVersionRepeat(ProceedingJoinPoint pjp) throws Throwable {
         //获取切入点方法的参数

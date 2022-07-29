@@ -4,10 +4,7 @@ import com.qgstudio.po.Notice;
 import com.qgstudio.po.Version;
 import com.qgstudio.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.Date;
@@ -26,10 +23,29 @@ public class NoticeController {
     @Autowired
     private NoticeService noticeService;
 
+    @PostMapping
+    Result addCustomNotice(@RequestParam String content) {
+        return noticeService.addCustomNotice(content);
+    }
+
+    @PutMapping
+    Result update(@RequestBody Notice notice) {
+        return noticeService.update(notice);
+    }
+
+    @DeleteMapping("/{id}")
+    Result delete(@PathVariable int id) {
+        return noticeService.delete(id);
+    }
+
+    @GetMapping("/{id}")
+    Result getNoticeById(@PathVariable("id") int notice_id) {
+        return noticeService.getNoticeById(notice_id);
+    }
+
     @GetMapping
     Result<List<Notice>> getAll() {
-        int user_id = 1;
-        return noticeService.getAllNotice(user_id);
+        return noticeService.getAllNotice();
     }
 
 

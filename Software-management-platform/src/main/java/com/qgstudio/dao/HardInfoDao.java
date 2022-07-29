@@ -22,7 +22,7 @@ public interface HardInfoDao {
      * @return :返回影响行数
      */
 
-    @Insert("insert into t_hard_info (user_id, owner_name, mac, cpu,hard)" +
+    @Insert("insert into t_hard_info (user_id, owner_name, mac, `cpu`,hard)" +
             " values (#{user_id},#{owner_name},#{mac},#{cpu},#{hard})")
     @Options(useGeneratedKeys = true,keyProperty = "info_id")
     int save(HardInfo hardInfo);
@@ -51,7 +51,7 @@ public interface HardInfoDao {
      * @param hardInfo :需要更新的硬件信息对象
      * @return :影响的行数
      */
-    @Update("update t_hard_info set owner_name=#{owner_name},mac=#{mac},cpu=#{cpu},hard=#{hard} where user_id=#{user_id} and info_id=#{info_id}")
+    @Update("update t_hard_info set owner_name=#{owner_name},mac=#{mac},`cpu`=#{cpu},hard=#{hard} where user_id=#{user_id} and info_id=#{info_id}")
     int update(HardInfo hardInfo);
 
 
@@ -78,7 +78,7 @@ public interface HardInfoDao {
     @Select("select * from t_hard_info where user_id=#{user_id} and mac=#{mac}")
     HardInfo getByMac(HardInfo hardInfo);
 
-    @Select("select * from t_hard_info where user_id=#{user_id} and cpu=#{cpu}")
+    @Select("select * from t_hard_info where user_id=#{user_id} and `cpu`=#{cpu}")
     HardInfo getByCpu(HardInfo hardInfo);
 
     @Select("select * from t_hard_info where user_id=#{user_id} and hard=#{hard}")

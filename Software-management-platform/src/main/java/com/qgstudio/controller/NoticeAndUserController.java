@@ -18,34 +18,41 @@ import java.util.Set;
  **/
 
 @RestController
-@RequestMapping(value = "/delNotices", produces = "application/json;charset=UTF-8")
+@RequestMapping(value = "/notice_user", produces = "application/json;charset=UTF-8")
 public class NoticeAndUserController {
 
     @Autowired
     private NoticeAndUserService noticeAndUserService;
 
-    @DeleteMapping("/ids")
-    public Result<Object> deleteByIds(@RequestBody Map<Integer,List<Integer>> ids_userId) {
-        Set<Integer> integers = ids_userId.keySet();
+    @GetMapping("/{id}")
+    public Result<List<Notice>> getByUserId(@PathVariable("id") int user_id){
+        return noticeAndUserService.getByUserId(user_id);
+    }
 
+    @DeleteMapping("/ids")
+    public Result deleteByIds(@RequestBody Map<Integer,List<Integer>> ids_userId) {
+        Set<Integer> integers = ids_userId.keySet();
+        //初始化
         int key = 0;
-        List<Integer> ids = null;
+        List<Integer> notice_ids = null;
 
         for (Integer integer : integers) {
             key = integer;
-            ids = ids_userId.get(integer);
+            notice_ids = ids_userId.get(integer);
         }
 
-        return noticeAndUserService.deleteByIds(ids,key);
+        return noticeAndUserService.deleteByIds(notice_ids,key);
 
     }
 
     @DeleteMapping("/id")
-    public Result<Object> deleteById(@RequestBody Map<Integer, Integer> notice_idAndUser_id) {
+    public Result deleteById(@RequestBody Map<Integer, Integer> notice_idAndUser_id) {
 
         Set<Integer> integers = notice_idAndUser_id.keySet();
+        //初始化
         Integer key = 0;
         Integer value = 0;
+        //实际上只有一个元素
         for (Integer integer : integers) {
             key = integer;
             value = notice_idAndUser_id.get(integer);

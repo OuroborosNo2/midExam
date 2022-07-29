@@ -19,6 +19,8 @@ public class Notice {
     private Date time;
     /**软件id*/
     private int software_id;
+    /**版本id*/
+    private int version_id;
 
     @Override
     public String toString() {
@@ -27,6 +29,7 @@ public class Notice {
                 ", content='" + content + '\'' +
                 ", time=" + time +
                 ", software_id=" + software_id +
+                ", version_id=" + version_id +
                 '}';
     }
 
@@ -61,20 +64,27 @@ public class Notice {
         this.software_id = software_id;
     }
 
+    public int getVersion_id() {
+        return version_id;
+    }
+
+    public void setVersion_id(int version_id) {
+        this.version_id = version_id;
+    }
 
     public Notice() {
     }
 
-    public Notice(int notice_id, String content, Date time, int software_id) {
+    public Notice(String content, Date time) {
+        this.content = content;
+        this.time = time;
+    }
+
+    public Notice(int notice_id, String content, Date time, int software_id, int version_id) {
         this.notice_id = notice_id;
         this.content = content;
         this.time = time;
         this.software_id = software_id;
-    }
-
-    public Notice(String content, Date time, int software_id) {
-        this.content = content;
-        this.time = time;
-        this.software_id = software_id;
+        this.version_id = version_id;
     }
 }

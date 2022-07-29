@@ -28,13 +28,12 @@ import java.util.regex.Pattern;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    HttpServletRequest request;
+    private HttpServletRequest request;
     @Autowired
     private UserDao userDao;
 
     @Override
     public Result<User> login(User user) throws NoSuchAlgorithmException {
-
         //1.调用userDao获取用户对象
         User userByUsername = userDao.getByUsername(user.getUsername());
 
@@ -66,7 +65,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result update(User user) throws BusinessException,NoSuchAlgorithmException {
         //由aop进行数据是否重复/合法的校验
-        ResultEnum result = userDao.update(user)==1 ? ResultEnum.USER_UPDATE_OK : ResultEnum.USER_UPDATE_ERR;
+        ResultEnum result = userDao.update(user)!=0 ? ResultEnum.USER_UPDATE_OK : ResultEnum.USER_UPDATE_ERR;
         return new Result(result.getCode(),result.getMsg());
     }
 
@@ -88,13 +87,13 @@ public class UserServiceImpl implements UserService {
         }
         //密码需要加密
         user.setPassword(Md5Utils.getMD5(newPwd));
-        ResultEnum resultEnum = userDao.updatePassword(user.getUser_id(),user.getPassword())==1 ? ResultEnum.USER_UPDATE_PASSWORD_OK : ResultEnum.USER_UPDATE_PASSWORD_ERR;
+        ResultEnum resultEnum = userDao.updatePassword(user.getUser_id(),user.getPassword())!=0 ? ResultEnum.USER_UPDATE_PASSWORD_OK : ResultEnum.USER_UPDATE_PASSWORD_ERR;
         return new Result(resultEnum.getCode(),resultEnum.getMsg());
     }
 
     @Override
     public Result delete(Integer id) {
-        ResultEnum result = userDao.delete(id)==1 ? ResultEnum.USER_DELETE_OK : ResultEnum.USER_DELETE_ERR;
+        ResultEnum result = userDao.delete(id)!=0 ? ResultEnum.USER_DELETE_OK : ResultEnum.USER_DELETE_ERR;
         return new Result(result.getCode(),result.getMsg());
     }
 
@@ -103,10 +102,10 @@ public class UserServiceImpl implements UserService {
         ResultEnum result;
         if(permission==0){
             //设置为为用户权限
-            result = userDao.changePermission(id,0)==1 ? ResultEnum.USER_CHANGE_PERMISSION_OK : ResultEnum.USER_CHANGE_PERMISSION_ERR;
+            result = userDao.changePermission(id,0)!=0 ? ResultEnum.USER_CHANGE_PERMISSION_OK : ResultEnum.USER_CHANGE_PERMISSION_ERR;
         }else if(permission==1){
             //设置为为管理员权限
-            result = userDao.changePermission(id,1)==1 ? ResultEnum.USER_CHANGE_PERMISSION_OK : ResultEnum.USER_CHANGE_PERMISSION_ERR;
+            result = userDao.changePermission(id,1)!=0 ? ResultEnum.USER_CHANGE_PERMISSION_OK : ResultEnum.USER_CHANGE_PERMISSION_ERR;
         }else{
             result = ResultEnum.USER_CHANGE_PERMISSION_ERR;
         }
