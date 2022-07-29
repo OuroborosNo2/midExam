@@ -1,5 +1,6 @@
 package com.qgstudio.dao;
 
+import com.qgstudio.po.Code;
 import com.qgstudio.po.HardInfo;
 import com.qgstudio.po.License;
 import org.apache.ibatis.annotations.*;
@@ -84,4 +85,12 @@ public interface HardInfoDao {
     HardInfo getByHard(HardInfo hardInfo);
 
 
+    @Select("<script> " +
+            "select * from t_hard_info where info_id in " +
+            "<foreach collection='infoIds' item='item' open='(' separator=',' close=')'>#{item}</foreach>"+
+            "</script>")
+    List<HardInfo> getByInfoIds(@Param("infoIds") List<Integer> infoIds);
+
+    @Select("select license_id from t_hard_info where info_id=#{info_id}")
+    int getByInfoId(int info_id);
 }

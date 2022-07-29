@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * @create: 2022-07-24 19:10
  **/
 @Configuration
-@ComponentScan({"com.qgstudio.controller","com.qgstudio.config"})
+@ComponentScan({"com.qgstudio.controller","com.qgstudio.config","com.qgstudio.util"})
 @PropertySource("classpath:file.properties")
 @EnableWebMvc
 public class SpringMvcConfig {

@@ -17,6 +17,8 @@ public enum ResultEnum {
     PARAMETER_NOT_VALID(400,"参数不合法"),
     SERVER_INTERNAL_ERROR(500,"服务器正在忙碌中,请稍后试试吧"),
 
+
+
     //异常
     EX_EMAIL(00000,"邮箱格式错误"),
     EX_NAME(11111,"用户名需6-12位"),
@@ -144,7 +146,13 @@ public enum ResultEnum {
     NOTICE_SAVE_ERR(93100,"添加通知失败"),
     NOTICE_UPDATE_ERR(93200,"更新通知失败"),
     NOTICE_DELETE_ERR(93300,"删除通知失败"),
-    NOTICE_GET_ERR(93400,"查询通知失败")
+    NOTICE_GET_ERR(93400,"查询通知失败"),
+
+    //940Y1 授权验证-成功
+    VERIFY_OK(94001,"授权验证成功"),
+
+    //940Y0 授权验证-成功
+    VERIFY_ERR(94000,"授权验证失败")
 
 
     ;

@@ -2,6 +2,7 @@ package com.qgstudio.dao;
 
 import com.qgstudio.po.Code;
 import com.qgstudio.po.HardInfo;
+import com.qgstudio.po.License;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -59,4 +60,31 @@ public interface CodeDao {
      */
     @Select("select * from t_code where user_id=#{user_id} and info_id=#{info_id}")
     List<Code> getByUserIdAndInfoId(HardInfo hardInfo);
+
+
+    @Insert("<script> " +
+            "insert into " + "t_notice_user" +
+            " (" + "notice_id,user_id" + ") " +
+            "values " +
+            "<foreach collection='ids' index='index' item='item' separator=','> "
+            +
+            "(#{notice_id},#{item})"
+            +
+            "</foreach> " +
+            "</script>")
+    int addUserAndNotice (@Param("notice_id") int notice_id,@Param("ids") List<Integer> user_ids);
+
+
+    @Select("<script> " +
+            "select info_id from t_code where license_id in " +
+            "<foreach collection='licenses' item='item' open='(' separator=',' close=')'>#{item.license_id}</foreach>"+
+            "</script>")
+    List<Integer> getInfoIdByLicenseId(@Param("licenses") List<License> licenses);
+
+    @Select("select code_id from t_code where info_id=#{info_id}")
+    List<Integer> getByCodeId(int info_id);
+
+
+    @Select("select license_id from t_code where user_id=#{user_id} and info_id=#{info_id};")
+    List<Integer> getLicenseIdsByUserIdAndInfoId(@Param("user_id") int user_id, @Param("info_id") int info_id);
 }
