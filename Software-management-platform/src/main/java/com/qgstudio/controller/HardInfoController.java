@@ -43,5 +43,4 @@ public class HardInfoController {
     public Result<Object> delete(@RequestBody HardInfo hardInfo){
         return hardInfoService.delete(hardInfo);
     }
-
 }

@@ -1,9 +1,13 @@
 package com.qgstudio.config;
 
+import com.qgstudio.server.SocketThread;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletException;
 
 /**
  * @program: Software-management-platform
@@ -13,23 +17,36 @@ import javax.servlet.Filter;
  **/
 public class SpringContainersInitConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 
+    //项目启动时,新建socket通信线程
+    private SocketThread socketThread;
 
-    /**加载Spring配置类*/
+    /**
+     * 加载Spring配置类
+     */
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class[]{SpringConfig.class};
     }
-    /**加载SpringMVC配置类*/
+
+    /**
+     * 加载SpringMVC配置类
+     */
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class[]{SpringMvcConfig.class};
     }
-    /**设置SpringMVC请求地址拦截规则*/
+
+    /**
+     * 设置SpringMVC请求地址拦截规则
+     */
     @Override
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
-    /**设置servlet拦截器，进行修改字符编码等操作*/
+
+    /**
+     * 设置servlet拦截器，进行修改字符编码等操作
+     */
     @Override
     protected Filter[] getServletFilters() {
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
@@ -37,5 +54,15 @@ public class SpringContainersInitConfig extends AbstractAnnotationConfigDispatch
         return new Filter[]{filter};
     }
 
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
 
+        if (null == socketThread) {
+//新建线程类
+            socketThread = new SocketThread();
+//启动线程
+            socketThread.start();
+        }
+        super.onStartup(servletContext);
+    }
 }
