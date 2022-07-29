@@ -3,6 +3,7 @@ package com.qgstudio.dao;
 import com.qgstudio.po.License;
 import org.apache.ibatis.annotations.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,5 +35,19 @@ public interface LicenseDao {
     @Select("select * from t_license where user_id = #{user_id}")
     List<License>getAllByUserId(int user_id);
 
+
+    @Select("select * from t_license where software_id=#{software_id} and version_id=#{version_id} and function_type=#{function_type}")
+    List<License> getBySoftIdAndFunctionTypeAndVersionId(@Param("software_id") int software_id,@Param("function_type") int function_type, @Param("version_id") int version_id);
+
+    @Select("select end_date from  t_license where license_id=#{license_id}")
+    Date getEndTimeByLicenseId(int license_id);
+
+
+
+    @Select("<script> " +
+            "select end_date from t_license where license_id in " +
+            "<foreach collection='licenses' item='item' open='(' separator=',' close=')'>#{item}</foreach> and user_id=#{user_id} and software_id=#{software_id} and function_type=#{function_type} and version_id=#{version_id}"+
+            "</script>")
+    Date getEndTimeByLicenseIdsAndUidAndSidAndFidAndVid(@Param("licenses") List<Integer> licenseIds,@Param("user_id") int user_id,@Param("software_id") int software_id,@Param("function_type") int function_type,@Param("version_id") int version_id);
 
 }

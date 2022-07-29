@@ -14,6 +14,7 @@ public class SystemConstant {
 
     public static int MAX_NUM_LICENSE;
     public static String PRIVATE_KEY;
+    public static int PORT = 9999;
 
 
     static {

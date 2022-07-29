@@ -1,5 +1,26 @@
 package com.qgstudio.server;
 
+import com.alibaba.fastjson.JSON;
+import com.qgstudio.constant.SystemConstant;
+import com.qgstudio.controller.Result;
+import com.qgstudio.po.CodedText;
+import com.qgstudio.service.CheckCodeTxtService;
+import com.qgstudio.service.UserService;
+import com.qgstudio.service.impl.CheckCodeTxtServiceImpl;
+import com.qgstudio.util.Declassify;
+import com.qgstudio.util.Encryption;
+import com.qgstudio.util.SpringUtil;
+import com.qgstudio.util.StringUtil;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.PostConstruct;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,7 +32,12 @@ import java.nio.charset.StandardCharsets;
  * @author: stop.yc
  * @create: 2022-07-28 19:22
  **/
-public class SocketThread extends Thread {
+//@Controller
+public class SocketThread extends Thread implements ApplicationContextAware {
+
+
+//    @Autowired
+//    private CheckCodeTxtService checkCodeTxtService ;
     /**
      *  服务端对象
      */
@@ -19,7 +45,18 @@ public class SocketThread extends Thread {
     /**
      * 默认监听9991端口
      */
-    private int port = 9991;
+    private int port = SystemConstant.PORT;
+
+    private static ApplicationContext applicationContext = null;
+
+//    private static SocketThread socketThread;
+
+//    @PostConstruct
+//    public void init(){
+//        socketThread=this;
+//        socketThread.checkCodeTxtService=this.checkCodeTxtService;
+//    }
+
 
     /**
      * 构造方法，初始化服务端
@@ -27,12 +64,14 @@ public class SocketThread extends Thread {
     public SocketThread() {
         try {
             // 创建Socket服务器对象，监听9991端口
+
             serverSocket = new ServerSocket(port);
             System.out.println("ServerSocket创建了....");
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("ServerSocket创建出错....");
+            closeSocketServer();
         }
-
     }
 
     /**
@@ -87,13 +126,38 @@ public class SocketThread extends Thread {
             while ((info = br.readLine()) != null) {
                 result.append(info);
             }
-            // 输出消息
+
             System.out.println("服务端获取的客户端消息为: " + result);
             socket.shutdownInput();
+
+            //签名验证,并获取被保护的json数据
+            String decrypt = Declassify.check(result.toString());
+
+            //获取封装了所有敏感数据的对象
+            CodedText codedText = JSON.parseObject(decrypt, CodedText.class);
+
+//            ApplicationContext appCtx = SocketThread.getApplicationContext();
+//            CheckCodeTxtService checkCodeTxtService =  (CheckCodeTxtService)SocketThread.getBean(CheckCodeTxtService.class);
+
+//            Result<Boolean> booleanResult = checkCodeTxtService.checkCodeTxt(codedText);
+//            Boolean data = booleanResult.getData();
+
+            ApplicationContext appCtx = SpringUtil.getApplicationContext();
+            CheckCodeTxtService bean = (CheckCodeTxtService)SpringUtil.getBean("checkService");
+            Result<Boolean> booleanResult = bean.checkCodeTxt(codedText);
+            Boolean data = booleanResult.getData();
+
             // 给客户端响应消息
             os = socket.getOutputStream();
             pw = new PrintWriter(os);
-            pw.write("服务器返回给客户端的消息为:你好");
+
+            if (data) {
+                String s = Encryption.addRsaAndAesToData("1" + StringUtil.getRandomString(300));
+                pw.write(s);
+            } else {
+                String s = Encryption.addRsaAndAesToData("0" + StringUtil.getRandomString(300));
+                pw.write(s);
+            }
 
             pw.flush();
         } catch (Exception e) {
@@ -136,5 +200,22 @@ public class SocketThread extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        SocketThread.applicationContext = applicationContext;
+    }
+
+    public static ApplicationContext  getApplicationContext(){
+        return applicationContext;
+    }
+
+    public static Object getBean(String beanName){
+        return applicationContext.getBean(beanName);
+    }
+
+    public static Object getBean(Class c){
+        return applicationContext.getBean(c);
     }
 }
