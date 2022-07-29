@@ -25,7 +25,6 @@ public interface SoftwareService {
      * @return 结果集
      * @throws IOException
      */
-    @Transactional(rollbackFor = Exception.class)
     Result add(Software software, Version version) throws IOException;
 
     /**
@@ -36,7 +35,7 @@ public interface SoftwareService {
     Result update(Software software);
 
     /**
-     * 根据软件id删除软件数据
+     * 根据软件id删除软件数据，还要删除其所有版本
      * @param id 软件id
      * @return 结果集
      */

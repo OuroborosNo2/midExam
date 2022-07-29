@@ -33,7 +33,7 @@ public class VersionServiceImpl implements VersionService {
     @Override
     public Result add(Version version) throws IOException {
         version.setRelease_date(new Date());
-        ResultEnum result = versionDao.save(version)==1 ? ResultEnum.VERSION_SAVE_OK : ResultEnum.VERSION_SAVE_ERR;
+        ResultEnum result = versionDao.save(version)!=0 ? ResultEnum.VERSION_SAVE_OK : ResultEnum.VERSION_SAVE_ERR;
         //发布软件后,进行消息通知
         noticeService.addNotice(version, "更新");
         return new Result(result.getCode(),result.getMsg());
@@ -41,13 +41,13 @@ public class VersionServiceImpl implements VersionService {
 
     @Override
     public Result update(Version version) {
-        ResultEnum result = versionDao.update(version)==1 ? ResultEnum.VERSION_UPDATE_OK : ResultEnum.VERSION_UPDATE_ERR;
+        ResultEnum result = versionDao.update(version)!=0 ? ResultEnum.VERSION_UPDATE_OK : ResultEnum.VERSION_UPDATE_ERR;
         return new Result(result.getCode(),result.getMsg());
     }
 
     @Override
     public Result delete(Integer id) {
-        ResultEnum result = versionDao.delete(id)==1 ? ResultEnum.VERSION_DELETE_OK : ResultEnum.VERSION_DELETE_ERR;
+        ResultEnum result = versionDao.delete(id)!=0 ? ResultEnum.VERSION_DELETE_OK : ResultEnum.VERSION_DELETE_ERR;
         return new Result(result.getCode(),result.getMsg());
     }
 

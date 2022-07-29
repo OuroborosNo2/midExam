@@ -15,32 +15,54 @@ public interface NoticeDao {
 
     /**
      * 插入通知数据,@Options注释使数据插入成功后将自增的id主键赋值给该通知对象
+     * 两id为空则为自定义通知
      * @param notice 通知对象
-     * @return 0代表失败，1代表成功
+     * @return 返回影响的行数
      * */
-    @Insert("insert into t_notice values (null,#{content},#{time},#{software_id})")
+    @Insert("insert into t_notice (content,time,software_id,version_id) values (#{content},#{time},#{software_id},#{version_id})")
     @Options(useGeneratedKeys = true,keyProperty = "notice_id")/*@SelectKey(keyProperty = "notice_id", resultType = int.class, before = false,
             statement = "select LAST_INSERT_ID()"
     )*/
     int save (Notice notice);
 
     /**
-     * 查询某用户的所有通知
-     * @param user_id 用户id
-     * @return 返回查询到的通知集
-     * */
-    @Select("select * from t_notice where notice_id in (select notice_id from t_notice_user where user_id = #{user_id})")
-    List<Notice> getAll(int user_id);
+     * 修改通知
+     * @param notice 通知对象
+     * @return 返回影响的行数
+     */
+    @Update("UPDATE t_notice SET content=#{content},time=#{time} where notice_id=#{notice_id}")
+    public int update(Notice notice);
 
     /**
-     * 通过id查询某条通知
+     * 根据id删除通知
+     * @param notice_id 用户id
+     * @return 返回影响的行数
+     */
+    @Delete("DELETE FROM t_notice WHERE notice_id = #{notice_id}")
+    public int delete(int notice_id);
+
+    /**
+     * 通过notice_id查询某条通知
      * @param notice_id 通知id
      * @return 返回查询到的通知对象
      * */
     @Select("select * from t_notice where notice_id = #{notice_id}")
-    Notice getNoticeById(int notice_id);
+    Notice getNoticeByNoticeId(int notice_id);
 
+    /**
+     * 通过version_id查询某条通知
+     * @param version_id 通知id
+     * @return 返回查询到的通知对象
+     * */
+    @Select("select * from t_notice where version_id = #{version_id}")
+    Notice getNoticeByVersionId(int version_id);
 
+    /**
+     * 查询所有通知
+     * @return 返回查询到的通知对象集
+     */
+    @Select("SELECT * FROM t_notice")
+    public List<Notice> getAll();
 
 
 }
