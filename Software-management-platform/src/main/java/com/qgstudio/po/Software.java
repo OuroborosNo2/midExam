@@ -20,8 +20,8 @@ public class Software {
         this.software_name = software_name;
         this.desc = desc;
         this.group_id = group_id;
-
     }
+    public Software(){}
 
     public String getSoftware_name() {
         return software_name;

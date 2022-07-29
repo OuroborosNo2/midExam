@@ -9,6 +9,7 @@ import com.qgstudio.service.NoticeService;
 import com.qgstudio.service.VersionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
@@ -31,12 +32,20 @@ public class VersionServiceImpl implements VersionService {
     private NoticeService noticeService;
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     public Result add(Version version) throws IOException {
         version.setRelease_date(new Date());
-        ResultEnum result = versionDao.save(version)!=0 ? ResultEnum.VERSION_SAVE_OK : ResultEnum.VERSION_SAVE_ERR;
+        ResultEnum result1 = versionDao.save(version)!=0 ? ResultEnum.VERSION_SAVE_OK : ResultEnum.VERSION_SAVE_ERR;
         //发布软件后,进行消息通知
-        noticeService.addNotice(version, "更新");
-        return new Result(result.getCode(),result.getMsg());
+        ResultEnum result2;
+        try {
+            noticeService.addNotice(version, "更新");
+            result2 = ResultEnum.NOTICE_SAVE_OK;
+        }catch (Exception e){
+            e.printStackTrace();
+            result2 = ResultEnum.NOTICE_SAVE_ERR;
+        }
+        return new Result(result1.getCode(),result1.getMsg()+result2.getMsg());
     }
 
     @Override
