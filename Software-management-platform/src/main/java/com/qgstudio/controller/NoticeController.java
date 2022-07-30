@@ -48,10 +48,4 @@ public class NoticeController {
         return noticeService.getAllNotice();
     }
 
-
-    @PostMapping
-    Result<Notice> addNotice() throws IOException {
-        Version version = new Version(1, 1, "1.0.0.1", "发布了全新版本", "asdffd",new Date());
-        return noticeService.addNotice(version,"发布");
-    }
 }

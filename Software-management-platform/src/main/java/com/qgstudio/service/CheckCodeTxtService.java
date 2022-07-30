@@ -6,5 +6,5 @@ import com.qgstudio.po.CodedText;
 public interface CheckCodeTxtService {
 
 
-    Result<Boolean> checkCodeTxt(CodedText codedText);
+    Result<Integer> checkCodeTxt(CodedText codedText);
 }
