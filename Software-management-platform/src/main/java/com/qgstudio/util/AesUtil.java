@@ -30,7 +30,6 @@ public class AesUtil {
         SecretKey secretKey = kgen.generateKey();
         byte[] enCodeFormat = secretKey.getEncoded();
         String encodeKey = Base64.getEncoder().encodeToString(enCodeFormat);
-        System.out.println("AES秘钥::"+encodeKey);
         return encodeKey;
     }
 

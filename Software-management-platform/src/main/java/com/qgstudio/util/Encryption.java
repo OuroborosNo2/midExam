@@ -23,16 +23,13 @@ public class Encryption {
         //1.获取aes密钥
         String aesKey = AesUtil.getAESKey(128, null);
 
-        System.out.println(aesKey.length());
 
         //2.对数据进行aes加密
         String encrypt = AesUtil.encrypt(data, aesKey);
 
-        System.out.println(encrypt.length());
 
         //3.获取加密后密文长度
         String enDataLength = Integer.toHexString(encrypt.length());
-        System.out.println(enDataLength);
 
         //4.进行rsa签名
         String sign = RSAUtil.sign(encrypt, RSAUtil.getPrivateKey(SystemConstant.PRIVATE_KEY));
@@ -41,7 +38,6 @@ public class Encryption {
 
         code = aesKey + enDataLength + encrypt + sign;
 
-        System.out.println("许可证为:" + code);
 
         return code;
     }
