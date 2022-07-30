@@ -18,7 +18,7 @@ import java.util.Set;
  **/
 
 @RestController
-@RequestMapping(value = "/notice_user", produces = "application/json;charset=UTF-8")
+@RequestMapping(value = "/notices_user", produces = "application/json;charset=UTF-8")
 public class NoticeAndUserController {
 
     @Autowired

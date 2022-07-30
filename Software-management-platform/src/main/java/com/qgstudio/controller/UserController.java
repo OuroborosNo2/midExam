@@ -56,8 +56,7 @@ public class UserController {
 
     @PostMapping("/updatePwd")
     public Result updatePassword(@RequestBody Map<String,String> map) throws BusinessException,NoSuchAlgorithmException{
-        User user = (User) request.getSession().getAttribute("user");
-        return userService.updatePassword(user.getUser_id(),map.get("oldPwd"),map.get("newPwd"));
+        return userService.updatePassword(Integer.valueOf(map.get("user_id")),map.get("oldPwd"),map.get("newPwd"));
     }
 
     @DeleteMapping("/{id}")

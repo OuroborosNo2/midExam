@@ -77,7 +77,7 @@ public class MyAdvice {
         }
 
         //注册特有
-        if (pjp.getSignature().toString().equals("Result com.qgstudio.service.UserService.register(User)")) {
+        if (pjp.getSignature().getName().equals("register")) {
             //2.判断密码是否合法
             if (!Pattern.matches(regex.REGEX_PWD, user.getPassword())) {
                 throw new BusinessException(ResultEnum.EX_PWD.getCode(), ResultEnum.EX_PWD.getMsg());
@@ -133,7 +133,7 @@ public class MyAdvice {
         //获取切入点方法的参数
         Version version = (Version) pjp.getArgs()[0];
         //添加时没有version_id,更新时没有software_id
-        if (pjp.getSignature().toString().equals("Result com.qgstudio.service.VersionService.update(Version)")) {
+        if (pjp.getSignature().getName().equals("update")) {
             version.setSoftware_id(versionDao.getById(version.getVersion_id()).getSoftware_id());
         }
         Version versionByName = versionDao.getByVersionInf(version.getSoftware_id(), version.getVersionInf());
@@ -153,8 +153,6 @@ public class MyAdvice {
     @Pointcut("execution(* com.qgstudio.service.HardInfoService.saveHardInfo(*)) || execution(* com.qgstudio.service.HardInfoService.update(*))")
     private void hardInfoServicePt() {
     }
-
-
     @Around("hardInfoServicePt()")
     public Result checkHardInfoRepeat(ProceedingJoinPoint pjp) throws Throwable {
         //获取切入点方法的参数
@@ -185,7 +183,7 @@ public class MyAdvice {
         }
 
         //更新持有,需要判断是否已经被绑定授权码,如果被绑定了,则无法进行修改.
-        if (pjp.getSignature().toString().equals("Result com.qgstudio.service.HardInfoService.update(HardInfo)")) {
+        if (pjp.getSignature().getName().equals("update")) {
             List<Code> byUserIdAndInfoId = codeDao.getByUserIdAndInfoId(hardInfo);
             if (byUserIdAndInfoId.size() != 0) {
                 return new Result<>(ResultEnum.HARD_UPDATE_USED_ERR.getCode(), ResultEnum.HARD_UPDATE_USED_ERR.getMsg(), null);
@@ -194,6 +192,5 @@ public class MyAdvice {
 
         return (Result) pjp.proceed();
     }
-
 
 }
