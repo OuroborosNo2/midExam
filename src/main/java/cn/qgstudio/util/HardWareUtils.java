@@ -8,6 +8,7 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -31,7 +32,7 @@ public class HardWareUtils extends Applet {
         paint.drawString("获取硬件信息", 10, 10);
         paint.drawString("CPU  SN:" + HardWareUtils.getCPUSerial(), 10, 30);
         try {
-            paint.drawString("C盘   SN:" + HardWareUtils.getHardDiskSN("c"), 10, 70);
+            paint.drawString("C盘   SN:" + HardWareUtils.getHardDiskSN("wmic diskdrive get serialnumber"), 10, 70);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -181,8 +182,6 @@ public class HardWareUtils extends Applet {
 //
 //                }
             }
-
-
         }
 
         List<String> macs = new ArrayList<>();
@@ -201,17 +200,39 @@ public class HardWareUtils extends Applet {
     * @Author: stop.yc
     * @Date: 2022/7/29
     */
-    public static String getHardDiskSN(String drive) throws IOException {
-        long start = System.currentTimeMillis();
-        Process process = Runtime.getRuntime().exec(new String[]{"wmic", "diskdrive", "get", "serialnumber"});
-        process.getOutputStream().close();
-        Scanner sc = new Scanner(process.getInputStream());
-        String property = sc.next();
-        String serial = sc.next();
-        System.out.println(property + ":" + serial);
-        System.out.println("time" + (System.currentTimeMillis() - start));
+    public static String getHardDiskSN(String commandStr) throws IOException {
+//        long start = System.currentTimeMillis();
+//        Process process = Runtime.getRuntime().exec(new String[]{"wmic", "diskdrive", "get", "serialnumber"});
+//        process.getOutputStream().close();
+//        Scanner sc = new Scanner(process.getInputStream());
+//        String property = sc.next();
+//        String serial = sc.next();
+//        System.out.println(property + ":" + serial);
+//        System.out.println("time" + (System.currentTimeMillis() - start));
 
-        return serial;
+
+        BufferedReader br = null;
+        try {
+            Process p = Runtime.getRuntime().exec(commandStr);
+            br = new BufferedReader(new InputStreamReader(p.getInputStream(), Charset.forName("GBK")));
+            String line = null;
+            StringBuilder sb = new StringBuilder();
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+            return sb.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 }

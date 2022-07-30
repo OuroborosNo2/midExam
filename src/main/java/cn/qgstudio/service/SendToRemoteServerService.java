@@ -46,8 +46,8 @@ public class SendToRemoteServerService {
             //获取本地硬件信息
             //mac
             List<String> macAddress = HardWareUtils.getMacAddresses();
-            String cpuSerial = HardWareUtils.getCPUSerial();
-            String hardDiskSN = HardWareUtils.getHardDiskSN("c");
+            String cpuSerial = HardWareUtils.getHardDiskSN("wmic CPU get ProcessorID");
+            String hardDiskSN = HardWareUtils.getHardDiskSN("wmic diskdrive get serialnumber");
 
 
             //生成网络时间
@@ -59,7 +59,6 @@ public class SendToRemoteServerService {
             System.out.println(Encryption.addRsaAndAesToData(jsonString));
 
             String response = new TaskClient().sendMsg(Encryption.addRsaAndAesToData(jsonString));
-            System.out.println("服务器发送的响应为:  "+response);
 
             int check = Declassify.check(response);
             System.out.println("验证成功与否?" + check);

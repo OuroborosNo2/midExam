@@ -53,14 +53,10 @@ public class RSAUtil {
         /**得到私钥 并用base64加密*/
         RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
         String privateKeyString = Base64.getEncoder().encodeToString(privateKey.getEncoded());
-        System.out.println("秘钥::" + privateKeyString);
-        System.out.println("私钥长度::" + privateKeyString.length());
 
         /**得到公钥 并用base64加密*/
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
         String publicKeyString = Base64.getEncoder().encodeToString(publicKey.getEncoded());
-        System.out.println("公钥::" + publicKeyString);
-        System.out.println("公钥长度::" + publicKeyString.length());
     }
 
     /**

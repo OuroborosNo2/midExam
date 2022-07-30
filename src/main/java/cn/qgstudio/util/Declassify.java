@@ -39,14 +39,12 @@ public class Declassify {
         //5.校验
         boolean verify = RSAUtil.verify(encData, RSAUtil.getPublicKey(PUBLIC_KEY), sign);
 
-        System.out.println("签名校验结果:  " + verify);
+        System.out.println("服务器签名校验结果:  " + verify);
 
         if (!verify) {
             return -1;
         }
-        System.out.println("接下来进行解密");
         String decrypt = AesUtil.decrypt(encData, aesKey);
-        System.out.println(decrypt);
 
 
         return (decrypt.charAt(0) == '-') ? -1 : decrypt.charAt(0)-48;

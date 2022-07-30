@@ -17,12 +17,9 @@ import java.nio.charset.StandardCharsets;
  * @author: stop.yc
  * @create: 2022-07-28 19:22
  **/
-//@Controller
 public class SocketThread extends Thread {
 
 
-//    @Autowired
-//    private CheckCodeTxtService checkCodeTxtService ;
     /**
      * 服务端对象
      */
@@ -30,7 +27,7 @@ public class SocketThread extends Thread {
     /**
      * 默认监听9991端口
      */
-    private int port = SystemConstant.PORT;
+    private int port = SystemConstant.PORT_WITH_LOCAL;
 
 
     /**
@@ -102,7 +99,8 @@ public class SocketThread extends Thread {
                 result.append(info);
             }
 
-            System.out.println("服务端获取的客户端消息为: " + result);
+            System.out.println("服务端获取的客户端版本消息为: " + result);
+
             socket.shutdownInput();
 
             //从本地软件接受到了版本信息软件信息

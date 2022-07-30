@@ -1,5 +1,7 @@
 package cn.qgstudio.client;
 
+import cn.qgstudio.constant.SystemConstant;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -10,10 +12,14 @@ import java.net.Socket;
  * @create: 2022-07-29 09:19
  **/
 public class Client {
-    // 主机地址
-    private String host = "106.13.18.48";
-    // 端口
-    private int port = 9999;
+    /**
+     * 主机地址
+     */
+    private final String host = SystemConstant.HOST;
+    /**
+     * 端口
+     */
+    private final int port = SystemConstant.PORT_WITH_REMOTE;
 
     /**
      * 客户端向服务端发送消息
