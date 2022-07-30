@@ -46,6 +46,7 @@ public class CheckCodeTxtServiceImpl implements CheckCodeTxtService {
         //拿到为这种软件开了许可证的许可证id集合
         List<License> licenses = licenseDao.getBySoftIdAndFunctionTypeAndVersionId(codedText.getSoftware_id(), codedText.getVersion_id());
         if (licenses.isEmpty()) {
+            System.out.println("licenses空");
             return new Result<>(ResultEnum.VERIFY_ERR.getCode(), ResultEnum.VERIFY_ERR.getMsg(), -1);
         }
 
@@ -53,6 +54,7 @@ public class CheckCodeTxtServiceImpl implements CheckCodeTxtService {
         //这些许可证对应了多个的硬件信息id
         List<Integer> infoIds = codeDao.getInfoIdByLicenseId(licenses);
         if (infoIds.isEmpty()) {
+            System.out.println("infos空");
             return new Result<>(ResultEnum.VERIFY_ERR.getCode(), ResultEnum.VERIFY_ERR.getMsg(), -1);
         }
 
@@ -60,6 +62,7 @@ public class CheckCodeTxtServiceImpl implements CheckCodeTxtService {
         //这些硬件信息id对应了一个硬件指纹
         List<HardInfo> codes = hardInfoDao.getByInfoIds(infoIds);
         if (codes.isEmpty()) {
+            System.out.println("hardInfo空");
             return new Result<>(ResultEnum.VERIFY_ERR.getCode(), ResultEnum.VERIFY_ERR.getMsg(), -1);
         }
 
@@ -69,11 +72,13 @@ public class CheckCodeTxtServiceImpl implements CheckCodeTxtService {
 
             //如果硬盘信息没有匹配上
             if (!codedText.getHard().contains(code.getHard())) {
+                System.out.println("硬盘错误");
                 return new Result<>(ResultEnum.VERIFY_ERR.getCode(), ResultEnum.VERIFY_ERR.getMsg(), -1);
             }
 
             //cpu没有匹配
             if (!codedText.getCpu().contains(code.getCpu())) {
+                System.out.println("cpu错误");
                 return new Result<>(ResultEnum.VERIFY_ERR.getCode(), ResultEnum.VERIFY_ERR.getMsg(), -1);
             }
 
