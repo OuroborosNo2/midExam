@@ -14,15 +14,15 @@ public class TaskClient {
 
     public boolean check (int software_id,int version_id,int function_id) {
 
-//        try {
-//            Desktop.getDesktop().open(new File("D:\\java_exe\\ClientDemo\\ClientDemo.exe"));
-//            System.out.println("正在启动管理平台....");
-//            Thread.sleep(1000);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            Desktop.getDesktop().open(new File("D:\\java_exe\\ClientDemo\\ClientDemo.exe"));
+            System.out.println("正在启动管理平台....");
+            Thread.sleep(1000);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return new Client().sendMessage(software_id + "&" + version_id + "&" + function_id);
     }
 }

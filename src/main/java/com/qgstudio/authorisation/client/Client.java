@@ -55,6 +55,7 @@ public class Client {
 
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("平台服务器被关闭~");
             return false;
         }finally {
             // 关闭流和socket
@@ -65,8 +66,6 @@ public class Client {
                 if(is != null) {
                     is.close();
                 }
-
-
                 if(os != null) {
                     os.close();
                 }

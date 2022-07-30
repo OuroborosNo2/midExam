@@ -34,7 +34,7 @@ public class MainFrm {
 
 
 
-        //需要进行授权验证
+        //需要进行授权验证,其会返回true或者是false;判断是否授权成功
         boolean check = new CheckService().check();
 
 
