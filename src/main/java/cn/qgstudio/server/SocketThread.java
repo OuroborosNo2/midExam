@@ -25,7 +25,7 @@ public class SocketThread extends Thread {
      */
     private ServerSocket serverSocket;
     /**
-     * 默认监听9991端口
+     * 默认监听9900端口
      */
     private int port = SystemConstant.PORT_WITH_LOCAL;
 

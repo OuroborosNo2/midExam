@@ -18,7 +18,7 @@ public class SystemConstant {
 
     public static int PORT_WITH_REMOTE = 9999;
 
-    public static String HOST = "localhost";
+    public static String HOST = "106.13.18.48";
 
     static {
 
