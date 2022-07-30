@@ -13,6 +13,8 @@ public enum ResultEnum {
     //通用
     UNKNOWN_ERROR(-1,"未知错误"),
     SUCCESS(200,"成功"),
+    UNAUTHORIZED(401,"请先登录"),
+    FORBIDDEN(403,"权限不足"),
     RESOURCE_NOT_FOUND(404,"资源未找到"),
     PARAMETER_NOT_VALID(400,"参数不合法"),
     SERVER_INTERNAL_ERROR(500,"服务器正在忙碌中,请稍后试试吧"),

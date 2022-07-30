@@ -44,19 +44,25 @@ public class FileController {
             //文件后缀名
             String suffix = originalFilename.substring(originalFilename.lastIndexOf("."), originalFilename.length());
             String pSep = File.separator;
-
+            String fileName;
             if (type.equals("user")) {
                 //属于用户的图片
-                destFilePath = "image" + pSep + "user" + pSep + id + pSep + "headImg" + suffix;
+                fileName = "headImg" + suffix;
+                destFilePath = "image" + pSep + "user" + pSep + id + pSep;
             } else {
                 //属于软件的图片
-                destFilePath = "image" + pSep + "software" + pSep + id + pSep + "software_icon" + suffix;
+                fileName = "software_icon" + suffix;
+                destFilePath = "image" + pSep + "software" + pSep + id + pSep;
             }
             File destFile = new File(resourcesPath + destFilePath);
             if(destFile.exists()) {
                 //先删除目录下的图片，防止因后缀名不同而保存下多个文件
-                destFile.getParentFile().listFiles()[0].delete();
+                for (File file:destFile.listFiles()) {
+                    file.delete();
+                }
             }
+            destFilePath += fileName;
+            destFile = new File(resourcesPath + destFilePath);
             //调用transferTo将上传的文件保存到指定的地址
             f1.transferTo(destFile);
         }catch (IOException e){
@@ -79,12 +85,17 @@ public class FileController {
             //获取文件原始名称
             String originalFilename = f1.getOriginalFilename();
             String pSep = File.separator;
-            destFilePath = "setupPack" + pSep + software_id + pSep + version_id + pSep + originalFilename;
+
+            destFilePath = "setupPack" + pSep + software_id + pSep + version_id + pSep;
             File destFile = new File(resourcesPath + destFilePath);
             if(destFile.exists()) {
-                //先删除目录下的图片，防止因后缀名不同而保存下多个文件
-                destFile.getParentFile().listFiles()[0].delete();
+                //先删除目录下的文件，防止因名字不同而保存下多个文件
+                for (File file:destFile.listFiles()) {
+                    file.delete();
+                }
             }
+            destFilePath += originalFilename;
+            destFile = new File( resourcesPath + destFilePath);
             //调用transferTo将上传的文件保存到指定的地址
             f1.transferTo(destFile);
         }catch (IOException e){

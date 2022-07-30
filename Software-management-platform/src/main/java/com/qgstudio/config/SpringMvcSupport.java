@@ -16,19 +16,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
  **/
 @Configuration
 public class SpringMvcSupport extends WebMvcConfigurationSupport {
-    /*
+
     @Autowired
     private ProjectInterceptor projectInterceptor;
-    @Autowired
-    private ProjectInterceptor2 projectInterceptor2;
+    //@Autowired
+    //private ProjectInterceptor2 projectInterceptor2;
 
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         //配置拦截器
-        registry.addInterceptor(projectInterceptor).addPathPatterns("/users","/users/*" );
-        registry.addInterceptor(projectInterceptor2).addPathPatterns("/users","/users/*" );
+        registry.addInterceptor(projectInterceptor).addPathPatterns("/users","/softwares","/versions",
+                "/notices","/notice_user","/licenses","/hardInfos","/files","/users/*","/softwares/*",
+                "/versions/*", "/notices/*","/notice_user/*","/licenses/*","/hardInfos/*","/files/*" );
+        //registry.addInterceptor(projectInterceptor2).addPathPatterns("/users","/users/*" );
     }
-    */
     /*
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
