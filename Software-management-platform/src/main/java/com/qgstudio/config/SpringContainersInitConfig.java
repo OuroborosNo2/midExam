@@ -63,7 +63,7 @@ public class SpringContainersInitConfig extends AbstractAnnotationConfigDispatch
 //启动线程
             socketThread.start();
         }
-//        super.onStartup(servletContext);
-        this.registerDispatcherServlet(servletContext);
+        super.onStartup(servletContext);
+//        this.registerDispatcherServlet(servletContext);
     }
 }
