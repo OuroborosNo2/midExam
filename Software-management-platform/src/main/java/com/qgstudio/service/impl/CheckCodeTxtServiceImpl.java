@@ -37,25 +37,25 @@ public class CheckCodeTxtServiceImpl implements CheckCodeTxtService {
     @Autowired
     private CodeDao codeDao;
     @Override
-    public Result<Boolean> checkCodeTxt(CodedText codedText) {
+    public Result<Integer> checkCodeTxt(CodedText codedText) {
         System.out.println(codedText);
         //拿到为这种软件开了许可证的许可证id集合
-        List<License> licenses = licenseDao.getBySoftIdAndFunctionTypeAndVersionId(codedText.getSoftware_id(),codedText.getFunction_type(),codedText.getVersion_id());
+        List<License> licenses = licenseDao.getBySoftIdAndFunctionTypeAndVersionId(codedText.getSoftware_id(),codedText.getVersion_id());
         if (licenses.isEmpty()) {
-            return new Result<>(ResultEnum.VERIFY_ERR.getCode(),ResultEnum.VERIFY_ERR.getMsg(),false);
+            return new Result<>(ResultEnum.VERIFY_ERR.getCode(),ResultEnum.VERIFY_ERR.getMsg(),-1);
         }
 
         //这些许可证对应了多个的硬件信息id
         List<Integer> infoIds = codeDao.getInfoIdByLicenseId(licenses);
         if (infoIds.isEmpty()) {
-            return new Result<>(ResultEnum.VERIFY_ERR.getCode(),ResultEnum.VERIFY_ERR.getMsg(),false);
+            return new Result<>(ResultEnum.VERIFY_ERR.getCode(),ResultEnum.VERIFY_ERR.getMsg(),-1);
         }
 
 
         //这些硬件信息id对应了一个硬件指纹
         List<HardInfo> codes = hardInfoDao.getByInfoIds(infoIds);
         if (codes.isEmpty()) {
-            return new Result<>(ResultEnum.VERIFY_ERR.getCode(),ResultEnum.VERIFY_ERR.getMsg(),false);
+            return new Result<>(ResultEnum.VERIFY_ERR.getCode(),ResultEnum.VERIFY_ERR.getMsg(),-1);
         }
 
         StringBuilder sb = new StringBuilder("");
@@ -79,15 +79,20 @@ public class CheckCodeTxtServiceImpl implements CheckCodeTxtService {
                     int user_id = code.getUser_id();
                     List<Integer> licenseIds = codeDao.getLicenseIdsByUserIdAndInfoId(user_id,info_id);
                     if (licenseIds.isEmpty()) {
-                        return new Result<>(ResultEnum.VERIFY_ERR.getCode(),ResultEnum.VERIFY_ERR.getMsg(),false);
+                        return new Result<>(ResultEnum.VERIFY_ERR.getCode(),ResultEnum.VERIFY_ERR.getMsg(),-1);
                     }
-                    Date end_date = licenseDao.getEndTimeByLicenseIdsAndUidAndSidAndFidAndVid(licenseIds,user_id,codedText.getSoftware_id(),codedText.getFunction_type(),codedText.getVersion_id());
-                    if (end_date.getTime() - codedText.getNow().getTime() > 0) {
-                        return new Result<>(ResultEnum.VERIFY_OK.getCode(),ResultEnum.VERIFY_OK.getMsg(),true);
+                    //获取license对象,验证时间和类别权限
+                    License license = licenseDao.getEndTimeByLicenseIdsAndUidAndSidAndFidAndVid(licenseIds,user_id,codedText.getSoftware_id(),codedText.getVersion_id());
+                    //时间没有过期
+                    if (license.getEnd_date().getTime() - codedText.getNow().getTime() > 0) {
+                        //类别要比许可证低或者相同
+                        if (license.getFunction_type() >= codedText.getFunction_type()) {
+                            return new Result<>(ResultEnum.VERIFY_OK.getCode(),ResultEnum.VERIFY_OK.getMsg(),license.getFunction_type());
+                        }
                     }
                 }
             }
         }
-        return new Result<>(ResultEnum.VERIFY_ERR.getCode(),ResultEnum.VERIFY_ERR.getMsg(),false);
+        return new Result<>(ResultEnum.VERIFY_ERR.getCode(),ResultEnum.VERIFY_ERR.getMsg(),-1);
     }
 }

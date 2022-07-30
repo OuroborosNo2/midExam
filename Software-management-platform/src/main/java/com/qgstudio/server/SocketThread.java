@@ -39,7 +39,7 @@ public class SocketThread extends Thread implements ApplicationContextAware {
 //    @Autowired
 //    private CheckCodeTxtService checkCodeTxtService ;
     /**
-     *  服务端对象
+     * 服务端对象
      */
     private ServerSocket serverSocket;
     /**
@@ -75,17 +75,17 @@ public class SocketThread extends Thread implements ApplicationContextAware {
     }
 
     /**
-     *  重写run方法
+     * 重写run方法
      */
     @Override
     public void run() {
-        try {
-            //注意点,因为这个是另起的线程,而serverSocket是主线程进行创建赋值,所以可能会导致此线程先于主线程运行,导致空指针异常
-            Thread.sleep(1000);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            //注意点,因为这个是另起的线程,而serverSocket是主线程进行创建赋值,所以可能会导致此线程先于主线程运行,导致空指针异常
+////            Thread.sleep(1000);
+//
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         System.out.println("服务端启动了，等待客户端发送消息....");
         // 循环监听，直到线程中断为止
         while (!this.isInterrupted()) {
@@ -103,12 +103,12 @@ public class SocketThread extends Thread implements ApplicationContextAware {
     }
 
     /**
-    * @Description: 处理服务端接收到的socket消息
-    * @Param: [socket] :socket对象
-    * @return: void
-    * @Author: stop.yc
-    * @Date: 2022/7/28
-    */
+     * @Description: 处理服务端接收到的socket消息
+     * @Param: [socket] :socket对象
+     * @return: void
+     * @Author: stop.yc
+     * @Date: 2022/7/28
+     */
     private void handleSocket(Socket socket) {
         InputStream is = null;
         InputStreamReader isr = null;
@@ -143,21 +143,17 @@ public class SocketThread extends Thread implements ApplicationContextAware {
 //            Boolean data = booleanResult.getData();
 
             ApplicationContext appCtx = SpringUtil.getApplicationContext();
-            CheckCodeTxtService bean = (CheckCodeTxtService)SpringUtil.getBean("checkService");
-            Result<Boolean> booleanResult = bean.checkCodeTxt(codedText);
-            Boolean data = booleanResult.getData();
+            CheckCodeTxtService bean = (CheckCodeTxtService) SpringUtil.getBean("checkService");
+            Result<Integer> booleanResult = bean.checkCodeTxt(codedText);
+            Integer function_type = booleanResult.getData();
 
             // 给客户端响应消息
             os = socket.getOutputStream();
             pw = new PrintWriter(os);
 
-            if (data) {
-                String s = Encryption.addRsaAndAesToData("1" + StringUtil.getRandomString(300));
-                pw.write(s);
-            } else {
-                String s = Encryption.addRsaAndAesToData("0" + StringUtil.getRandomString(300));
-                pw.write(s);
-            }
+
+            String s = Encryption.addRsaAndAesToData(function_type + StringUtil.getRandomString(300));
+            pw.write(s);
 
             pw.flush();
         } catch (Exception e) {
@@ -207,15 +203,15 @@ public class SocketThread extends Thread implements ApplicationContextAware {
         SocketThread.applicationContext = applicationContext;
     }
 
-    public static ApplicationContext  getApplicationContext(){
+    public static ApplicationContext getApplicationContext() {
         return applicationContext;
     }
 
-    public static Object getBean(String beanName){
+    public static Object getBean(String beanName) {
         return applicationContext.getBean(beanName);
     }
 
-    public static Object getBean(Class c){
+    public static Object getBean(Class c) {
         return applicationContext.getBean(c);
     }
 }
