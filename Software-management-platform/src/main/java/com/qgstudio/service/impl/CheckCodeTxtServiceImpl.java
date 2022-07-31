@@ -46,6 +46,8 @@ public class CheckCodeTxtServiceImpl implements CheckCodeTxtService {
         //拿到为这种软件开了许可证的许可证id集合
         List<License> licenses = licenseDao.getBySoftIdAndFunctionTypeAndVersionId(codedText.getSoftware_id(), codedText.getVersion_id());
         if (licenses.isEmpty()) {
+            System.out.println("license为空");
+
             return new Result<>(ResultEnum.VERIFY_ERR.getCode(), ResultEnum.VERIFY_ERR.getMsg(), -1);
         }
 
@@ -53,6 +55,7 @@ public class CheckCodeTxtServiceImpl implements CheckCodeTxtService {
         //这些许可证对应了多个的硬件信息id
         List<Integer> infoIds = codeDao.getInfoIdByLicenseId(licenses);
         if (infoIds.isEmpty()) {
+            System.out.println("info为空");
             return new Result<>(ResultEnum.VERIFY_ERR.getCode(), ResultEnum.VERIFY_ERR.getMsg(), -1);
         }
 
@@ -60,6 +63,7 @@ public class CheckCodeTxtServiceImpl implements CheckCodeTxtService {
         //这些硬件信息id对应了一个硬件指纹
         List<HardInfo> codes = hardInfoDao.getByInfoIds(infoIds);
         if (codes.isEmpty()) {
+            System.out.println("code为空");
             return new Result<>(ResultEnum.VERIFY_ERR.getCode(), ResultEnum.VERIFY_ERR.getMsg(), -1);
         }
 
@@ -68,42 +72,48 @@ public class CheckCodeTxtServiceImpl implements CheckCodeTxtService {
         for (HardInfo code : codes) {
 
             //如果硬盘信息没有匹配上
-            if (!codedText.getHard().contains(code.getHard())) {
-                return new Result<>(ResultEnum.VERIFY_ERR.getCode(), ResultEnum.VERIFY_ERR.getMsg(), -1);
-            }
+            System.out.println("用户的硬盘：" + codedText.getHard());
+            System.out.println("数据库的硬盘：" + code.getHard());
+            if (codedText.getHard().contains(code.getHard())) {
+                System.out.println("硬盘正确");
+                //cpu没有匹配
+                System.out.println("用户的cpu：" + codedText.getCpu());
+                System.out.println("数据库的cpu：" + code.getCpu());
+                if (codedText.getCpu().contains(code.getCpu())) {
+                    System.out.println("cpu正确");
+                    System.out.println("cpu和硬盘信息匹配成功");
 
-            //cpu没有匹配
-            if (!codedText.getCpu().contains(code.getCpu())) {
-                return new Result<>(ResultEnum.VERIFY_ERR.getCode(), ResultEnum.VERIFY_ERR.getMsg(), -1);
-            }
+                    //现在判断mac地址
+                    System.out.println("数据库保存的 mac为:" + code.getMac());
 
-            System.out.println("cpu和硬盘信息匹配成功");
+                    System.out.println("中介软件传进来的 mac为:  " + codedText.getMacs());
 
-            //现在判断mac地址
-            System.out.println("数据库保存的 mac为:" + code.getMac());
+                    if (codedText.getMacs().contains(code.getMac())) {
+                        //来到这里表示硬件指纹是对应上了,现在判断是否过期
+                        System.out.println("硬件指纹匹配成功");
 
-            System.out.println("中介软件传进来的 mac为:  " + codedText.getMacs());
-
-            if (codedText.getMacs().contains(code.getMac())) {
-                //来到这里表示硬件指纹是对应上了,现在判断是否过期
-                System.out.println("硬件指纹匹配成功");
-
-                int info_id = code.getInfo_id();
-                int user_id = code.getUser_id();
-                List<Integer> licenseIds = codeDao.getLicenseIdsByUserIdAndInfoId(user_id, info_id);
-                if (licenseIds.isEmpty()) {
-                    return new Result<>(ResultEnum.VERIFY_ERR.getCode(), ResultEnum.VERIFY_ERR.getMsg(), -1);
-                }
-                //获取license对象,验证时间和类别权限
-                License license = licenseDao.getEndTimeByLicenseIdsAndUidAndSidAndFidAndVid(licenseIds, user_id, codedText.getSoftware_id(), codedText.getVersion_id());
-                //时间没有过期
-                if (license.getEnd_date().getTime() - codedText.getNow().getTime() > 0) {
-                    //类别要比许可证低或者相同
-                    if (license.getFunction_type() >= codedText.getFunction_type()) {
-                        return new Result<>(ResultEnum.VERIFY_OK.getCode(), ResultEnum.VERIFY_OK.getMsg(), license.getFunction_type());
+                        int info_id = code.getInfo_id();
+                        int user_id = code.getUser_id();
+                        List<Integer> licenseIds = codeDao.getLicenseIdsByUserIdAndInfoId(user_id, info_id);
+                        if (licenseIds.isEmpty()) {
+                            return new Result<>(ResultEnum.VERIFY_ERR.getCode(), ResultEnum.VERIFY_ERR.getMsg(), -1);
+                        }
+                        //获取license对象,验证时间和类别权限
+                        License license = licenseDao.getEndTimeByLicenseIdsAndUidAndSidAndFidAndVid(licenseIds, user_id, codedText.getSoftware_id(), codedText.getVersion_id());
+                        //时间没有过期
+                        if (license.getEnd_date().getTime() - codedText.getNow().getTime() > 0) {
+                            //类别要比许可证低或者相同
+                            if (license.getFunction_type() >= codedText.getFunction_type()) {
+                                return new Result<>(ResultEnum.VERIFY_OK.getCode(), ResultEnum.VERIFY_OK.getMsg(), license.getFunction_type());
+                            }
+                        }
                     }
                 }
             }
+
+
+
+
         }
         return new Result<>(ResultEnum.VERIFY_ERR.getCode(), ResultEnum.VERIFY_ERR.getMsg(), -1);
     }
