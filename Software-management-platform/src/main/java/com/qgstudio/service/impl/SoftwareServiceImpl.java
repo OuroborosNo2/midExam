@@ -1,5 +1,6 @@
 package com.qgstudio.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.qgstudio.controller.Result;
 import com.qgstudio.controller.ResultEnum;
 import com.qgstudio.dao.NoticeDao;
@@ -17,7 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -55,8 +58,10 @@ public class SoftwareServiceImpl implements SoftwareService {
         }catch (Exception e){
             result3 = ResultEnum.NOTICE_SAVE_ERR;
         }
-
-        return new Result(result1.getCode(),result1.getMsg()+"&"+result2.getMsg()+"&"+result3.getMsg());
+        Map<String,Integer> map = new HashMap<>();
+        map.put("software_id",software.getSoftware_id());
+        map.put("version_id",version.getVersion_id());
+        return new Result(result1.getCode(),result1.getMsg()+"&"+result2.getMsg()+"&"+result3.getMsg(),map);
     }
 
     @Override

@@ -1,26 +1,18 @@
-package com.qgstudio.server;
+package com.qgstudio.controller.interceptor.server;
 
 import com.alibaba.fastjson.JSON;
 import com.qgstudio.constant.SystemConstant;
 import com.qgstudio.controller.Result;
 import com.qgstudio.po.CodedText;
 import com.qgstudio.service.CheckCodeTxtService;
-import com.qgstudio.service.UserService;
-import com.qgstudio.service.impl.CheckCodeTxtServiceImpl;
 import com.qgstudio.util.Declassify;
 import com.qgstudio.util.Encryption;
 import com.qgstudio.util.SpringUtil;
 import com.qgstudio.util.StringUtil;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.PostConstruct;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;

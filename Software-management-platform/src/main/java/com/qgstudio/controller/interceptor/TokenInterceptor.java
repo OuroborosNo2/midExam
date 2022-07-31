@@ -22,8 +22,6 @@ import static com.qgstudio.util.TokenUtil.getCookieByName;
 public class TokenInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        response.setHeader("Access-Control-Allow-Origin",request.getHeader("origin"));
-        System.out.println(request.getHeader("origin"));
         if((request.getRequestURI().equals("/users")&&request.getMethod().equals("POST"))
                 || request.getRequestURI().equals("/users/register")){
             //登录和注册这两个请求不用验证token
@@ -44,7 +42,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             }*/
             if(token != null){
                 if (TokenUtil.verify(token)) {
-                    System.out.println("cookie验证成功");
+                    System.out.println("header验证成功");
                     return true;
                 }
             }

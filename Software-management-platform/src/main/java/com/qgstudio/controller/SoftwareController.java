@@ -49,11 +49,10 @@ public class SoftwareController {
         return softwareService.getById(id);
     }
 
-    @GetMapping("/{ids}")
-    public Result getByIds(@RequestBody Map<String,List<Integer>> map) {
-        return softwareService.getByIds(map.get("ids"));
+    @PostMapping("/ids")
+    public Result getByIds(@RequestBody Map<String,Object> map) {
+        return softwareService.getByIds((List<Integer>) map.get("ids"));
     }
-
 
     /**根据软件名模糊查找软件*/
     @GetMapping("/search")

@@ -47,7 +47,7 @@ public class UserController {
             if (token != null) {
                 Cookie cookie = new Cookie("TOKEN", token);
                 //设置token有效时间
-                cookie.setMaxAge(3600*2);
+                cookie.setMaxAge(1000*60*60*24);
                 cookie.setPath("/");
                 response.addCookie(cookie);
                 response.setHeader("Authorization",token);
@@ -78,8 +78,8 @@ public class UserController {
     }
 
     @PostMapping("/updatePwd")
-    public Result updatePassword(@RequestBody Map<String,String> map) throws BusinessException,NoSuchAlgorithmException{
-        return userService.updatePassword(Integer.valueOf(map.get("user_id")),map.get("oldPwd"),map.get("newPwd"));
+    public Result updatePassword(@RequestBody Map<String,Object> map) throws BusinessException,NoSuchAlgorithmException{
+        return userService.updatePassword((Integer)map.get("user_id"), (String) map.get("oldPwd"), (String) map.get("newPwd"));
     }
 
     @DeleteMapping("/{id}")

@@ -1,12 +1,11 @@
 package com.qgstudio.config;
 
-import com.qgstudio.server.SocketThread;
+import com.qgstudio.controller.interceptor.server.SocketThread;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletException;
 
 /**

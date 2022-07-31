@@ -66,7 +66,7 @@ public class Permisson4User {
                 user_id = ((User) arg).getUser_id();
                 break;
             case "updatePassword":
-                user_id = (Integer) arg;
+                user_id = (Integer) ((Map)arg).get("user_id");
                 break;
             case "getById":
                 user_id = (Integer) arg;

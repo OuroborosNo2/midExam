@@ -113,8 +113,6 @@ public class UserServiceImpl implements UserService {
         ResultEnum result;
         if(user != null){
             result = ResultEnum.USER_GET_OK;
-            //将密码隐藏
-            user.setPassword("");
         }else{
             result = ResultEnum.USER_GET_ERR;
         }

@@ -51,14 +51,15 @@ public interface SoftwareDao {
      * @param software_ids 软件id集
      * @return 返回查询到的软件集
      * */
-    @Insert("<script> " +
+    @Select("<script> " +
             "select * from " + "t_software " +
-            "where " +
+            "where software_id in (" +
             "<foreach collection='ids' index='index' item='item' separator=','> "
             +
-            "software_id = #{item}"
+            "#{item}"
             +
             "</foreach> " +
+            ")" +
             "</script>")
     List<Software> getByIds (@Param("ids") List<Integer> software_ids);
 

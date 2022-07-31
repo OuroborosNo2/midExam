@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.util.Map;
 import java.util.Set;
@@ -68,6 +69,7 @@ public class FileController {
             destFilePath += fileName;
             destFile = new File(resourcesPath + destFilePath);
             //调用transferTo将上传的文件保存到指定的地址
+            System.out.println(resourcesPath + destFilePath);
             f1.transferTo(destFile);
         }catch (IOException e){
             return new Result(ResultEnum.FILE_UPLOAD_ERR.getCode(),ResultEnum.FILE_UPLOAD_ERR.getMsg());
@@ -149,7 +151,9 @@ public class FileController {
     }
 
     @GetMapping("/downloadFile")
-        public Result downloadFile(@RequestParam("software_id") Integer software_id,@RequestParam("version_id") Integer version_id){
+    public Result downloadFile(@RequestParam("software_id") Integer software_id,@RequestParam("version_id") Integer version_id) throws UnsupportedEncodingException {
+        response.setContentType("application/octet-stream");
+
         String destFilePath;
         String pSep = File.separator;
         destFilePath = "setupPack" + pSep + software_id + pSep + version_id;
@@ -158,6 +162,7 @@ public class FileController {
         if(f.exists() && f.listFiles() != null) {
             //因不知道文件名，先获取父目录，再重新赋值f为目录下的文件
             f = f.listFiles()[0];
+            response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(f.getName(), "UTF-8"));
             try(InputStream in = new FileInputStream(f);OutputStream out = response.getOutputStream()){
                 //文件总大小
                 //int totalLen=0;
@@ -173,6 +178,7 @@ public class FileController {
                 e.printStackTrace();
                 return new Result(ResultEnum.FILE_DOWNLOAD_ERR.getCode(),ResultEnum.FILE_DOWNLOAD_ERR.getMsg());
             }
+            System.out.println(f.getAbsolutePath());
             return new Result(ResultEnum.FILE_DOWNLOAD_OK.getCode(),ResultEnum.FILE_DOWNLOAD_OK.getMsg());
         }else{
             return new Result(ResultEnum.FILE_DOWNLOAD_ERR.getCode(),ResultEnum.FILE_DOWNLOAD_ERR.getMsg());
