@@ -50,4 +50,8 @@ public interface LicenseDao {
             "</script>")
     License getEndTimeByLicenseIdsAndUidAndSidAndFidAndVid(@Param("licenses") List<Integer> licenseIds,@Param("user_id") int user_id,@Param("software_id") int software_id,@Param("version_id") int version_id);
 
+
+    @Select("select * from t_license where license_id=#{license_id}")
+    License getByLicenseid(int license_id);
+
 }

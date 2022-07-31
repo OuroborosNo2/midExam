@@ -87,4 +87,11 @@ public interface CodeDao {
 
     @Select("select license_id from t_code where user_id=#{user_id} and info_id=#{info_id};")
     List<Integer> getLicenseIdsByUserIdAndInfoId(@Param("user_id") int user_id, @Param("info_id") int info_id);
+
+    @Insert("insert into t_code (license_id, code, user_id, info_id) values (#{license_id},#{code},#{user_id},#{info_id}) ")
+    int save(Code code);
+
+
+    @Update("update t_code set license_id=#{license_id},code=#{code},user_id=#{user_id},info_id=#{info_id} where code_id=#{code_id}")
+    int update(Code code);
 }

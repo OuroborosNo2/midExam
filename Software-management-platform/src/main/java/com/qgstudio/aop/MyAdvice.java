@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 public class MyAdvice {
 
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
     @Autowired
     SoftwareDao softwareDao;
     @Autowired

@@ -46,8 +46,7 @@ public class CheckCodeTxtServiceImpl implements CheckCodeTxtService {
         //拿到为这种软件开了许可证的许可证id集合
         List<License> licenses = licenseDao.getBySoftIdAndFunctionTypeAndVersionId(codedText.getSoftware_id(), codedText.getVersion_id());
         if (licenses.isEmpty()) {
-            System.out.println("license为空");
-
+            System.out.println("licenses空");
             return new Result<>(ResultEnum.VERIFY_ERR.getCode(), ResultEnum.VERIFY_ERR.getMsg(), -1);
         }
 

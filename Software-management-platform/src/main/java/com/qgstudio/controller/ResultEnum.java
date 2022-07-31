@@ -153,6 +153,13 @@ public enum ResultEnum {
     //940Y1 授权验证-成功
     VERIFY_OK(94001,"授权验证成功"),
 
+    //941YZ 授权码添加
+    CODE_ADD_OK(94101,"授权码添加成功"),
+
+
+    CODE_ADD_ERR(94100,"授权码添加失败"),
+
+
     //940Y0 授权验证-成功
     VERIFY_ERR(94000,"授权验证失败")
 

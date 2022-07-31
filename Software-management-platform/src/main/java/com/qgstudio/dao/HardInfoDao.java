@@ -91,6 +91,6 @@ public interface HardInfoDao {
             "</script>")
     List<HardInfo> getByInfoIds(@Param("infoIds") List<Integer> infoIds);
 
-    @Select("select license_id from t_hard_info where info_id=#{info_id}")
-    int getByInfoId(int info_id);
+    @Select("select * from t_hard_info where info_id=#{info_id}")
+    HardInfo getByInfoId(int info_id);
 }
