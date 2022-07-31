@@ -69,7 +69,7 @@ public class Permisson4User {
                 user_id = (Integer) arg;
                 break;
             case "getById":
-                user_id = Integer.parseInt(((Map<String, String>) arg).get("user_id"));
+                user_id = (Integer) arg;
                 break;
             case "getByUsername":
                 if (arg.equals(user.getUsername())) {

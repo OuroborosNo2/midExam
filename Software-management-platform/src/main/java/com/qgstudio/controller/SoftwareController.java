@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,6 +48,12 @@ public class SoftwareController {
     public Result getById(@PathVariable Integer id) {
         return softwareService.getById(id);
     }
+
+    @GetMapping("/{ids}")
+    public Result getByIds(@RequestBody Map<String,List<Integer>> map) {
+        return softwareService.getByIds(map.get("ids"));
+    }
+
 
     /**根据软件名模糊查找软件*/
     @GetMapping("/search")

@@ -105,6 +105,12 @@ public class SoftwareServiceImpl implements SoftwareService {
         return new Result(result.getCode(),result.getMsg(),software);
     }
 
+    @Override
+    public Result<List<Software>> getByIds(List<Integer> ids) {
+        List<Software> softwareList = softwareDao.getByIds(ids);
+        ResultEnum result = !softwareList.isEmpty() ? ResultEnum.SOFTWARE_GET_OK : ResultEnum.SOFTWARE_GET_ERR;
+        return new Result(result.getCode(),result.getMsg(),softwareList);
+    }
 
     @Override
     public Result<Software> getBySoftware_name(String software_name, boolean isVague) {
