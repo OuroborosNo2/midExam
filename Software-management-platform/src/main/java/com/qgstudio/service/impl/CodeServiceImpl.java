@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @program: Software-management-platform
@@ -42,7 +43,9 @@ public class CodeServiceImpl implements CodeService {
     @Override
     public Result<Code> save(Code code) throws Exception {
         License license = licenseDao.getByLicenseid(code.getLicense_id());
+        System.out.println(license);
         HardInfo hardInfo = hardInfoDao.getByInfoId(code.getInfo_id());
+        System.out.println(hardInfo);
         ArrayList<String> objects = new ArrayList<>();
         objects.add(hardInfo.getMac());
         //获取了封装了所有信息的数据
@@ -62,8 +65,10 @@ public class CodeServiceImpl implements CodeService {
     @Override
     public Result<Code> update(Code code) throws Exception {
         License license = licenseDao.getByLicenseid(code.getLicense_id());
+        System.out.println(license);
         HardInfo hardInfo = hardInfoDao.getByInfoId(code.getInfo_id());
-        ArrayList<String> objects = new ArrayList<>();
+        System.out.println(hardInfo);
+        List<String> objects = new ArrayList<>();
         objects.add(hardInfo.getMac());
 
         //获取了封装了所有信息的数据
@@ -78,6 +83,13 @@ public class CodeServiceImpl implements CodeService {
         ResultEnum result = codeDao.update(code)!=0 ? ResultEnum.CODE_ADD_OK : ResultEnum.CODE_ADD_ERR;
 
         return new Result<>(result.getCode(),result.getMsg(),code);
+    }
+
+    @Override
+    public Result<List<Code>> getAll(int license_id) {
+        List<Code> all = codeDao.getAll(license_id);
+        return new Result<>(ResultEnum.CODE_SELECT_OK.getCode(),ResultEnum.CODE_SELECT_OK.getMsg(),all);
+
     }
 
 

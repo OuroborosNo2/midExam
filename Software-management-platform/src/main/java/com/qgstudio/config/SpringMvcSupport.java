@@ -24,10 +24,10 @@ public class SpringMvcSupport extends WebMvcConfigurationSupport {
 
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
-        //配置拦截器
-        registry.addInterceptor(projectInterceptor).addPathPatterns("/users","/softwares","/versions",
-                "/notices","/notice_user","/licenses","/hardInfos","/files","/users/*","/softwares/*",
-                "/versions/*", "/notices/*","/notice_user/*","/licenses/*","/hardInfos/*","/files/*" );
+//        //配置拦截器
+//        registry.addInterceptor(projectInterceptor).addPathPatterns("/users","/softwares","/versions",
+//                "/notices","/notice_user","/licenses","/hardInfos","/files","/users/*","/softwares/*",
+//                "/versions/*", "/notices/*","/notice_user/*","/licenses/*","/hardInfos/*","/files/*" );
         //registry.addInterceptor(projectInterceptor2).addPathPatterns("/users","/users/*" );
     }
     /*

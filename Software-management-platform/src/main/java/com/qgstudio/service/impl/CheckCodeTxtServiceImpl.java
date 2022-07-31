@@ -71,12 +71,16 @@ public class CheckCodeTxtServiceImpl implements CheckCodeTxtService {
         for (HardInfo code : codes) {
 
             //如果硬盘信息没有匹配上
+            System.out.println("用户的硬盘:"+codedText.getHard());
+            System.out.println("数据库的硬盘"+code.getHard());
             if (!codedText.getHard().contains(code.getHard())) {
                 System.out.println("硬盘错误");
                 return new Result<>(ResultEnum.VERIFY_ERR.getCode(), ResultEnum.VERIFY_ERR.getMsg(), -1);
             }
 
             //cpu没有匹配
+            System.out.println("用户的硬cpu:"+codedText.getCpu());
+            System.out.println("数据库的cpu"+code.getCpu());
             if (!codedText.getCpu().contains(code.getCpu())) {
                 System.out.println("cpu错误");
                 return new Result<>(ResultEnum.VERIFY_ERR.getCode(), ResultEnum.VERIFY_ERR.getMsg(), -1);
@@ -88,7 +92,6 @@ public class CheckCodeTxtServiceImpl implements CheckCodeTxtService {
             System.out.println("数据库保存的 mac为:" + code.getMac());
 
             System.out.println("中介软件传进来的 mac为:  " + codedText.getMacs());
-
             if (codedText.getMacs().contains(code.getMac())) {
                 //来到这里表示硬件指纹是对应上了,现在判断是否过期
                 System.out.println("硬件指纹匹配成功");

@@ -94,4 +94,8 @@ public interface CodeDao {
 
     @Update("update t_code set license_id=#{license_id},code=#{code},user_id=#{user_id},info_id=#{info_id} where code_id=#{code_id}")
     int update(Code code);
+
+
+    @Select("select * from t_code where license_id=#{license_id}")
+    List<Code> getAll(int license_id);
 }
