@@ -54,7 +54,7 @@ public class CheckCodeTxtServiceImpl implements CheckCodeTxtService {
         //这些许可证对应了多个的硬件信息id
         List<Integer> infoIds = codeDao.getInfoIdByLicenseId(licenses);
         if (infoIds.isEmpty()) {
-            System.out.println("info为空");
+            System.out.println("infos空");
             return new Result<>(ResultEnum.VERIFY_ERR.getCode(), ResultEnum.VERIFY_ERR.getMsg(), -1);
         }
 
@@ -62,7 +62,7 @@ public class CheckCodeTxtServiceImpl implements CheckCodeTxtService {
         //这些硬件信息id对应了一个硬件指纹
         List<HardInfo> codes = hardInfoDao.getByInfoIds(infoIds);
         if (codes.isEmpty()) {
-            System.out.println("code为空");
+            System.out.println("hardInfo空");
             return new Result<>(ResultEnum.VERIFY_ERR.getCode(), ResultEnum.VERIFY_ERR.getMsg(), -1);
         }
 
