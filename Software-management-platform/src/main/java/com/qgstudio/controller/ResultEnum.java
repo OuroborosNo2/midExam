@@ -156,12 +156,21 @@ public enum ResultEnum {
     //941YZ 授权码添加
     CODE_ADD_OK(94101,"授权码添加成功"),
 
-
     CODE_ADD_ERR(94100,"授权码添加失败"),
+    //942YZ 授权码查询,
+    CODE_SELECT_OK(94201,"授权码查询成功"),
+    CODE_SELECT_ERR(94200,"授权码查询失败"),
+
+
+
+    //943YZ 授权码查询
+    CODE_UPDATE_OK(94301,"授权码修改成功"),
+    CODE_UPDATE_ERR(94300,"授权码查询失败"),
 
 
     //940Y0 授权验证-成功
-    VERIFY_ERR(94000,"授权验证失败")
+    VERIFY_ERR(94000,"授权验证失败"),
+
 
 
     ;
