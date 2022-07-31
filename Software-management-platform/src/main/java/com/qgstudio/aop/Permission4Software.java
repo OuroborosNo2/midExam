@@ -4,6 +4,8 @@ import com.qgstudio.constant.SystemConstant;
 import com.qgstudio.controller.Result;
 import com.qgstudio.controller.ResultEnum;
 import com.qgstudio.po.User;
+import com.qgstudio.service.UserService;
+import com.qgstudio.util.TokenUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -23,13 +25,16 @@ import javax.servlet.http.HttpServletRequest;
 public class Permission4Software {
 
     @Autowired
-    HttpServletRequest request;
+    private HttpServletRequest request;
+    @Autowired
+    private UserService userService;
 
     @Around("execution(* com.qgstudio.controller.SoftwareController.add(*)) ||" +
             "execution(* com.qgstudio.controller.SoftwareController.update(*)) ||" +
             "execution(* com.qgstudio.controller.SoftwareController.delete(*))")
     public Result onlyAdmin(ProceedingJoinPoint pjp) throws Throwable {
-        User user = (User) request.getSession().getAttribute("user");
+        User user = TokenUtil.getUser(request, userService);
+
         //权限1以上 管理员
         if(user.getPermission() >= SystemConstant.PERMISSION_ADMIN){
             //直接放行

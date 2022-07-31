@@ -1,6 +1,7 @@
 package com.qgstudio.controller;
 
 import com.qgstudio.exception.BusinessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,9 @@ import java.util.Set;
 @RequestMapping("files")
 public class FileController {
 
+    @Autowired
+    private HttpServletResponse response;
+
     @Value("${file.resourcesPath}")
     private String resourcesPath;
 
@@ -35,7 +39,7 @@ public class FileController {
      * @return 结果集
      * */
     @PostMapping("/uploadImg")
-    public Result uploadImg(@RequestParam("file1") MultipartFile f1,@RequestParam("type")String type,@RequestParam("id")int id){
+    public Result uploadImg(@RequestParam("file1") MultipartFile f1,@RequestParam("type")String type,@RequestParam("id")Integer id){
         //目标路径
         String destFilePath;
         try {
@@ -78,7 +82,7 @@ public class FileController {
      * @return 结果集
      * */
     @PostMapping("/uploadFile")
-    public Result uploadFile(@RequestParam("file1") MultipartFile f1,@RequestParam("software_id")int software_id,@RequestParam("version_id")int version_id){
+    public Result uploadFile(@RequestParam("file1") MultipartFile f1,@RequestParam("software_id")Integer software_id,@RequestParam("version_id")int version_id){
         //目标路径
         String destFilePath;
         try {
@@ -105,37 +109,53 @@ public class FileController {
 
     }
 
-    /**下载图片或安装包
-     * @param map json转成的map，可能包含调用方传的user_id,software_id,version_id
-     * @param response HttpResponse，用于获取outputInstream
-     * @return 结果集
-     * */
-    @GetMapping("/download")
-    public Result downloadFile(@RequestBody Map<String,Integer> map, HttpServletResponse response) {
+    @GetMapping("/downloadImg")
+    public Result downloadImg(@RequestParam("type") String type, @RequestParam("id") Integer id){
         String destFilePath;
         String pSep = File.separator;
-        Set set = map.keySet();
-        if(set.size()==1){
-            //参数数量为1，可能请求图片
-            if(set.contains("user_id")){
-                //请求的是用户头像
-                destFilePath = "image" + pSep + "user" + pSep + map.get("user_id");
-            }else if(set.contains("software_id")){
-                //请求的是软件图标
-                destFilePath = "image" + pSep + "software" + pSep + map.get("software_id");
-            }else{
-                return new Result(ResultEnum.FILE_DOWNLOAD_ERR.getCode(),ResultEnum.FILE_DOWNLOAD_ERR.getMsg());
-            }
-        }else if(set.size()==2 && set.contains("version_id") && set.contains("software_id")){
-            //可知请求安装包
-            destFilePath = "setupPack" + pSep + map.get("software_id") + pSep + map.get("version_id");
+        if("user".equals(type)){
+            //请求的是用户头像
+            destFilePath = "image" + pSep + "user" + pSep + id;
+        }else if("software".equals(type)){
+            //请求的是软件图标
+            destFilePath = "image" + pSep + "software" + pSep + id;
         }else{
-            //参数错误或大于2个参数，不合法
             return new Result(ResultEnum.FILE_DOWNLOAD_ERR.getCode(),ResultEnum.FILE_DOWNLOAD_ERR.getMsg());
         }
 
         File f = new File(resourcesPath + destFilePath);
         if(f.exists()) {
+            //因不知道文件名，先获取父目录，再重新赋值f为目录下的文件
+            f = f.listFiles()[0];
+            try(InputStream in = new FileInputStream(f);OutputStream out = response.getOutputStream()){
+                //文件总大小
+                //int totalLen=0;
+                int len;
+                byte[] b = new byte[1024];
+                while((len = in.read(b)) > 0){
+                    out.write(b,0,len);
+                    //totalLen += len;
+                }
+                //System.out.println(totalLen);
+                out.flush();
+            }catch(IOException e){
+                e.printStackTrace();
+                return new Result(ResultEnum.FILE_DOWNLOAD_ERR.getCode(),ResultEnum.FILE_DOWNLOAD_ERR.getMsg());
+            }
+            return new Result(ResultEnum.FILE_DOWNLOAD_OK.getCode(),ResultEnum.FILE_DOWNLOAD_OK.getMsg());
+        }else{
+            return new Result(ResultEnum.FILE_DOWNLOAD_ERR.getCode(),ResultEnum.FILE_DOWNLOAD_ERR.getMsg());
+        }
+    }
+
+    @GetMapping("/downloadFile")
+        public Result downloadFile(@RequestParam("software_id") Integer software_id,@RequestParam("version_id") Integer version_id){
+        String destFilePath;
+        String pSep = File.separator;
+        destFilePath = "setupPack" + pSep + software_id + pSep + version_id;
+
+        File f = new File(resourcesPath + destFilePath);
+        if(f.exists() && f.listFiles() != null) {
             //因不知道文件名，先获取父目录，再重新赋值f为目录下的文件
             f = f.listFiles()[0];
             try(InputStream in = new FileInputStream(f);OutputStream out = response.getOutputStream()){

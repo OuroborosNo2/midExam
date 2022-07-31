@@ -1,7 +1,13 @@
 package com.qgstudio.config;
 
+import com.qgstudio.po.User;
+import com.qgstudio.service.UserService;
+import com.qgstudio.util.TokenUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.servlet.http.Cookie;
 
 /**
  * @program: Software-management-platform
@@ -16,5 +22,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAspectJAutoProxy
 @EnableTransactionManagement
 public class SpringConfig {
+
 
 }

@@ -28,8 +28,6 @@ import java.util.regex.Pattern;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private HttpServletRequest request;
-    @Autowired
     private UserDao userDao;
 
     @Override
@@ -44,12 +42,9 @@ public class UserServiceImpl implements UserService {
         }else {
             //2.2不为空,检查密码
             if (userByUsername.getPassword().equals(Md5Utils.getMD5(user.getPassword()))) {
-                //把user对象绑定到会话
-                request.getSession().setAttribute("user",userByUsername);
                 userByUsername.setPassword("");
                 return new Result<>(ResultEnum.USER_LOGIN_OK.getCode(),ResultEnum.USER_LOGIN_OK.getMsg(),userByUsername);
             } else {
-
                 return new Result<>(ResultEnum.USER_PWD_ERROR.getCode(),ResultEnum.USER_PWD_ERROR.getMsg(),null);
             }
         }

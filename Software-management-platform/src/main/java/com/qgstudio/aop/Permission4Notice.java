@@ -4,6 +4,8 @@ import com.qgstudio.constant.SystemConstant;
 import com.qgstudio.controller.Result;
 import com.qgstudio.controller.ResultEnum;
 import com.qgstudio.po.User;
+import com.qgstudio.service.UserService;
+import com.qgstudio.util.TokenUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -22,12 +24,16 @@ import java.util.Map;
 @Component
 @Aspect
 public class Permission4Notice {
+
     @Autowired
-    HttpServletRequest request;
+    private HttpServletRequest request;
+    @Autowired
+    private UserService userService;
 
     @Around("execution(* com.qgstudio.controller.NoticeController.*(*))")
     public Result onlyAdmin(ProceedingJoinPoint pjp) throws Throwable {
-        User user = (User) request.getSession().getAttribute("user");
+        User user = TokenUtil.getUser(request, userService);
+
         //权限1以上 管理员
         if(user.getPermission() >= SystemConstant.PERMISSION_ADMIN){
             //直接放行
@@ -40,7 +46,8 @@ public class Permission4Notice {
 
     @Around("execution(* com.qgstudio.controller.NoticeAndUserController.*(*))")
     public Result onlySelf(ProceedingJoinPoint pjp) throws Throwable {
-        User user = (User) request.getSession().getAttribute("user");
+        User user = TokenUtil.getUser(request, userService);
+
         //权限1以上 管理员
         if(user.getPermission() >= SystemConstant.PERMISSION_ADMIN){
             //直接放行

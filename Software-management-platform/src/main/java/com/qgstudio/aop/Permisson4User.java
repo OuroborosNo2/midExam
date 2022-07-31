@@ -3,7 +3,10 @@ package com.qgstudio.aop;
 import com.qgstudio.constant.SystemConstant;
 import com.qgstudio.controller.Result;
 import com.qgstudio.controller.ResultEnum;
+import com.qgstudio.controller.interceptor.TokenInterceptor;
 import com.qgstudio.po.User;
+import com.qgstudio.service.UserService;
+import jdk.nashorn.internal.parser.Token;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -11,8 +14,11 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+
+import com.qgstudio.util.TokenUtil;
 
 /**
  * @program: Software-management-platform
@@ -25,7 +31,9 @@ import java.util.Map;
 public class Permisson4User {
 
     @Autowired
-    HttpServletRequest request;
+    private HttpServletRequest request;
+    @Autowired
+    private UserService userService;
 
     /**
      * 普通用户仅能对自己操作，管理员则直接放行
@@ -33,15 +41,16 @@ public class Permisson4User {
      * @return 代替切入点方法返回
      * @throws Throwable
      */
-    @Around("execution(* com.qgstudio.controller.UserController.update(*)) ||" +
+   @Around("execution(* com.qgstudio.controller.UserController.update(*)) ||" +
             "execution(* com.qgstudio.controller.UserController.updatePassword(*)) ||" +
             "execution(* com.qgstudio.controller.UserController.getById(*)) ||" +
             "execution(* com.qgstudio.controller.UserController.getByUsername(*)) ||" +
             "execution(* com.qgstudio.controller.UserController.getByPhone_number(*)) ||" +
             "execution(* com.qgstudio.controller.UserController.getByEmail(*))")
     public Result onlySelf(ProceedingJoinPoint pjp) throws Throwable {
-        User user = (User) request.getSession().getAttribute("user");
-        //权限1以上 管理员
+       User user = TokenUtil.getUser(request, userService);
+
+       //权限1以上 管理员
         if(user.getPermission() >= SystemConstant.PERMISSION_ADMIN){
             //直接放行
             return (Result) pjp.proceed();
@@ -104,11 +113,12 @@ public class Permisson4User {
      * @return 代替切入点方法返回
      * @throws Throwable
      */
-    @Around("execution(* com.qgstudio.controller.UserController.delete(*)) ||" +
+   @Around("execution(* com.qgstudio.controller.UserController.delete(*)) ||" +
             "execution(* com.qgstudio.controller.UserController.getAll())")
     public Result onlyAdmin(ProceedingJoinPoint pjp) throws Throwable {
-        User user = (User) request.getSession().getAttribute("user");
-        //权限1以上 管理员
+       User user = TokenUtil.getUser(request, userService);
+
+       //权限1以上 管理员
         if(user.getPermission() >= SystemConstant.PERMISSION_ADMIN){
             //直接放行
             return (Result) pjp.proceed();
@@ -117,23 +127,23 @@ public class Permisson4User {
             return new Result(ResultEnum.FORBIDDEN.getCode(),ResultEnum.FORBIDDEN.getMsg());
         }
     }
-
     /**
      * 只有超级管理员能调用
      * @param pjp
      * @return
      * @throws Throwable
      */
-    @Around("execution(* com.qgstudio.controller.UserController.changePermission(*,*))")
+   @Around("execution(* com.qgstudio.controller.UserController.changePermission(*,*))")
     public Result onlySuperAdmin(ProceedingJoinPoint pjp) throws Throwable {
-        User user = (User) request.getSession().getAttribute("user");
-        //权限9 超级管理员
-        if(user.getPermission() == SystemConstant.PERMISSION_SUPER_ADMIN){
-            //直接放行
-            return (Result) pjp.proceed();
-        }else{
-            //权限不足
-            return new Result(ResultEnum.FORBIDDEN.getCode(),ResultEnum.FORBIDDEN.getMsg());
-        }
-    }
+       User user = TokenUtil.getUser(request, userService);
+
+       //权限9 超级管理员
+       if (user.getPermission() == SystemConstant.PERMISSION_SUPER_ADMIN) {
+           //直接放行
+           return (Result) pjp.proceed();
+       } else {
+           //权限不足
+           return new Result(ResultEnum.FORBIDDEN.getCode(), ResultEnum.FORBIDDEN.getMsg());
+       }
+   }
 }

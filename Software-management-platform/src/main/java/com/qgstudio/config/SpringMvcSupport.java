@@ -1,11 +1,9 @@
 package com.qgstudio.config;
 
-import com.qgstudio.controller.interceptor.ProjectInterceptor;
-import com.qgstudio.controller.interceptor.ProjectInterceptor2;
+import com.qgstudio.controller.interceptor.TokenInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 /**
@@ -18,17 +16,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 public class SpringMvcSupport extends WebMvcConfigurationSupport {
 
     @Autowired
-    private ProjectInterceptor projectInterceptor;
-    //@Autowired
-    //private ProjectInterceptor2 projectInterceptor2;
+    private TokenInterceptor tokenInterceptor;
+    /*@Autowired
+    private ProjectInterceptor projectInterceptor;*/
+
 
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         //配置拦截器
-        registry.addInterceptor(projectInterceptor).addPathPatterns("/users","/softwares","/versions",
+        registry.addInterceptor(tokenInterceptor).addPathPatterns("/users","/softwares","/versions",
                 "/notices","/notice_user","/licenses","/hardInfos","/files","/users/*","/softwares/*",
                 "/versions/*", "/notices/*","/notice_user/*","/licenses/*","/hardInfos/*","/files/*" );
-        //registry.addInterceptor(projectInterceptor2).addPathPatterns("/users","/users/*" );
+        /*registry.addInterceptor(projectInterceptor).addPathPatterns("/users","/softwares","/versions",
+                "/notices","/notice_user","/licenses","/hardInfos","/files","/users/*","/softwares/*",
+                "/versions/*", "/notices/*","/notice_user/*","/licenses/*","/hardInfos/*","/files/*" );*/
+
     }
     /*
     @Override

@@ -7,10 +7,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.qgstudio.exception.BusinessException;
 import com.qgstudio.po.User;
 import com.qgstudio.service.UserService;
+import com.qgstudio.util.TokenUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
 import java.security.NoSuchAlgorithmException;
@@ -29,18 +32,38 @@ public class UserController {
 
     @Autowired
     HttpServletRequest request;
+    @Autowired
+    HttpServletResponse response;
 
     @Autowired
     private UserService userService;
 
     @PostMapping
     public Result<User> login(@RequestBody User user) throws BusinessException,NoSuchAlgorithmException{
-        return userService.login(user);
+        Result result = userService.login(user);
+        user = (User) result.getData();
+        if(ResultEnum.USER_LOGIN_OK.getCode().equals(result.getCode())){
+            String token = TokenUtil.sign(String.valueOf(user.getUser_id()), user.getUsername(), String.valueOf(user.getPermission()));
+            if (token != null) {
+                Cookie cookie = new Cookie("TOKEN", token);
+                //设置token有效时间
+                cookie.setMaxAge(3600*2);
+                cookie.setPath("/");
+                response.addCookie(cookie);
+                response.setHeader("Authorization",token);
+            }
+        }
+        return result;
     }
     @GetMapping("/logout")
     public Result<User> logout(){
         //销毁会话
-        request.getSession().invalidate();
+        Cookie cookie = new Cookie("TOKEN", "");
+        //设置token有效时间
+        cookie.setMaxAge(3600*2);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        response.setHeader("Authorization","");
         return new Result(ResultEnum.USER_LOGOUT_OK.getCode(),ResultEnum.USER_LOGOUT_OK.getMsg());
     }
 
