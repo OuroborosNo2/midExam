@@ -66,10 +66,10 @@ public class Permisson4User {
                 user_id = ((User) arg).getUser_id();
                 break;
             case "updatePassword":
-                user_id = (Integer) arg;
+                user_id = (Integer) ((Map)arg).get("user_id");
                 break;
             case "getById":
-                user_id = Integer.parseInt(((Map<String, String>) arg).get("user_id"));
+                user_id = (Integer) arg;
                 break;
             case "getByUsername":
                 if (arg.equals(user.getUsername())) {

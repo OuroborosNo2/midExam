@@ -25,7 +25,7 @@ public class TokenUtil {
     /**
      * 过期时间两小时
      */
-    private static final long EXPIRE_TIME = 2 * 60 * 60 * 1000;
+    private static final long EXPIRE_TIME = 24 * 60 * 60 * 1000;
     /**
      * token私钥
      */

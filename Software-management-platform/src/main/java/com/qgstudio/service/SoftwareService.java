@@ -49,6 +49,13 @@ public interface SoftwareService {
     Result<Software> getById(Integer id);
 
     /**
+     * 批量根据软件id查询软件数据
+     * @param ids 软件id集
+     * @return 含数据的结果集
+     */
+    Result<List<Software>> getByIds(List<Integer> ids);
+
+    /**
      * 通过软件名模糊/精确查询
      * @param software_name 软件名
      * @param isVague 是否模糊查找
