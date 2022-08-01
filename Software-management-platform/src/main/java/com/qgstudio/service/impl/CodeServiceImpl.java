@@ -12,6 +12,7 @@ import com.qgstudio.po.HardInfo;
 import com.qgstudio.po.License;
 import com.qgstudio.service.CodeService;
 import com.qgstudio.util.Encryption;
+import com.qgstudio.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,7 +50,7 @@ public class CodeServiceImpl implements CodeService {
         ArrayList<String> objects = new ArrayList<>();
         objects.add(hardInfo.getMac());
         //获取了封装了所有信息的数据
-        CodedText codedText = new CodedText(license.getSoftware_id(), license.getFunction_type(), license.getVersion_id(), license.getEnd_date(), objects, hardInfo.getCpu(), hardInfo.getHard());
+        CodedText codedText = new CodedText(license.getSoftware_id(), license.getFunction_type(), license.getVersion_id(), license.getEnd_date(), objects, StringUtil.getRandomString(100) + hardInfo.getCpu(), hardInfo.getHard());
 
         //进行加密,保存数据库
         String pwd = Encryption.addRsaAndAesToData(JSON.toJSONString(codedText));
@@ -72,7 +73,7 @@ public class CodeServiceImpl implements CodeService {
         objects.add(hardInfo.getMac());
 
         //获取了封装了所有信息的数据
-        CodedText codedText = new CodedText(license.getSoftware_id(), license.getFunction_type(), license.getVersion_id(), license.getEnd_date(), objects, hardInfo.getCpu(), hardInfo.getHard());
+        CodedText codedText = new CodedText(license.getSoftware_id(), license.getFunction_type(), license.getVersion_id(), license.getEnd_date(), objects, StringUtil.getRandomString(100)+ hardInfo.getCpu(), hardInfo.getHard());
 
         //进行加密,保存数据库
         String pwd = Encryption.addRsaAndAesToData(JSON.toJSONString(codedText));
@@ -80,7 +81,7 @@ public class CodeServiceImpl implements CodeService {
         //添加密文字段
         code.setCode(pwd);
 
-        ResultEnum result = codeDao.update(code)!=0 ? ResultEnum.CODE_ADD_OK : ResultEnum.CODE_ADD_ERR;
+        ResultEnum result = codeDao.update(code)!=0 ? ResultEnum.CODE_UPDATE_OK : ResultEnum.CODE_UPDATE_ERR;
 
         return new Result<>(result.getCode(),result.getMsg(),code);
     }

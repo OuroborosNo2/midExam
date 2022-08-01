@@ -163,9 +163,11 @@ public enum ResultEnum {
 
 
 
-    //943YZ 授权码查询
+    //943YZ 授权码修改
     CODE_UPDATE_OK(94301,"授权码修改成功"),
-    CODE_UPDATE_ERR(94300,"授权码查询失败"),
+    CODE_UPDATE_ERR(94300,"授权码修改失败"),
+
+
 
 
     //940Y0 授权验证-成功
