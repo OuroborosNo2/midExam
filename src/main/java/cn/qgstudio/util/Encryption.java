@@ -30,6 +30,7 @@ public class Encryption {
 
         //3.获取加密后密文长度
         String enDataLength = Integer.toHexString(encrypt.length());
+        System.out.println("加密后长度为"+enDataLength);
 
         //4.进行rsa签名
         String sign = RSAUtil.sign(encrypt, RSAUtil.getPrivateKey(SystemConstant.PRIVATE_KEY));

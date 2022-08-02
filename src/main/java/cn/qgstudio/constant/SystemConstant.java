@@ -1,6 +1,7 @@
 package cn.qgstudio.constant;
 
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 /**
@@ -18,10 +19,20 @@ public class SystemConstant {
 
     public static int PORT_WITH_REMOTE = 9999;
 
-    public static String HOST = "106.13.18.48";
+    public static String HOST = "localhost";
 
     static {
-
+        try {
+            FileInputStream f = new FileInputStream("./server.properties");
+            Properties prop = new Properties();
+            prop.load(f);
+            HOST = prop.getProperty("Host");
+            PORT_WITH_REMOTE = Integer.parseInt(prop.getProperty("RemotePort"));
+            PORT_WITH_LOCAL = Integer.parseInt(prop.getProperty("LocalPort"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //prop.load();
 //        ResourceBundle bundle = ResourceBundle.getBundle("system".trim());
 //        String private_key = bundle.getString("private_key");
 

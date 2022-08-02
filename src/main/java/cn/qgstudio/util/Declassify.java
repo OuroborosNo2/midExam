@@ -16,13 +16,13 @@ public class Declassify {
      * @Author: stop.yc
      * @Date: 2022/7/28
      */
-    public static int check(String lic) throws Exception {
+    public static String check(String lic) throws Exception {
 
         String PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCwMGl48mquEjgZRen2Wi0BejRgp0qVhY0YwKHwjcTN4TMprdAK0jABI+Rl1ckHPwX4rkwx03e3NLhAKis/uqEpsw9/YMkOut8qWRQkh9KAzAos5dN1DGgM2XXm1EluJKB/AvwBdgrHgxuuG+uhKbi2arh3/OY4oxqtfPkkvhRexwIDAQAB";
         //激活
 
         if (StringUtil.isEmpty(lic)) {
-            return -1;
+            return "";
         }
         //1.把code前24位拆出来
         String aesKey = lic.substring(0, 24);
@@ -42,12 +42,12 @@ public class Declassify {
         System.out.println("服务器签名校验结果:  " + verify);
 
         if (!verify) {
-            return -1;
+            return "";
         }
         String decrypt = AesUtil.decrypt(encData, aesKey);
 
 
-        return (decrypt.charAt(0) == '-') ? -1 : decrypt.charAt(0)-48;
+        return decrypt;
     }
 }
 

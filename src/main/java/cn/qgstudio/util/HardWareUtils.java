@@ -194,7 +194,7 @@ public class HardWareUtils extends Applet {
     }
 
     /**
-    * @Description: 获取硬盘信息
+    * @Description: 调用cmd命令
     * @Param: [drive]
     * @return: java.lang.String
     * @Author: stop.yc

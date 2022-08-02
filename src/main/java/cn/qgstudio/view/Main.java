@@ -12,6 +12,8 @@ public class Main {
     public static Integer software_id;
     public static Integer version_id;
     public static Integer function_type;
+
+    public static Boolean checkCode = null;
     public static void main(String[] args) throws Exception {
 
         new PlatformFrm().init();
